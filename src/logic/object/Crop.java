@@ -1,7 +1,5 @@
 package logic.object;
 
-import java.lang.classfile.instruction.SwitchCase;
-
 import javafx.geometry.Rectangle2D;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;

@@ -33,9 +33,8 @@ public class KeyboardController {
 					rightPressed = true;
 				}
 				if (e.getCode() == KeyCode.E) {
-					if (!EPressed) {
-						EPressed = true;
-					}
+					EPressed = true;
+
 				}
 			}
 
