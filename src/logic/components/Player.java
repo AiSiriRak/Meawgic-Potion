@@ -7,34 +7,95 @@ import javafx.scene.paint.Color;
 import logic.object.Collidable;
 import logic.object.Renderable;
 
-public class Player implements Collidable, Renderable {
+public class Player implements Collidable, Renderable, DoAnimation {
 	private double x, y;
-	final static double SPEED = 10;
+	final static double SPEED = 8;
 	final static double SIZE = 64;
 	private Image playerImage;
+
+	private Animation walkDownAnimation;
+	private Animation walkUpAnimation;
+	private Animation walkLeftAnimation;
+	private Animation walkRightAnimation;
+	final private int fps = 6;
+	private String direction;
 
 	private Rectangle2D hitbox;
 
 	public Player(double x, double y) {
 		this.x = x;
 		this.y = y;
-		this.playerImage = new Image(ClassLoader.getSystemResource("Images/" + "Player_Down1" + ".png").toString());
+		this.setImage(new Image(ClassLoader.getSystemResource("Images/walk_down_1.png").toString()));
+		this.direction = "down";
+		setAnimation();
 
 	}
 
 	public void render(GraphicsContext gc, double camX, double camY) {
 		gc.drawImage(playerImage, getPosX() - camX, getPosY() - camY, SIZE, SIZE);
 
-		// Render Hitbox
 		this.hitbox = new Rectangle2D(x + SIZE / 4, y + SIZE / 1.6, SIZE / 2, SIZE / 3.2);
-		gc.setStroke(Color.AQUA);
-		gc.setLineWidth(2);
-		gc.strokeRect(hitbox.getMinX() - camX, hitbox.getMinY() - camY, hitbox.getWidth(), hitbox.getHeight());
 
 	}
 
-	public void setImage(String name) {
-		this.playerImage = new Image(ClassLoader.getSystemResource("Images/Player_" + name + ".png").toString());
+	public void setAnimation() {
+		Image[] walkDownFrames = new Image[] {
+				new Image(ClassLoader.getSystemResource("Images/walk_down_1.png").toString()),
+				new Image(ClassLoader.getSystemResource("Images/walk_down_2.png").toString()),
+				new Image(ClassLoader.getSystemResource("Images/walk_down_3.png").toString()) };
+		walkDownAnimation = new Animation(walkDownFrames, fps);
+
+		Image[] walkUpFrames = new Image[] {
+				new Image(ClassLoader.getSystemResource("Images/walk_up_1.png").toString()),
+				new Image(ClassLoader.getSystemResource("Images/walk_up_2.png").toString()),
+				new Image(ClassLoader.getSystemResource("Images/walk_up_3.png").toString()) };
+		walkUpAnimation = new Animation(walkUpFrames, fps);
+
+		Image[] walkLeftFrames = new Image[] {
+				new Image(ClassLoader.getSystemResource("Images/walk_left_1.png").toString()),
+				new Image(ClassLoader.getSystemResource("Images/walk_left_2.png").toString()),
+				new Image(ClassLoader.getSystemResource("Images/walk_left_3.png").toString()) };
+		walkLeftAnimation = new Animation(walkLeftFrames, fps);
+
+		Image[] walkRightFrames = new Image[] {
+				new Image(ClassLoader.getSystemResource("Images/walk_right_1.png").toString()),
+				new Image(ClassLoader.getSystemResource("Images/walk_right_2.png").toString()),
+				new Image(ClassLoader.getSystemResource("Images/walk_right_3.png").toString()) };
+		walkRightAnimation = new Animation(walkRightFrames, fps);
+	}
+
+	public void updateAnimation() {
+		switch (this.direction) {
+		case "up":
+			walkUpAnimation.update();
+			setImage(walkUpAnimation.getCurrentFrame());
+			break;
+		case "down":
+			walkDownAnimation.update();
+			setImage(walkDownAnimation.getCurrentFrame());
+			break;
+		case "left":
+			walkLeftAnimation.update();
+			setImage(walkLeftAnimation.getCurrentFrame());
+			break;
+		case "right":
+			walkRightAnimation.update();
+			setImage(walkRightAnimation.getCurrentFrame());
+			break;
+		default:
+			walkDownAnimation.update();
+			setImage(walkDownAnimation.getCurrentFrame());
+
+		}
+
+	}
+
+	public void setImage(Image image) {
+		this.playerImage = image;
+	}
+
+	public void setDirection(String direction) {
+		this.direction = direction;
 	}
 
 	public void setPosX(double x) {

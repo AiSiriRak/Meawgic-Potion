@@ -13,11 +13,10 @@ public abstract class GameObject implements Collidable, Renderable {
 	protected String name;
 	protected int interactAreaBorder;
 
-	public GameObject(String name, double x, double y, String imageName, Rectangle2D hitbox) {
+	public GameObject(String name, double x, double y, Rectangle2D hitbox) {
 		this.name = name;
 		this.x = x;
 		this.y = y;
-		this.image = new Image(ClassLoader.getSystemResource("Images/" + imageName + ".png").toString());
 		this.hitbox = hitbox;
 		this.interactAreaBorder = 2;
 	}
@@ -54,10 +53,15 @@ public abstract class GameObject implements Collidable, Renderable {
 	}
 
 	public double getY() {
-		return this.y + this.getHitbox().getHeight();
+		return this.getHitbox().getMaxY();
+
 	}
 
 	public void setInteractAreaBorder(int i) {
 		this.interactAreaBorder = i;
+	}
+
+	public void setImage(Image image) {
+		this.image = image;
 	}
 }
