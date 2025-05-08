@@ -21,6 +21,9 @@ public abstract class Map extends Canvas {
 	protected int mapWidth;
 	protected int mapHeight;
 
+	protected int playerStartX;
+	protected int playerStartY;
+
 	protected Image bg;
 	private String name;
 	protected Player player;
@@ -41,6 +44,8 @@ public abstract class Map extends Canvas {
 		this.mapHeight = mapHeight;
 		this.name = name;
 		this.bg = new Image(ClassLoader.getSystemResource("Images/" + name + ".png").toString());
+		this.playerStartX = playerStartX;
+		this.playerStartY = playerStartY;
 		this.player = new Player(playerStartX, playerStartY);
 		this.camera = new Camera(player, this);
 		this.gameObjectList = gameObjectList;
@@ -183,6 +188,11 @@ public abstract class Map extends Canvas {
 
 	public String getName() {
 		return this.name;
+	}
+
+	public void resetPlayerPos() {
+		this.player.setPosX(playerStartX);
+		this.player.setPosY(playerStartY);
 	}
 
 }

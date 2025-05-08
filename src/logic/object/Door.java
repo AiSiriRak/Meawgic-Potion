@@ -2,15 +2,16 @@ package logic.object;
 
 import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
+import javafx.scene.image.WritableImage;
 import logic.game.GameController;
 
-public class House extends GameObject implements Interactable {
+public class Door extends GameObject implements Interactable {
 	protected Rectangle2D interactArea;
 
-	public House(String name, double x, double y) {
-		super(name, x, y, new Rectangle2D(x + 62, y + 0, 196, 283));
-		this.setImage(new Image(ClassLoader.getSystemResource("Images/House.png").toString()));
-		this.interactArea = new Rectangle2D(x + 128, y + 283, 64, 64);
+	public Door(String name, double x, double y) {
+		super(name, x, y, new Rectangle2D(x, y, 0, 0));
+		this.setImage(new WritableImage(1, 1));
+		this.interactArea = new Rectangle2D(x, y, 64, 64);
 	}
 
 	@Override
