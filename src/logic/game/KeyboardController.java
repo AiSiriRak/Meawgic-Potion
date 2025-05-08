@@ -9,7 +9,7 @@ public class KeyboardController {
 	private boolean downPressed = false;
 	private boolean leftPressed = false;
 	private boolean rightPressed = false;
-	private boolean pPressed = false;
+	private boolean EPressed = false;
 
 	public KeyboardController() {
 		keyboardSetup();
@@ -32,12 +32,15 @@ public class KeyboardController {
 				if (e.getCode() == KeyCode.D) {
 					rightPressed = true;
 				}
-				if (e.getCode() == KeyCode.P) {
-					pPressed = true;
+				if (e.getCode() == KeyCode.E) {
+					if (!EPressed) {
+						EPressed = true;
+					}
 				}
 			}
 
 		});
+
 		GameController.getScene().setOnKeyReleased(new EventHandler<KeyEvent>() {
 			@Override
 			public void handle(KeyEvent e) {
@@ -54,8 +57,8 @@ public class KeyboardController {
 				if (e.getCode() == KeyCode.D) {
 					rightPressed = false;
 				}
-				if (e.getCode() == KeyCode.P) {
-					pPressed = false;
+				if (e.getCode() == KeyCode.E) {
+					EPressed = false;
 				}
 			}
 		});
@@ -77,7 +80,8 @@ public class KeyboardController {
 		return rightPressed;
 	}
 
-	public boolean isPPressed() {
-		return pPressed;
+	public boolean isEPressed() {
+		return EPressed;
 	}
+
 }

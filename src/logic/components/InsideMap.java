@@ -2,6 +2,8 @@ package logic.components;
 
 import java.util.ArrayList;
 
+import logic.object.GameObject;
+
 public class InsideMap extends Map {
 
 	private static ArrayList<GameObject> gameObjectList = new ArrayList<>();
