@@ -1,5 +1,6 @@
 package application;
 
+import entity.ingredient.NetherWart;
 import gui.button.ExitButtton;
 import gui.pane.BrewingPane;
 import gui.pane.BrewingStand;
@@ -50,6 +51,9 @@ public class Main extends Application {
 //		root.setSpacing(10);
 //		root.setPrefSize(960, 600);
 //		root.setAlignment(Pos.CENTER);
+//		
+//		NetherWart n = new NetherWart();
+//		root.getChildren().add(n.getItemImage());
 
 //		VBox contentBox = new VBox();
 //		contentBox.setPadding(new Insets(10));
@@ -83,7 +87,7 @@ public class Main extends Application {
 ////		SettingPane settingPane = new SettingPane();
 ////		root.getChildren().addAll(settingPane);
 
-//		Scene scene = new Scene(container);
+//		Scene scene = new Scene(root);
 //		primaryStage.setScene(scene);
 //		primaryStage.setTitle("Meowgic Potions");
 //		primaryStage.show();
