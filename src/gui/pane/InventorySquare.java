@@ -8,8 +8,9 @@ import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 
-public class InventorySquare extends Pane{
+public class InventorySquare extends StackPane{
 	private int xPosition;
 	private int yPosition;
 	private String inventory;

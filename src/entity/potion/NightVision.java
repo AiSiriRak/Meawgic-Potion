@@ -4,7 +4,7 @@ import entity.base.Potion;
 
 public class NightVision extends Potion{
 
-	protected NightVision() {
+	public NightVision() {
 		super("NightVision", 0, 80, 60);
 		// TODO Auto-generated constructor stub
 	}

@@ -57,7 +57,7 @@ public class Main extends Application {
 
 //		VBox contentBox = new VBox();
 //		contentBox.setPadding(new Insets(10));
-//		root.setSpacing(10);
+////		root.setSpacing(10);
 //		contentBox.setPrefSize(960, 600);
 //		contentBox.setAlignment(Pos.CENTER);
 //		
@@ -86,8 +86,8 @@ public class Main extends Application {
 //		root.getChildren().addAll(inventoryPane);
 ////		SettingPane settingPane = new SettingPane();
 ////		root.getChildren().addAll(settingPane);
-
-//		Scene scene = new Scene(root);
+//
+//		Scene scene = new Scene(container);
 //		primaryStage.setScene(scene);
 //		primaryStage.setTitle("Meowgic Potions");
 //		primaryStage.show();
