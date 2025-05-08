@@ -86,8 +86,10 @@ public class GameController {
 
 	public static void switchCurrentMap() {
 		if (currentMap == outsideMap) {
+			insideMap.resetPlayerPos();
 			currentMap = insideMap;
 		} else {
+			outsideMap.resetPlayerPos();
 			currentMap = outsideMap;
 		}
 		root.getChildren().clear();
