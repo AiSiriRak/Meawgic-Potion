@@ -1,6 +1,8 @@
 package logic.components;
 
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 
 import javafx.application.Platform;
 import javafx.geometry.Rectangle2D;
@@ -12,16 +14,22 @@ import logic.game.GameController;
 import logic.game.KeyboardController;
 import logic.object.GameObject;
 import logic.object.Interactable;
+import logic.object.Renderable;
 
 public abstract class Map extends Canvas {
 
 	protected int mapWidth;
 	protected int mapHeight;
+
 	protected Image bg;
 	private String name;
 	private Player player;
 	private Camera camera;
+
 	ArrayList<GameObject> gameObjectList;
+
+	List<Renderable> renderables = new ArrayList<>();
+
 	private boolean isEHandled = false;
 
 	public Map(int mapWidth, int mapHeight, String name, int playerStartX, int playerStartY,
@@ -57,12 +65,14 @@ public abstract class Map extends Canvas {
 
 							gc.drawImage(bg, cameraX, cameraY, scWidth, scHeight, 0, 0, scWidth, scHeight);
 							playerMove();
-							player.render(gc, cameraX, cameraY);
-							for (GameObject go : gameObjectList) {
-								go.render(gc, cameraX, cameraY);
-								if (go instanceof Interactable) {
-									((Interactable) go).interactAreaRender(gc, cameraX, cameraY);
-								}
+
+							renderables.clear();
+							renderables.addAll(gameObjectList);
+							renderables.add(player);
+							renderables.sort(Comparator.comparingDouble(Renderable::getY));
+
+							for (Renderable r : renderables) {
+								r.render(gc, cameraX, cameraY);
 							}
 
 							camera.update();
@@ -93,19 +103,25 @@ public abstract class Map extends Canvas {
 
 	public void interact() {
 		KeyboardController keyboard = GameController.getKeyboardController();
-		if (keyboard.isEPressed() && !isEHandled) {
-			for (GameObject obj : gameObjectList) {
-				if (obj instanceof Interactable) {
-					if (((Interactable) obj).getInteractArea().contains(player.getHitbox())) {
+
+		for (GameObject obj : gameObjectList) {
+			if (obj instanceof Interactable) {
+				if (((Interactable) obj).getInteractArea().contains(player.getHitbox())) {
+					obj.setInteractAreaBorder(5);
+
+					if (keyboard.isEPressed() && !isEHandled) {
 						((Interactable) obj).interact();
+						isEHandled = true;
 					}
+					if (!keyboard.isEPressed()) {
+						isEHandled = false;
+					}
+				} else {
+					obj.setInteractAreaBorder(2);
 				}
 			}
-			isEHandled = true;
 		}
-		if (!keyboard.isEPressed()) {
-			isEHandled = false;
-		}
+
 	}
 
 	public void playerMove() {
@@ -113,26 +129,26 @@ public abstract class Map extends Canvas {
 		KeyboardController keyboard = GameController.getKeyboardController();
 
 		if (keyboard.isUpPressed()) {
-			if (player.getY() > 0 && !this.willCollide(player, player.getX(), player.getY() - Player.SPEED)) {
-				player.setY(player.getY() - Player.SPEED);
+			if (player.getPosY() > 0 && !this.willCollide(player, player.getPosX(), player.getPosY() - Player.SPEED)) {
+				player.setPosY(player.getPosY() - Player.SPEED);
 			}
 		}
 		if (keyboard.isDownPressed()) {
-			if (player.getY() < this.mapHeight - Player.SIZE
-					&& !this.willCollide(player, player.getX(), player.getY() + Player.SPEED)) {
-				player.setY(player.getY() + Player.SPEED);
+			if (player.getPosY() < this.mapHeight - Player.SIZE
+					&& !this.willCollide(player, player.getPosX(), player.getPosY() + Player.SPEED)) {
+				player.setPosY(player.getPosY() + Player.SPEED);
 				player.setImage("Down1");
 			}
 		}
 		if (keyboard.isLeftPressed()) {
-			if (player.getX() > 0 && !this.willCollide(player, player.getX() - Player.SPEED, player.getY())) {
-				player.setX(player.getX() - Player.SPEED);
+			if (player.getPosX() > 0 && !this.willCollide(player, player.getPosX() - Player.SPEED, player.getPosY())) {
+				player.setPosX(player.getPosX() - Player.SPEED);
 			}
 		}
 		if (keyboard.isRightPressed()) {
-			if (player.getX() < this.mapWidth - Player.SIZE
-					&& !this.willCollide(player, player.getX() + Player.SPEED, player.getY())) {
-				player.setX(player.getX() + Player.SPEED);
+			if (player.getPosX() < this.mapWidth - Player.SIZE
+					&& !this.willCollide(player, player.getPosX() + Player.SPEED, player.getPosY())) {
+				player.setPosX(player.getPosX() + Player.SPEED);
 			}
 		}
 		this.interact();

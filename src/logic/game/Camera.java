@@ -15,9 +15,9 @@ public class Camera {
 	}
 
 	public void update() {
-		offsetX = Math.max(0, Math.min(this.player.getX() - GameController.SCREEN_WIDTH / 2,
+		offsetX = Math.max(0, Math.min(this.player.getPosX() - GameController.SCREEN_WIDTH / 2,
 				this.mapWidth - GameController.SCREEN_WIDTH));
-		offsetY = Math.max(0, Math.min(this.player.getY() - GameController.SCREEN_HEIGHT / 2,
+		offsetY = Math.max(0, Math.min(this.player.getPosY() - GameController.SCREEN_HEIGHT / 2,
 				this.mapHeight - GameController.SCREEN_HEIGHT));
 	}
 

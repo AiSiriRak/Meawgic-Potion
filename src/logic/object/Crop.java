@@ -3,19 +3,13 @@ package logic.object;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
-import logic.components.Player;
 
 public class Crop extends GameObject implements Interactable {
 	protected Rectangle2D interactArea;
 
 	public Crop(String name, double x, double y) {
-		super(name, x, y, "Crop", new Rectangle2D(x + 0, y + 0, 192, 192));
+		super(name, x, y, "Crop", new Rectangle2D(x + 0, y + 10, 192, 182));
 		this.interactArea = new Rectangle2D(x + 64, y + 192, 64, 64);
-	}
-
-	@Override
-	public void onInteract(Player player) {
-
 	}
 
 	@Override
@@ -31,9 +25,8 @@ public class Crop extends GameObject implements Interactable {
 
 	public void interactAreaRender(GraphicsContext gc, double camX, double camY) {
 
-		gc.setStroke(Color.GREEN);
-		gc.setLineWidth(2);
-		gc.strokeRect(interactArea.getMinX() - camX, interactArea.getMinY() - camY, interactArea.getWidth(),
+		gc.setFill(Color.GREEN);
+		gc.fillRect(interactArea.getMinX() - camX, interactArea.getMinY() - camY, interactArea.getWidth(),
 				interactArea.getHeight());
 
 	}

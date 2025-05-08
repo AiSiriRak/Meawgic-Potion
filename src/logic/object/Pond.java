@@ -2,12 +2,13 @@ package logic.object;
 
 import javafx.geometry.Rectangle2D;
 
-public class House extends GameObject implements Interactable {
+public class Pond extends GameObject implements Interactable {
+
 	protected Rectangle2D interactArea;
 
-	public House(String name, double x, double y) {
-		super(name, x, y, "House", new Rectangle2D(x + 62, y + 0, 196, 283));
-		this.interactArea = new Rectangle2D(x + 128, y + 283, 64, 64);
+	public Pond(String name, double x, double y) {
+		super(name, x, y, "Pond", new Rectangle2D(x + 0, y + 0, 128, 128));
+		this.interactArea = new Rectangle2D(x + 130, y + 32, 64, 64);
 	}
 
 	@Override

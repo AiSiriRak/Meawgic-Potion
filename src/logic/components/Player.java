@@ -5,8 +5,9 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import logic.object.Collidable;
+import logic.object.Renderable;
 
-public class Player implements Collidable {
+public class Player implements Collidable, Renderable {
 	private double x, y;
 	final static double SPEED = 10;
 	final static double SIZE = 64;
@@ -22,7 +23,7 @@ public class Player implements Collidable {
 	}
 
 	public void render(GraphicsContext gc, double camX, double camY) {
-		gc.drawImage(playerImage, getX() - camX, getY() - camY, SIZE, SIZE);
+		gc.drawImage(playerImage, getPosX() - camX, getPosY() - camY, SIZE, SIZE);
 
 		// Render Hitbox
 		this.hitbox = new Rectangle2D(x + SIZE / 4, y + SIZE / 1.6, SIZE / 2, SIZE / 3.2);
@@ -36,20 +37,24 @@ public class Player implements Collidable {
 		this.playerImage = new Image(ClassLoader.getSystemResource("Images/Player_" + name + ".png").toString());
 	}
 
-	public void setX(double x) {
+	public void setPosX(double x) {
 		this.x = x;
 	}
 
-	public void setY(double y) {
+	public void setPosY(double y) {
 		this.y = y;
 	}
 
-	public double getX() {
+	public double getPosX() {
 		return x;
 	}
 
-	public double getY() {
+	public double getPosY() {
 		return y;
+	}
+
+	public double getY() {
+		return y + SIZE;
 	}
 
 	public Rectangle2D getHitbox() {
