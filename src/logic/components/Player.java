@@ -1,11 +1,12 @@
 package logic.components;
 
+import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
 public class Player {
 	private double x, y;
-	final static double SPEED = 6;
+	final static double SPEED = 10;
 	final static double SIZE = 96;
 	private Image playerImage;
 
@@ -15,8 +16,8 @@ public class Player {
 		this.playerImage = new Image(ClassLoader.getSystemResource("Images/" + "Player_Down1" + ".png").toString());
 	}
 
-	public void render(GraphicsContext gc) {
-		gc.drawImage(playerImage, getX(), getY(), SIZE, SIZE);
+	public void render(GraphicsContext gc, double camX, double camY) {
+		gc.drawImage(playerImage, getX() - camX, getY() - camY, SIZE, SIZE);
 	}
 
 //	public Image getCurrentImage() {
@@ -47,5 +48,9 @@ public class Player {
 
 	public double getY() {
 		return y;
+	}
+
+	public Rectangle2D getBounds() {
+		return new Rectangle2D(x, y, SIZE, SIZE);
 	}
 }

@@ -1,7 +1,10 @@
 package logic.game;
 
 import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import logic.components.InsideMap;
 import logic.components.Map;
 import logic.components.OutsideMap;
 
@@ -13,14 +16,13 @@ public class GameController {
 	public static final int SCREEN_HEIGHT = 600;
 
 	private static Scene scene;
-	private static StackPane root;
+	private static Pane root;
 	private static Map map;
 	private static KeyboardController keyboardController;
 
 	public static void setupScene() {
-		root = new StackPane();
-
-		scene = new Scene(root, SCREEN_WIDTH, SCREEN_HEIGHT);
+		root = new Pane();
+		scene = new Scene(root, SCREEN_WIDTH, SCREEN_HEIGHT, Color.BLACK);
 		keyboardController = new KeyboardController();
 		map = new OutsideMap();
 		root.getChildren().add(map);

@@ -12,15 +12,13 @@ public class Camera {
 		this.player = player;
 		this.mapWidth = map.getMapWidth();
 		this.mapHeight = map.getMapHeight();
-		this.offsetX = player.getX() - GameController.SCREEN_WIDTH / 2;
-		this.offsetY = player.getY() - GameController.SCREEN_HEIGHT / 2;
 	}
 
 	public void update() {
-		int scWidth = GameController.SCREEN_WIDTH;
-		int scHeight = GameController.SCREEN_HEIGHT;
-		offsetX = Math.max(0, Math.min(this.player.getX() - scWidth / 2, this.mapWidth - scWidth));
-		offsetY = Math.max(0, Math.min(this.player.getY() - scHeight / 2, this.mapHeight - scHeight));
+		offsetX = Math.max(0, Math.min(this.player.getX() - GameController.SCREEN_WIDTH / 2,
+				this.mapWidth - GameController.SCREEN_WIDTH));
+		offsetY = Math.max(0, Math.min(this.player.getY() - GameController.SCREEN_HEIGHT / 2,
+				this.mapHeight - GameController.SCREEN_HEIGHT));
 	}
 
 	public double getOffsetX() {

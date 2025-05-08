@@ -1,5 +1,7 @@
 package logic.components;
 
+import java.util.ArrayList;
+
 import javafx.application.Platform;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -8,7 +10,7 @@ import logic.game.Camera;
 import logic.game.GameController;
 import logic.game.KeyboardController;
 
-public class Map extends Canvas {
+public abstract class Map extends Canvas {
 
 	protected int mapWidth;
 	protected int mapHeight;
@@ -16,39 +18,48 @@ public class Map extends Canvas {
 	private String name;
 	private Player player;
 	private Camera camera;
+	ArrayList<GameObject> gameObjectList;
 
-	public Map(int mapWidth, int mapHeight, String name) {
+	public Map(int mapWidth, int mapHeight, String name, int playerStartX, int playerStartY,
+			ArrayList<GameObject> gameObjectList) {
 		super(mapWidth, mapHeight);
 		this.mapWidth = mapWidth;
 		this.mapHeight = mapHeight;
 		this.name = name;
 		this.bg = new Image(ClassLoader.getSystemResource("Images/" + name + ".png").toString());
-		this.player = new Player(mapWidth / 2, mapHeight / 2);
+		this.player = new Player(playerStartX, playerStartY);
 		this.camera = new Camera(player, this);
+		this.gameObjectList = gameObjectList;
+
 		updateCanvas(getGraphicsContext2D());
 
 	}
 
 	public void updateCanvas(GraphicsContext gc) {
+
 		int scWidth = GameController.SCREEN_WIDTH;
 		int scHeight = GameController.SCREEN_HEIGHT;
 		Thread updateCanvas = new Thread(() -> {
 			while (true) {
 				try {
+
 					double cameraX = camera.getOffsetX();
 					double cameraY = camera.getOffsetY();
-					System.out.println(player.getX() + " , " + cameraX + " , " + mapWidth);
 					Platform.runLater(new Runnable() {
 						@Override
 						public void run() {
 
 							gc.clearRect(0, 0, GameController.SCREEN_WIDTH, GameController.SCREEN_HEIGHT);
 
+							gc.drawImage(bg, cameraX, cameraY, scWidth, scHeight, 0, 0, scWidth, scHeight);
 							playerMove();
-							gc.drawImage(bg, camera.getOffsetX(), camera.getOffsetY(), scWidth, scHeight, 0, 0, scWidth,
-									scHeight);
-							player.render(gc);
+							player.render(gc, cameraX, cameraY);
+							for (GameObject go : gameObjectList) {
+								go.render(gc, cameraX, cameraY);
+							}
+
 							camera.update();
+
 						}
 					});
 					Thread.sleep(30);
