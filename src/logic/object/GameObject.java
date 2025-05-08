@@ -53,7 +53,8 @@ public abstract class GameObject implements Collidable, Renderable {
 	}
 
 	public double getY() {
-		return 0;
+		return this.getHitbox().getMaxY();
+
 	}
 
 	public void setInteractAreaBorder(int i) {
