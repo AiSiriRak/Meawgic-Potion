@@ -4,6 +4,7 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
 import logic.components.Animation;
 import logic.components.DoAnimation;
+import logic.game.GameController;
 
 public class Pond extends GameObject implements Interactable, DoAnimation {
 
@@ -26,6 +27,7 @@ public class Pond extends GameObject implements Interactable, DoAnimation {
 	@Override
 	public void interact() {
 		System.out.println("Interact with " + this.name);
+		GameController.waterBar.updateBar(10);
 
 	}
 
@@ -39,6 +41,13 @@ public class Pond extends GameObject implements Interactable, DoAnimation {
 	public void updateAnimation() {
 		pondAnimation.update();
 		this.setImage(pondAnimation.getCurrentFrame());
+	}
+
+	@Override
+	public boolean getCanInteracte() {
+		if (GameController.waterBar.getWaterLevel() == 10)
+			return false;
+		return true;
 	}
 
 }

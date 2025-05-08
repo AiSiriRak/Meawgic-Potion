@@ -31,6 +31,7 @@ public class Player implements Collidable, Renderable, DoAnimation {
 	}
 
 	public void render(GraphicsContext gc, double camX, double camY) {
+		gc.setImageSmoothing(false);
 		gc.drawImage(playerImage, getPosX() - camX, getPosY() - camY, SIZE, SIZE);
 
 		this.hitbox = new Rectangle2D(x + SIZE / 4, y + SIZE / 1.6, SIZE / 2, SIZE / 3.2);

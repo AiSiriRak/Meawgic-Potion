@@ -6,6 +6,7 @@ import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import logic.components.Animation;
 import logic.components.DoAnimation;
+import logic.game.GameController;
 
 public class Pot extends GameObject implements Interactable, DoAnimation {
 	protected Rectangle2D interactArea;
@@ -29,10 +30,17 @@ public class Pot extends GameObject implements Interactable, DoAnimation {
 	@Override
 	public void interact() {
 		System.out.println("Interact with " + this.name);
-		if (this.currentStage != 2) {
-			changeStage(this.currentStage + 1);
-		} else {
-			changeStage(0);
+		switch (this.currentStage) {
+		case 0:
+			this.changeStage(1);
+
+			System.out.println("Crafted!!");
+			break;
+		case 2:
+			this.changeStage(0);
+
+			System.out.println("Gain 1 Potion!!");
+			break;
 		}
 	}
 
@@ -74,6 +82,13 @@ public class Pot extends GameObject implements Interactable, DoAnimation {
 			this.setImage(new Image(ClassLoader.getSystemResource("Images/Pot_Done.png").toString()));
 			break;
 		}
+	}
+
+	@Override
+	public boolean getCanInteracte() {
+		if (currentStage == 1)
+			return false;
+		return true;
 	}
 
 }

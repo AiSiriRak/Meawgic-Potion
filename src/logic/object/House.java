@@ -25,4 +25,9 @@ public class House extends GameObject implements Interactable {
 
 	}
 
+	@Override
+	public boolean getCanInteracte() {
+		return true;
+	}
+
 }

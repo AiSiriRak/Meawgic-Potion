@@ -22,20 +22,26 @@ public abstract class GameObject implements Collidable, Renderable {
 	}
 
 	public void render(GraphicsContext gc, double camX, double camY) {
-
+		gc.setImageSmoothing(false);
 		// Render Interact Area
 		if (this instanceof Interactable) {
-
 			Rectangle2D interactArea = ((Interactable) this).getInteractArea();
-			gc.setFill(Color.color(1, 1, 1, 0.2));
-			gc.setStroke(Color.WHITE);
-			gc.setLineWidth(interactAreaBorder);
+			if (((Interactable) this).getCanInteracte()) {
+
+				gc.setFill(Color.color(1, 1, 1, 0.2));
+				gc.setStroke(Color.WHITE);
+				gc.setLineWidth(interactAreaBorder);
+
+			} else {
+				gc.setFill(Color.color(1, 1, 1, 0.1));
+				gc.setStroke(Color.color(1, 1, 1, 0.2));
+				gc.setLineWidth(2);
+			}
 			gc.strokeRoundRect(interactArea.getMinX() - camX, interactArea.getMinY() - camY, interactArea.getWidth(),
 					interactArea.getHeight(), 20, 20);
 			gc.fillRoundRect(interactArea.getMinX() - camX, interactArea.getMinY() - camY, interactArea.getWidth(),
 					interactArea.getHeight(), 20, 20);
 		}
-
 		// Render Image
 		gc.drawImage(image, 0, 0, this.image.getWidth(), this.image.getHeight(), x - camX, y - camY,
 				this.image.getWidth(), this.image.getHeight());

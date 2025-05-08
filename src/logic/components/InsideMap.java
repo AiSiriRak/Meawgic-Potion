@@ -22,7 +22,8 @@ public class InsideMap extends Map {
 		GameObject pot2 = new Pot("Pot - 2", 632, 480);
 		gameObjectList.add(pot1);
 		gameObjectList.add(pot2);
-		GameObject door = new Door("Door", 508, 668);
+		
+		GameObject door = new Door("Door", 508, 732);
 		gameObjectList.add(door);
 	}
 

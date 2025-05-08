@@ -8,6 +8,7 @@ import gui.pane.SettingPane;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -28,6 +29,8 @@ public class GameController {
 	private static Map outsideMap;
 	private static Map insideMap;
 	private static Map currentMap;
+
+	public static WaterBar waterBar;
 
 	public static void setupScene() {
 		try {
@@ -51,6 +54,8 @@ public class GameController {
 			InventoryPane inventoryPane = new InventoryPane();
 			SettingPane settingPane = new SettingPane(Main.getPrimaryStage());
 
+			waterBar = new WaterBar();
+
 			inventoryPane.setVisible(false);
 			settingPane.setVisible(false);
 
@@ -64,7 +69,7 @@ public class GameController {
 			inventoryButton.setOnAction(e -> inventoryPane.setVisible(!inventoryPane.isVisible()));
 			settingButton.setOnAction(e -> settingPane.setVisible(!settingPane.isVisible()));
 
-			layeredRoot.getChildren().addAll(root, overlay, inventoryPane, settingPane);
+			layeredRoot.getChildren().addAll(root, overlay, inventoryPane, settingPane, waterBar);
 
 			Main.getPrimaryStage().setScene(scene);
 		} catch (Exception e) {
@@ -95,4 +100,5 @@ public class GameController {
 		root.getChildren().clear();
 		root.getChildren().add(currentMap);
 	}
+
 }

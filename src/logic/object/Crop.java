@@ -1,5 +1,7 @@
 package logic.object;
 
+import entity.base.Basis;
+import entity.ingredient.*;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;
@@ -7,11 +9,14 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
+import logic.game.GameController;
 
 public class Crop extends GameObject implements Interactable {
 	protected Rectangle2D interactArea;
-	private Image item;
+	private Basis item;
 	private int currentStage;
+
+	private boolean isWatered;
 
 	public Crop(String name, double x, double y) {
 		super(name, x, y, new Rectangle2D(x + 0, y + 10, 192, 182));
@@ -19,6 +24,7 @@ public class Crop extends GameObject implements Interactable {
 		this.interactArea = new Rectangle2D(x + 64, y + 192, 64, 64);
 		this.currentStage = 0;
 		this.item = null;
+		isWatered = false;
 
 	}
 
@@ -31,27 +37,39 @@ public class Crop extends GameObject implements Interactable {
 	public void interact() {
 		System.out.println("Interact with " + this.name);
 
-		if (this.currentStage != 3) {
-			changeStage(this.currentStage + 1);
-		} else {
-			changeStage(0);
+		switch (this.currentStage) {
+		case 0:
+			this.item = new Carrot();
+			this.changeStage(1);
+
+			System.out.println("Planted!!");
+			break;
+		case 1:
+			GameController.waterBar.updateBar(GameController.waterBar.getWaterLevel() - 3);
+			if (GameController.waterBar.isEnoughWater()) {
+				isWatered = true;
+				this.changeStage(1);
+
+				System.out.println("Watered!!");
+			}
+
+			break;
+		case 3:
+			this.item = null;
+			isWatered = false;
+			this.changeStage(0);
+
+			System.out.println("Gain 1 Crop!!");
+			break;
 		}
 
 	}
 
-	public void interactAreaRender(GraphicsContext gc, double camX, double camY) {
-
-		gc.setFill(Color.GREEN);
-		gc.fillRect(interactArea.getMinX() - camX, interactArea.getMinY() - camY, interactArea.getWidth(),
-				interactArea.getHeight());
-
-	}
-
-	public Image getItem() {
+	public Basis getItem() {
 		return this.item;
 	}
 
-	public void setItem(Image item) {
+	public void setItem(Basis item) {
 		this.item = item;
 	}
 
@@ -60,6 +78,7 @@ public class Crop extends GameObject implements Interactable {
 
 		Canvas canvas = new Canvas(192, 192);
 		GraphicsContext gc = canvas.getGraphicsContext2D();
+		gc.setImageSmoothing(false);
 
 		Image img = null;
 		switch (this.currentStage) {
@@ -67,7 +86,11 @@ public class Crop extends GameObject implements Interactable {
 			img = new Image(ClassLoader.getSystemResource("Images/Crop_0.png").toString());
 			break;
 		case 1:
-			img = new Image(ClassLoader.getSystemResource("Images/Crop_1.png").toString());
+			if (isWatered) {
+				img = new Image(ClassLoader.getSystemResource("Images/Crop_1.png").toString());
+			} else {
+				img = new Image(ClassLoader.getSystemResource("Images/Crop_1_Dry.png").toString());
+			}
 			break;
 		case 2:
 			img = new Image(ClassLoader.getSystemResource("Images/Crop_2.png").toString());
@@ -78,9 +101,12 @@ public class Crop extends GameObject implements Interactable {
 		}
 		gc.drawImage(img, 0, 0);
 		if (this.currentStage != 0) {
-			gc.drawImage(this.item, 72, 121);
+			gc.drawImage(new Image(ClassLoader.getSystemResource("Images/" + this.item.getName() + ".png").toString()),
+					72, 121, 48, 48);
 			if (this.currentStage == 3)
-				gc.drawImage(this.item, 72, 27);
+				gc.drawImage(
+						new Image(ClassLoader.getSystemResource("Images/" + this.item.getName() + ".png").toString()),
+						72, 27, 48, 48);
 		}
 
 		SnapshotParameters params = new SnapshotParameters();
@@ -89,6 +115,13 @@ public class Crop extends GameObject implements Interactable {
 		canvas.snapshot(params, combined);
 
 		this.setImage(combined);
+	}
+
+	@Override
+	public boolean getCanInteracte() {
+		if (currentStage == 2 || (currentStage == 1 && isWatered))
+			return false;
+		return true;
 	}
 
 }

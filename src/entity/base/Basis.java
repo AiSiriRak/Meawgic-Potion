@@ -1,6 +1,6 @@
 package entity.base;
 
-public class Basis extends Ingredient{
+public class Basis extends Ingredient {
 	private int buyPrice;
 	private int sellPrice;
 	private int duration;
@@ -12,7 +12,7 @@ public class Basis extends Ingredient{
 		this.setDuration(duration);
 		// TODO Auto-generated constructor stub
 	}
-	
+
 	public int getSellPrice() {
 		return sellPrice;
 	}
@@ -20,7 +20,7 @@ public class Basis extends Ingredient{
 	public void setSellPrice(int sellPrice) {
 		this.sellPrice = sellPrice;
 	}
-	
+
 	public int getDuration() {
 		return duration;
 	}
