@@ -2,6 +2,7 @@ package logic.components;
 
 import java.util.ArrayList;
 
+import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
 import logic.object.Crop;
 import logic.object.*;
@@ -11,7 +12,8 @@ public class OutsideMap extends Map {
 	private static ArrayList<GameObject> gameObjectList = new ArrayList<>();
 
 	public OutsideMap() {
-		super(1536, 1152, "Outside_Base", 576, 320, gameObjectList);
+		super(1536, 1152, "Outside_Base", new Rectangle2D(0, 0, 1536, 1152), 576, 320, gameObjectList);
+		this.player.setDirection("down");
 		this.setObject();
 	}
 

@@ -24,7 +24,10 @@ public class GameController {
 	private static Scene scene;
 	private static Pane root;
 	private static KeyboardController keyboardController;
-	private static Map map;
+
+	private static Map outsideMap;
+	private static Map insideMap;
+	private static Map currentMap;
 
 	public static void setupScene() {
 		try {
@@ -34,10 +37,13 @@ public class GameController {
 			// Base map
 			root = new Pane();
 
-			Map outsideMap = new OutsideMap();
-			Map insideMap = new InsideMap();
+			keyboardController = new KeyboardController();
 
-			root.getChildren().add(outsideMap);
+			outsideMap = new OutsideMap();
+			insideMap = new InsideMap();
+			currentMap = outsideMap;
+
+			root.getChildren().add(currentMap);
 
 			// UI Components
 			InventoryButton inventoryButton = new InventoryButton();
@@ -60,8 +66,6 @@ public class GameController {
 
 			layeredRoot.getChildren().addAll(root, overlay, inventoryPane, settingPane);
 
-			keyboardController = new KeyboardController();
-
 			Main.getPrimaryStage().setScene(scene);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -78,5 +82,15 @@ public class GameController {
 
 	public static KeyboardController getKeyboardController() {
 		return keyboardController;
+	}
+
+	public static void switchCurrentMap() {
+		if (currentMap == outsideMap) {
+			currentMap = insideMap;
+		} else {
+			currentMap = outsideMap;
+		}
+		root.getChildren().clear();
+		root.getChildren().add(currentMap);
 	}
 }

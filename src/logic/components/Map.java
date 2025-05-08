@@ -23,8 +23,10 @@ public abstract class Map extends Canvas {
 
 	protected Image bg;
 	private String name;
-	private Player player;
+	protected Player player;
 	private Camera camera;
+
+	Rectangle2D mapEdge;
 
 	ArrayList<GameObject> gameObjectList;
 
@@ -32,7 +34,7 @@ public abstract class Map extends Canvas {
 
 	private boolean isEHandled = false;
 
-	public Map(int mapWidth, int mapHeight, String name, int playerStartX, int playerStartY,
+	public Map(int mapWidth, int mapHeight, String name, Rectangle2D mapEdge, int playerStartX, int playerStartY,
 			ArrayList<GameObject> gameObjectList) {
 		super(mapWidth, mapHeight);
 		this.mapWidth = mapWidth;
@@ -42,6 +44,7 @@ public abstract class Map extends Canvas {
 		this.player = new Player(playerStartX, playerStartY);
 		this.camera = new Camera(player, this);
 		this.gameObjectList = gameObjectList;
+		this.mapEdge = mapEdge;
 
 		updateCanvas(getGraphicsContext2D());
 
@@ -134,14 +137,15 @@ public abstract class Map extends Canvas {
 
 		KeyboardController keyboard = GameController.getKeyboardController();
 		if (keyboard.isUpPressed()) {
-			if (player.getPosY() > 0 && !this.willCollide(player, player.getPosX(), player.getPosY() - Player.SPEED)) {
+			if (player.getPosY() > this.mapEdge.getMinY()
+					&& !this.willCollide(player, player.getPosX(), player.getPosY() - Player.SPEED)) {
 				player.setPosY(player.getPosY() - Player.SPEED);
 				player.setDirection("up");
 				player.updateAnimation();
 			}
 		}
 		if (keyboard.isDownPressed()) {
-			if (player.getPosY() < this.mapHeight - Player.SIZE
+			if (player.getPosY() < this.mapEdge.getMaxY() - Player.SIZE
 					&& !this.willCollide(player, player.getPosX(), player.getPosY() + Player.SPEED)) {
 				player.setPosY(player.getPosY() + Player.SPEED);
 				player.setDirection("down");
@@ -149,14 +153,15 @@ public abstract class Map extends Canvas {
 			}
 		}
 		if (keyboard.isLeftPressed()) {
-			if (player.getPosX() > 0 && !this.willCollide(player, player.getPosX() - Player.SPEED, player.getPosY())) {
+			if (player.getPosX() > this.mapEdge.getMinX()
+					&& !this.willCollide(player, player.getPosX() - Player.SPEED, player.getPosY())) {
 				player.setPosX(player.getPosX() - Player.SPEED);
 				player.setDirection("left");
 				player.updateAnimation();
 			}
 		}
 		if (keyboard.isRightPressed()) {
-			if (player.getPosX() < this.mapWidth - Player.SIZE
+			if (player.getPosX() < this.mapEdge.getMaxX() - Player.SIZE
 					&& !this.willCollide(player, player.getPosX() + Player.SPEED, player.getPosY())) {
 				player.setPosX(player.getPosX() + Player.SPEED);
 				player.setDirection("right");
