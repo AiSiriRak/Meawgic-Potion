@@ -2,14 +2,17 @@ package logic.object;
 
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 
 public class Crop extends GameObject implements Interactable {
 	protected Rectangle2D interactArea;
 
 	public Crop(String name, double x, double y) {
-		super(name, x, y, "Crop", new Rectangle2D(x + 0, y + 10, 192, 182));
+		super(name, x, y, new Rectangle2D(x + 0, y + 10, 192, 182));
+		this.setImage(new Image(ClassLoader.getSystemResource("Images/Crop_Empty.png").toString()));
 		this.interactArea = new Rectangle2D(x + 64, y + 192, 64, 64);
+
 	}
 
 	@Override

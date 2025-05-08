@@ -66,6 +66,12 @@ public abstract class Map extends Canvas {
 							gc.drawImage(bg, cameraX, cameraY, scWidth, scHeight, 0, 0, scWidth, scHeight);
 							playerMove();
 
+							for (GameObject obj : gameObjectList) {
+								if (obj instanceof DoAnimation) {
+									((DoAnimation) obj).updateAnimation();
+								}
+							}
+
 							renderables.clear();
 							renderables.addAll(gameObjectList);
 							renderables.add(player);
@@ -127,32 +133,39 @@ public abstract class Map extends Canvas {
 	public void playerMove() {
 
 		KeyboardController keyboard = GameController.getKeyboardController();
-
 		if (keyboard.isUpPressed()) {
 			if (player.getPosY() > 0 && !this.willCollide(player, player.getPosX(), player.getPosY() - Player.SPEED)) {
 				player.setPosY(player.getPosY() - Player.SPEED);
+				player.setDirection("up");
+				player.updateAnimation();
 			}
 		}
 		if (keyboard.isDownPressed()) {
 			if (player.getPosY() < this.mapHeight - Player.SIZE
 					&& !this.willCollide(player, player.getPosX(), player.getPosY() + Player.SPEED)) {
 				player.setPosY(player.getPosY() + Player.SPEED);
-				player.setImage("Down1");
+				player.setDirection("down");
+				player.updateAnimation();
 			}
 		}
 		if (keyboard.isLeftPressed()) {
 			if (player.getPosX() > 0 && !this.willCollide(player, player.getPosX() - Player.SPEED, player.getPosY())) {
 				player.setPosX(player.getPosX() - Player.SPEED);
+				player.setDirection("left");
+				player.updateAnimation();
 			}
 		}
 		if (keyboard.isRightPressed()) {
 			if (player.getPosX() < this.mapWidth - Player.SIZE
 					&& !this.willCollide(player, player.getPosX() + Player.SPEED, player.getPosY())) {
 				player.setPosX(player.getPosX() + Player.SPEED);
+				player.setDirection("right");
+				player.updateAnimation();
+
 			}
 		}
-		this.interact();
 
+		this.interact();
 	}
 
 	public int getMapWidth() {
