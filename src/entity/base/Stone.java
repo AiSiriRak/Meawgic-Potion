@@ -6,7 +6,6 @@ public class Stone extends Ingredient{
 	public Stone(String name, int capacity) {
 		super(name, capacity);
 		this.setBuyPrice(5);
-		// TODO Auto-generated constructor stub
 	}
 
 	public int getBuyPrice() {

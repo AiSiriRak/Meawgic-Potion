@@ -2,6 +2,8 @@ package gui.pane;
 
 import java.util.ArrayList;
 
+import Inventory.IngredientCounter;
+import Inventory.PotionCounter;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.image.Image;
@@ -14,6 +16,8 @@ import javafx.scene.text.TextAlignment;
 public class BrewingPane extends VBox {
     private ArrayList<InventorySquare> poallCells;
     private ArrayList<InventorySquare> inallCells;
+    private IngredientCounter ingredientCounter;
+    private PotionCounter potionCounter;
 
     public BrewingPane() {
         this.inallCells = new ArrayList<>();

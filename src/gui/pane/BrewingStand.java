@@ -29,12 +29,12 @@ public class BrewingStand extends VBox {
 		this.setMaxSize(416, 160);
 		this.setAlignment(Pos.CENTER);
 		this.setPadding(new Insets(10));
-		this.setSpacing(20);
+		this.setSpacing(21);
 		
 		GridPane ingredient = new GridPane();
 		ingredient.setAlignment(Pos.CENTER);
-		ingredient.setVgap(5);
-		ingredient.setHgap(25);
+		ingredient.setVgap(10);
+		ingredient.setHgap(20);
 		for (int col = 0; col < 3; col++) {
 			InventorySquare s = new InventorySquare(col, 0, "Brewing");
 			s.setPrefSize(48, 48);
@@ -49,6 +49,6 @@ public class BrewingStand extends VBox {
         potion.setPrefSize(48, 48);
         potionPane.add(potion, 0, 0);
 		
-		this.getChildren().addAll(potionPane,ingredient);
+		this.getChildren().addAll(ingredient,potionPane);
 	}
 }
