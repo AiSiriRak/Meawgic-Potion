@@ -1,8 +1,15 @@
 package logic.object;
 
+import gui.button.ExitButtton;
+import gui.pane.BrewingPane;
+import gui.pane.BrewingStand;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import logic.components.Animation;
 import logic.components.DoAnimation;
@@ -30,6 +37,7 @@ public class Pot extends GameObject implements Interactable, DoAnimation {
 	public void interact() {
 		System.out.println("Interact with " + this.name);
 		if (this.currentStage != 2) {
+			
 			changeStage(this.currentStage + 1);
 		} else {
 			changeStage(0);
@@ -66,8 +74,10 @@ public class Pot extends GameObject implements Interactable, DoAnimation {
 
 		case 0:
 			this.setImage(new Image(ClassLoader.getSystemResource("Images/Pot_Empty.png").toString()));
+			
 			break;
 		case 1:
+			
 			updateAnimation();
 			break;
 		case 2:
@@ -75,5 +85,4 @@ public class Pot extends GameObject implements Interactable, DoAnimation {
 			break;
 		}
 	}
-
 }
