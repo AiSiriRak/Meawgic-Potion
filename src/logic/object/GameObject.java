@@ -1,11 +1,11 @@
 package logic.object;
 
+import Font.FontRect;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 
 public abstract class GameObject implements Collidable, Renderable {
 
@@ -31,13 +31,13 @@ public abstract class GameObject implements Collidable, Renderable {
 			Rectangle2D interactArea = ((Interactable) this).getInteractArea();
 			if (((Interactable) this).getCanInteracte()) {
 
-				gc.setFill(Color.color(1, 1, 1, 0.2));
-				gc.setStroke(Color.WHITE);
+				gc.setFill(Color.web("#FAF5DF", 0.2));
+				gc.setStroke(Color.web("#FAF5DF"));
 				gc.setLineWidth(interactAreaBorder);
 
 			} else {
-				gc.setFill(Color.color(1, 1, 1, 0.1));
-				gc.setStroke(Color.color(1, 1, 1, 0.2));
+				gc.setFill(Color.web("#34022A", 0.3));
+				gc.setStroke(Color.color(0, 0, 0, 0));
 				gc.setLineWidth(2);
 			}
 			gc.strokeRoundRect(interactArea.getMinX() - camX, interactArea.getMinY() - camY, interactArea.getWidth(),
@@ -56,12 +56,15 @@ public abstract class GameObject implements Collidable, Renderable {
 
 				gc.setFont(new Font(16));
 
-				gc.setFill(Color.WHITE);
-				gc.fillRoundRect(x - camX, y - camY - 10, 70, 30, 8, 8);
+				gc.setFill(Color.web("#34022A", 0.7));
+				gc.fillRect(x - camX + 3, y - camY - 7, 70, 30);
 
-				gc.setFill(Color.BLACK);
-				gc.setFont(new Font(16));
-				gc.fillText(((DoTimer) this).getTime(), x - camX + 11, y - camY + 9);
+				gc.setFill(Color.web("#FAF5DF"));
+				gc.fillRect(x - camX, y - camY - 10, 70, 30);
+
+				gc.setFill(Color.web("#34022A"));
+				gc.setFont(FontRect.REGULAR.getFont(16));
+				gc.fillText(((DoTimer) this).getTime(), x - camX + 9, y - camY + 10);
 
 			}
 		}
@@ -79,6 +82,8 @@ public abstract class GameObject implements Collidable, Renderable {
 	}
 
 	public double getY() {
+		if (this instanceof Pond || this instanceof Door)
+			return 0;
 		return this.getHitbox().getMaxY();
 
 	}

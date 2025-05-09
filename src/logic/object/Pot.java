@@ -4,8 +4,11 @@ import entity.base.Potion;
 import entity.potion.*;
 import javafx.application.Platform;
 import javafx.geometry.Rectangle2D;
+import javafx.scene.SnapshotParameters;
+import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
 import logic.components.Animation;
 import logic.components.DoAnimation;
@@ -74,8 +77,29 @@ public class Pot extends GameObject implements Interactable, DoAnimation, DoTime
 
 	public void updateAnimation() {
 		if (currentStage == 1) {
+
 			potAnimation.update();
-			this.setImage(potAnimation.getCurrentFrame());
+
+			Canvas canvas = new Canvas(128, 128);
+			GraphicsContext gc = canvas.getGraphicsContext2D();
+			gc.setImageSmoothing(false);
+			Image img = potAnimation.getCurrentFrame();
+
+			gc.drawImage(img, 0, 0);
+
+			gc.setFill(Color.web("#34022A", 0.6));
+			gc.fillOval(92, 1, 36, 36);
+
+			gc.drawImage(
+					new Image(ClassLoader.getSystemResource("Images/" + this.potion.getName() + ".png").toString()), 95,
+					4, 32, 32);
+
+			SnapshotParameters params = new SnapshotParameters();
+			params.setFill(Color.TRANSPARENT);
+			WritableImage combined = new WritableImage(192, 192);
+			canvas.snapshot(params, combined);
+			this.setImage(combined);
+
 		}
 	}
 
@@ -91,7 +115,25 @@ public class Pot extends GameObject implements Interactable, DoAnimation, DoTime
 			updateAnimation();
 			break;
 		case 2:
-			this.setImage(new Image(ClassLoader.getSystemResource("Images/Pot_Done.png").toString()));
+			Canvas canvas = new Canvas(192, 192);
+			GraphicsContext gc = canvas.getGraphicsContext2D();
+			gc.setImageSmoothing(false);
+			Image img = new Image(ClassLoader.getSystemResource("Images/Pot_Done.png").toString());
+
+			gc.drawImage(img, 0, 0);
+
+			gc.setFill(Color.web("#34022A", 0.7));
+			gc.fillOval(6, 6, 52, 52);
+
+			gc.drawImage(
+					new Image(ClassLoader.getSystemResource("Images/" + this.potion.getName() + ".png").toString()), 10,
+					10, 48, 48);
+
+			SnapshotParameters params = new SnapshotParameters();
+			params.setFill(Color.TRANSPARENT);
+			WritableImage combined = new WritableImage(192, 192);
+			canvas.snapshot(params, combined);
+			this.setImage(combined);
 			break;
 		}
 	}

@@ -112,7 +112,7 @@ public class Crop extends GameObject implements Interactable, DoTimer {
 		gc.drawImage(img, 0, 0);
 		if (this.currentStage != 0) {
 			gc.drawImage(new Image(ClassLoader.getSystemResource("Images/" + this.item.getName() + ".png").toString()),
-					72, 121, 48, 48);
+					76, 125, 40, 40);
 			if (this.currentStage == 3)
 				gc.drawImage(
 						new Image(ClassLoader.getSystemResource("Images/" + this.item.getName() + ".png").toString()),

@@ -2,6 +2,7 @@ package gui.pane;
 
 import java.util.ArrayList;
 
+import Font.FontRect;
 import Inventory.IngredientCounter;
 import Inventory.PotionCounter;
 import entity.base.Ingredient;
@@ -44,7 +45,7 @@ public class BrewingPane extends VBox {
         this.setSpacing(10);  
         
         Text Inventory = new Text("INVENTORY");
-        Inventory.setFont(new Font(24));
+        Inventory.setFont(FontRect.REGULAR.getFont(24));
         
         if (ingredientCounter == null) {
             ingredientCounter = new IngredientCounter();
@@ -92,7 +93,7 @@ public class BrewingPane extends VBox {
         }
         
         Text Potions = new Text("POTIONS");
-        Potions.setFont(new Font(16));
+        Potions.setFont(FontRect.REGULAR.getFont(16));
         
         index = 0;
         GridPane potion = new GridPane();
