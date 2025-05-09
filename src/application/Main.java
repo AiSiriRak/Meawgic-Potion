@@ -1,5 +1,14 @@
 package application;
 
+//<<<<<<< HEAD
+//import entity.ingredient.NetherWart;
+//import gui.button.ExitButtton;
+//import gui.pane.BrewingPane;
+//import gui.pane.BrewingStand;
+//import gui.pane.ControlBrewing;
+//import gui.pane.InventoryPane;
+//import gui.pane.SettingPane;
+//=======
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
@@ -40,6 +49,9 @@ public class Main extends Application {
 //		root.setPrefSize(960, 600);
 //		root.setAlignment(Pos.CENTER);
 //		
+//		ControlBrewing b = new ControlBrewing();
+//		root.getChildren().add(b);
+//		
 //		NetherWart n = new NetherWart();
 //		root.getChildren().add(n.getItemImage());
 
@@ -75,7 +87,7 @@ public class Main extends Application {
 ////		SettingPane settingPane = new SettingPane();
 ////		root.getChildren().addAll(settingPane);
 //
-//		Scene scene = new Scene(container);
+//		Scene scene = new Scene(root);
 //		primaryStage.setScene(scene);
 //		primaryStage.setTitle("Meowgic Potions");
 //		primaryStage.show();

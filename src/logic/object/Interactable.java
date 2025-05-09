@@ -7,5 +7,6 @@ public interface Interactable {
 
 	void interact();
 
+
 	boolean getCanInteracte();
 }

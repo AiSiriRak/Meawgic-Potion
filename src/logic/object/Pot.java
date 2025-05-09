@@ -1,5 +1,6 @@
 package logic.object;
 
+import gui.pane.ControlBrewing;
 import entity.base.Potion;
 import entity.data.PotionData;
 import javafx.application.Platform;
@@ -12,6 +13,7 @@ import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
 import logic.components.Animation;
 import logic.components.DoAnimation;
+import logic.game.GameController;
 
 public class Pot extends GameObject implements Interactable, DoAnimation, DoTimer {
 	protected Rectangle2D interactArea;
@@ -35,15 +37,12 @@ public class Pot extends GameObject implements Interactable, DoAnimation, DoTime
 	}
 
 	@Override
-	public Rectangle2D getInteractArea() {
-		return this.interactArea;
-	}
-
-	@Override
 	public void interact() {
 		System.out.println("Interact with " + this.name);
+
 		switch (this.currentStage) {
 		case 0:
+			GameController.getControlBrewing().setVisible(true);
 			this.potion = PotionData.NIGHT_VISION.getItem();
 			this.startTiming(this.potion.getDuration());
 			this.changeStage(1);
@@ -57,6 +56,12 @@ public class Pot extends GameObject implements Interactable, DoAnimation, DoTime
 			System.out.println("Gain 1 Potion!!");
 			break;
 		}
+		}
+	
+	
+	@Override
+	public Rectangle2D getInteractArea() {
+		return this.interactArea;
 	}
 
 	public void interactAreaRender(GraphicsContext gc, double camX, double camY) {
@@ -138,6 +143,7 @@ public class Pot extends GameObject implements Interactable, DoAnimation, DoTime
 		}
 	}
 
+
 	@Override
 	public boolean getCanInteracte() {
 		if (currentStage == 1)
@@ -188,3 +194,4 @@ public class Pot extends GameObject implements Interactable, DoAnimation, DoTime
 	}
 
 }
+

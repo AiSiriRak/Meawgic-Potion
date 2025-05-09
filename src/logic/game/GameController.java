@@ -1,18 +1,17 @@
 package logic.game;
 
 import Font.FontRect;
+import Inventory.IngredientCounter;
+import Inventory.PotionCounter;
 import application.Main;
 import gui.button.InventoryButton;
 import gui.button.SettingButton;
+import gui.pane.ControlBrewing;
 import gui.pane.InventoryPane;
 import gui.pane.SettingPane;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -36,15 +35,21 @@ public class GameController {
 	private static Map insideMap;
 	private static Map currentMap;
 
+	private static ControlBrewing controlBrewing;
+
 	public static StackPane warningPane;
 	public static WaterBar waterBarImg;
+	public static WaterBar waterBar;
+
+	private static InventoryPane inventoryPane;
 
 	public static void setupScene() {
 		try {
+			IngredientCounter sharedIngredientCounter = new IngredientCounter();
+			PotionCounter sharedPotionCounter = new PotionCounter();
 			StackPane layeredRoot = new StackPane();
 			scene = new Scene(layeredRoot, SCREEN_WIDTH, SCREEN_HEIGHT, Color.BLACK);
 
-			// Base map
 			root = new Pane();
 
 			keyboardController = new KeyboardController();
@@ -55,10 +60,9 @@ public class GameController {
 
 			root.getChildren().add(currentMap);
 
-			// UI Components
 			InventoryButton inventoryButton = new InventoryButton();
 			SettingButton settingButton = new SettingButton();
-			InventoryPane inventoryPane = new InventoryPane();
+			inventoryPane = new InventoryPane(sharedIngredientCounter, sharedPotionCounter);
 			SettingPane settingPane = new SettingPane(Main.getPrimaryStage());
 
 			// Set WaterBar
@@ -77,6 +81,8 @@ public class GameController {
 			// Set InventoryPan && SettingPane
 			inventoryPane.setVisible(false);
 			settingPane.setVisible(false);
+			controlBrewing = new ControlBrewing(sharedIngredientCounter, sharedPotionCounter);
+			controlBrewing.setVisible(false);
 
 			// Button container
 			HBox overlay = new HBox(10);
@@ -106,6 +112,10 @@ public class GameController {
 
 			layeredRoot.getChildren().addAll(root, overlay, inventoryPane, settingPane, warningPane, waterBarImg);
 
+			layeredRoot.getChildren().addAll(root, overlay, inventoryPane, settingPane, waterBar);
+
+			layeredRoot.getChildren().addAll(root, overlay, inventoryPane, settingPane, waterBar, controlBrewing);
+
 			Main.getPrimaryStage().setScene(scene);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -134,6 +144,18 @@ public class GameController {
 		}
 		root.getChildren().clear();
 		root.getChildren().add(currentMap);
+	}
+
+	public static ControlBrewing getControlBrewing() {
+		return controlBrewing;
+	}
+
+	public static Pane getRoot() {
+		return root;
+	}
+
+	public static InventoryPane getInventoryPane() {
+		return inventoryPane;
 	}
 
 }

@@ -6,10 +6,12 @@ import Font.FontRect;
 import Inventory.IngredientCounter;
 import Inventory.PotionCounter;
 import entity.base.Ingredient;
+import entity.base.Item;
 import entity.base.Potion;
 import gui.button.ExitButtton;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -23,7 +25,10 @@ public class InventoryPane extends StackPane {
 	private IngredientCounter ingredientCounter;
 	private PotionCounter potionCounter;
 
-	public InventoryPane() {
+	public InventoryPane(IngredientCounter ingredientCounter, PotionCounter potionCounter) {
+		
+		this.ingredientCounter = ingredientCounter;
+		this.potionCounter = potionCounter;
 		VBox content = createContentBox();
 		ExitButtton exitButton = createExitButton();
 
@@ -65,13 +70,6 @@ public class InventoryPane extends StackPane {
 		grid.setAlignment(Pos.CENTER);
 		grid.setHgap(5);
 		grid.setVgap(5);
-
-		if (ingredientCounter == null) {
-			ingredientCounter = new IngredientCounter();
-		}
-		if (potionCounter == null) {
-			potionCounter = new PotionCounter();
-		}
 
 		ArrayList<Ingredient> ingredients = ingredientCounter.getIngredientCounter();
 		ArrayList<Potion> potions = potionCounter.getPotionCounter();
@@ -150,4 +148,61 @@ public class InventoryPane extends StackPane {
 		exitButton.setOnMouseClicked(e -> this.setVisible(false));
 		return exitButton;
 	}
+	
+	public void refreshInventory() {
+		 for (InventorySquare square : inallCells) {
+	            square.getChildren().clear();
+	        }
+	        for (InventorySquare square : poallCells) {
+	            square.getChildren().clear();
+	        }
+
+	        // Rebuild ingredient display
+	        int index = 0;
+	        for (Ingredient ingredient : ingredientCounter.getIngredientCounter()) {
+	            if (index >= inallCells.size()) break;
+	            
+	            InventorySquare square = inallCells.get(index++);
+	            setupSquareWithItem(square, ingredient);
+	        }
+	        index = 0;
+	        for (Potion potion : potionCounter.getPotionCounter()) {
+	            if (index >= poallCells.size()) break;
+	            
+	            InventorySquare square = poallCells.get(index++);
+	            setupSquareWithItem(square, potion);
+	        }
+	}
+	
+	private void setupSquareWithItem(InventorySquare square, Item item) {
+        ImageView imageView = new ImageView(item.getItemImage().getImage());
+        imageView.setFitWidth(35);
+        imageView.setFitHeight(35);
+        square.setAlignment(Pos.CENTER);
+        square.getChildren().add(imageView);
+
+        Text capacityText = new Text(String.valueOf(item.getCapacity()));
+        capacityText.setStyle("-fx-fill: white; -fx-font-size: 16;");
+        StackPane.setAlignment(capacityText, Pos.BOTTOM_RIGHT);
+        square.getChildren().add(capacityText);
+
+        createAndAttachTooltip(square, item.getName());
+    }
+
+    private void createAndAttachTooltip(InventorySquare square, String text) {
+        Tooltip tooltip = new Tooltip(text);
+        tooltip.setStyle("-fx-background-color: black; -fx-text-fill: white; -fx-font-size: 12;");
+        tooltip.setShowDelay(Duration.millis(300));
+        tooltip.setHideDelay(Duration.millis(100));
+        Tooltip.install(square, tooltip);
+    }
+
+	private void updateCapacityDisplay(InventorySquare square, int capacity) {
+	    square.getChildren().removeIf(node -> node instanceof Text);
+	    Text newCapacityText = new Text(String.valueOf(capacity));
+	    newCapacityText.setStyle("-fx-fill: white; -fx-font-size: 16;");
+	    StackPane.setAlignment(newCapacityText, Pos.BOTTOM_RIGHT);
+	    square.getChildren().add(newCapacityText);
+	}
+
 }

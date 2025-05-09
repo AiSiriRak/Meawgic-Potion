@@ -1,37 +1,48 @@
 package Inventory;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+
 import java.util.ArrayList;
 
 import entity.base.Item;
 import entity.base.Potion;
+
 import entity.data.PotionData;
 
 public class PotionCounter {
-	private ArrayList<Potion> PotionCounter;
+	private ArrayList<Potion> potionCounter;
 	private Item item;
 
-	public PotionCounter() {
-		this.PotionCounter = new ArrayList<>();
+	// Capacity tracking
+	private final IntegerProperty currentCount = new SimpleIntegerProperty(0);
+	private final IntegerProperty maxCapacity = new SimpleIntegerProperty(12);
 
-		this.PotionCounter.add(PotionData.NIGHT_VISION.getItem());
-		this.PotionCounter.add(PotionData.FIRE_RESISTANCE.getItem());
-		this.PotionCounter.add(PotionData.LEAPING.getItem());
-		this.PotionCounter.add(PotionData.SWIFTNESS.getItem());
-		this.PotionCounter.add(PotionData.WATER_BREATHING.getItem());
-		this.PotionCounter.add(PotionData.HEALING.getItem());
-		this.PotionCounter.add(PotionData.POISON.getItem());
-		this.PotionCounter.add(PotionData.REGENERATION.getItem());
-		this.PotionCounter.add(PotionData.STRENGTH.getItem());
+	public PotionCounter() {
+
+		this.potionCounter = new ArrayList<>();
+
+		this.potionCounter.add(PotionData.NIGHT_VISION.getItem());
+		this.potionCounter.add(PotionData.FIRE_RESISTANCE.getItem());
+		this.potionCounter.add(PotionData.LEAPING.getItem());
+		this.potionCounter.add(PotionData.SWIFTNESS.getItem());
+		this.potionCounter.add(PotionData.WATER_BREATHING.getItem());
+		this.potionCounter.add(PotionData.HEALING.getItem());
+		this.potionCounter.add(PotionData.POISON.getItem());
+		this.potionCounter.add(PotionData.REGENERATION.getItem());
+		this.potionCounter.add(PotionData.STRENGTH.getItem());
 	}
 
+	// Accessors for potion list
 	public ArrayList<Potion> getPotionCounter() {
-		return PotionCounter;
+		return potionCounter;
 	}
 
 	public void setPotionCounter(ArrayList<Potion> potionCounter) {
-		PotionCounter = potionCounter;
+		this.potionCounter = potionCounter;
 	}
 
+	// Accessors for item
 	public Item getItem() {
 		return item;
 	}
@@ -40,4 +51,45 @@ public class PotionCounter {
 		this.item = item;
 	}
 
+	// Capacity logic
+	public boolean addPotion() {
+		if (currentCount.get() < maxCapacity.get()) {
+			currentCount.set(currentCount.get() + 1);
+			return true;
+		}
+		return false;
+	}
+
+	public boolean removePotion() {
+		if (currentCount.get() > 0) {
+			currentCount.set(currentCount.get() - 1);
+			return true;
+		}
+		return false;
+	}
+
+	// Property accessors
+	public IntegerProperty currentCountProperty() {
+		return currentCount;
+	}
+
+	public IntegerProperty maxCapacityProperty() {
+		return maxCapacity;
+	}
+
+	public int getCurrentCount() {
+		return currentCount.get();
+	}
+
+	public void setCurrentCount(int count) {
+		this.currentCount.set(count);
+	}
+
+	public int getMaxCapacity() {
+		return maxCapacity.get();
+	}
+
+	public void setMaxCapacity(int capacity) {
+		this.maxCapacity.set(capacity);
+	}
 }
