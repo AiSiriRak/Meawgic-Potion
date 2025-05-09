@@ -25,6 +25,8 @@ public class Pot extends GameObject implements Interactable, DoAnimation, DoTime
 
 	private boolean isTiming;
 	private int currentTime;
+	
+	private ControlBrewing controlBrewing;
 
 	public Pot(String name, double x, double y) {
 		super(name, x, y, new Rectangle2D(x + 21, y + 51, 86, 77));
@@ -37,27 +39,27 @@ public class Pot extends GameObject implements Interactable, DoAnimation, DoTime
 		setAnimation();
 	}
 
-	@Override
-	public void interact() {
-		System.out.println("Interact with " + this.name);
+    @Override
+    public void interact() {
+        System.out.println("Interact with " + this.name);
 
-		switch (this.currentStage) {
-		case 0:
-			GameController.getControlBrewing().setVisible(true);
-			this.potion = PotionData.NIGHT_VISION.getItem();
-			this.startTiming(this.potion.getDuration());
-			this.changeStage(1);
-
-//			System.out.println("Crafted!!");
-			break;
-		case 2:
-			this.potion = null;
-			this.changeStage(0);
-
-			System.out.println("Gain 1 Potion!!");
-			break;
-		}
-		}
+        switch (this.currentStage) {
+            case 0:
+            	 if (controlBrewing != null) {
+                     controlBrewing.show();
+                     GameController.setCurrentControlBrewing(controlBrewing);
+                 }
+                break;
+            case 2:
+                if (potion != null) {
+                    GameController.getInventoryPane().addPotion(potion);
+                    this.potion = null;
+                    this.changeStage(0);
+                    System.out.println("Gained 1 Potion!!");
+                }
+                break;
+        }
+    }
 	
 	
 	@Override
@@ -194,5 +196,12 @@ public class Pot extends GameObject implements Interactable, DoAnimation, DoTime
 		return this.isTiming;
 	}
 
+	public void setControlBrewing(ControlBrewing controlBrewing) {
+        this.controlBrewing = controlBrewing;
+    }
+	
+    public void setPotion(Potion potion) {
+        this.potion = potion;
+    }
 }
 

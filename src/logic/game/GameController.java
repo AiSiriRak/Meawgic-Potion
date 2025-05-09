@@ -1,5 +1,7 @@
 package logic.game;
 
+import java.util.ArrayList;
+
 import Inventory.IngredientCounter;
 import Inventory.PotionCounter;
 import application.Main;
@@ -38,11 +40,15 @@ public class GameController {
 	public static WaterBar waterBar;
 	
 	private static InventoryPane inventoryPane;
-
+	
+	private static IngredientCounter sharedIngredientCounter = new IngredientCounter();
+	private static PotionCounter sharedPotionCounter = new PotionCounter();
+	
+	private static ArrayList<ControlBrewing> controlBrewings = new ArrayList<>();
+    private static ControlBrewing currentControlBrewing;
+    
 	public static void setupScene() {
 		try {
-			IngredientCounter sharedIngredientCounter = new IngredientCounter();
-			PotionCounter sharedPotionCounter = new PotionCounter();
 			StackPane layeredRoot = new StackPane();
 			scene = new Scene(layeredRoot, SCREEN_WIDTH, SCREEN_HEIGHT, Color.BLACK);
 
@@ -65,8 +71,8 @@ public class GameController {
 
 			inventoryPane.setVisible(false);
 			settingPane.setVisible(false);
-			controlBrewing = new ControlBrewing(sharedIngredientCounter, sharedPotionCounter);
-			controlBrewing.setVisible(false);
+//			controlBrewing = new ControlBrewing(sharedIngredientCounter, sharedPotionCounter);
+//			controlBrewing.setVisible(false);
 			
 
 			// Button container
@@ -96,7 +102,13 @@ public class GameController {
 			settingButton.setOnAction(e -> settingPane.setVisible(!settingPane.isVisible()));
 
 
-			layeredRoot.getChildren().addAll(root, overlay, inventoryPane, settingPane, waterBar,controlBrewing);
+			for (ControlBrewing cb : controlBrewings) {
+                cb.setVisible(false);
+                layeredRoot.getChildren().add(cb);
+            }
+
+            layeredRoot.getChildren().addAll(root, overlay, inventoryPane, settingPane, waterBar);
+            
 
 
 			Main.getPrimaryStage().setScene(scene);
@@ -141,4 +153,31 @@ public class GameController {
 	    return inventoryPane;
 	}
 
+	public static IngredientCounter getSharedIngredientCounter() {
+		return sharedIngredientCounter;
+	}
+
+	public static void setSharedIngredientCounter(IngredientCounter sharedIngredientCounter) {
+		GameController.sharedIngredientCounter = sharedIngredientCounter;
+	}
+
+	public static PotionCounter getSharedPotionCounter() {
+		return sharedPotionCounter;
+	}
+
+	public static void setSharedPotionCounter(PotionCounter sharedPotionCounter) {
+		GameController.sharedPotionCounter = sharedPotionCounter;
+	}
+	
+	public static void addControlBrewing(ControlBrewing controlBrewing) {
+        controlBrewings.add(controlBrewing);
+    }
+
+    public static void setCurrentControlBrewing(ControlBrewing controlBrewing) {
+        currentControlBrewing = controlBrewing;
+    }
+
+    public static ControlBrewing getCurrentControlBrewing() {
+        return currentControlBrewing;
+    }
 }

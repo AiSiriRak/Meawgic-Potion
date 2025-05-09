@@ -52,13 +52,14 @@ public class PotionCounter {
 	}
 
 	// Capacity logic
-	public boolean addPotion() {
-		if (currentCount.get() < maxCapacity.get()) {
-			currentCount.set(currentCount.get() + 1);
-			return true;
-		}
-		return false;
-	}
+    public void addPotion(Potion potion) {
+        for (Potion p : potionCounter) {
+            if (p.getName().equals(potion.getName())) {
+                p.setCapacity(p.getCapacity() + 1);
+                return;
+            }
+        }
+    }
 
 	public boolean removePotion() {
 		if (currentCount.get() > 0) {

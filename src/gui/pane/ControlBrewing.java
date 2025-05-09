@@ -16,9 +16,10 @@ public class ControlBrewing extends AnchorPane {
     private BrewingStand brewingStand;
     private BrewingPane brewingPane;
     
-    public ControlBrewing(IngredientCounter ingredientCounter, PotionCounter potionCounter) {
-        this.brewingStand = new BrewingStand();
-        this.brewingPane = new BrewingPane(brewingStand, ingredientCounter, potionCounter);
+    public ControlBrewing(IngredientCounter ingredientCounter, PotionCounter potionCounter, Pot pot) {
+    	this.associatedPot = pot;
+        this.brewingStand = new BrewingStand(pot); 
+        this.brewingPane = new BrewingPane(brewingStand, ingredientCounter, potionCounter, this);
         setupUI();
     }
 
@@ -34,7 +35,13 @@ public class ControlBrewing extends AnchorPane {
         resetButton.setOnAction(e -> brewingStand.resetIngredients());
 
         Button craftButton = new Button("Craft Potion");
-        craftButton.setOnAction(e -> brewingStand.craftable());
+        craftButton.setOnAction(e -> {
+        	if (brewingStand.craftable()) {
+                brewingStand.craftPotion(); // actually craft the potion
+                associatedPot.changeStage(1);
+                this.setVisible(false);
+            }
+        });
 
         VBox controlBox = new VBox(10, craftButton, resetButton);
         controlBox.setAlignment(Pos.CENTER);
@@ -52,5 +59,13 @@ public class ControlBrewing extends AnchorPane {
         this.getChildren().addAll(contentBox, exitButton);
     }
 
+    public void show() {
+        this.setVisible(true);
+        this.toFront();
+        brewingPane.refreshInventory(); // Add this line
+    }
     
+    public Pot getAssociatedPot() {
+        return associatedPot;
+    }
 }

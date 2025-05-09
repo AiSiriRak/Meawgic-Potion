@@ -21,6 +21,7 @@ import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import logic.game.GameController;
 import logic.object.Pot;
 
 public class BrewingStand extends VBox {
@@ -29,10 +30,12 @@ public class BrewingStand extends VBox {
 	private BrewingPane brewingPane;
 	private InventorySquare outputSlot;
 	private Potion craftedPotion;
+	private Pot associatedPot;
 
-	public BrewingStand() {
+	public BrewingStand(Pot associatedPot) {
 		this.slots = new ArrayList<>();
 		this.ingredientsInSlots = new ArrayList<>();
+		this.associatedPot = associatedPot;
 		initializeUI();
 	}
 
@@ -92,20 +95,22 @@ public class BrewingStand extends VBox {
 	}
 
 	public void addIngredient(Ingredient ingredient) {
-	    if (!hasAvailableSlot()) return;
+		if (!hasAvailableSlot())
+			return;
 
-	    int slotIndex = ingredientsInSlots.size();
-	    InventorySquare slot = slots.get(slotIndex);
+		int slotIndex = ingredientsInSlots.size();
+		InventorySquare slot = slots.get(slotIndex);
 
-	    ImageView view = new ImageView(ingredient.getItemImage().getImage());
-	    view.setFitWidth(35);
-	    view.setFitHeight(35);
-	    slot.getChildren().add(view);
+		ImageView view = new ImageView(ingredient.getItemImage().getImage());
+		view.setFitWidth(35);
+		view.setFitHeight(35);
+		slot.getChildren().add(view);
 
-	    ingredientsInSlots.add(ingredient);
-	    System.out.println("Ingredient added to BrewingStand: " + ingredient.getClass().getSimpleName()); // Added print
-	    rebuildSlotClickHandlers();
-	    
+		ingredientsInSlots.add(ingredient);
+		System.out.println("Ingredient added to BrewingStand: " + ingredient.getClass().getSimpleName()); // Added print
+		rebuildSlotClickHandlers();
+		
+		tryDisplayCraftedPotion();
 	}
 
 	public void removeIngredient(Ingredient ingredient) {
@@ -121,10 +126,13 @@ public class BrewingStand extends VBox {
 		shiftIngredientsLeft();
 
 		if (brewingPane != null) {
-			brewingPane.refreshInventoryDisplay();
+			brewingPane.refreshInventory();
 		}
 
 		rebuildSlotClickHandlers();
+		outputSlot.getChildren().clear();
+		craftedPotion = null;
+		tryDisplayCraftedPotion();
 	}
 
 	private void shiftIngredientsLeft() {
@@ -150,81 +158,96 @@ public class BrewingStand extends VBox {
 			slot.setOnMouseClicked(e -> removeIngredient(ing));
 		}
 	}
-	
+
 	public class PotionRecipeBook {
-		public static final Map<Set<String>, PotionData> RECIPES = Map.of(
-			Set.of("NetherWart", "Carrot", "RedStone"), PotionData.NIGHT_VISION,
-			Set.of("NetherWart", "MagmaCream", "RedStone"), PotionData.FIRE_RESISTANCE,
-			Set.of("NetherWart", "RabbitFoot", "GrowStone"), PotionData.LEAPING,
-			Set.of("NetherWart", "Sugar", "RedStone"), PotionData.SWIFTNESS,
-			Set.of("NetherWart", "Pufferfish", "RedStone"), PotionData.WATER_BREATHING,
-			Set.of("NetherWart", "Watermelon", "GrowStone"), PotionData.HEALING,
-			Set.of("NetherWart", "SpiderEye", "GrowStone"), PotionData.POISON,
-			Set.of("NetherWart", "GhastTear", "RedStone"), PotionData.REGENERATION,
-			Set.of("NetherWart", "BlazePowder", "GrowStone"), PotionData.STRENGTH
-		);
+		public static final Map<Set<String>, PotionData> RECIPES = Map.of(Set.of("NetherWart", "Carrot", "RedStone"),
+				PotionData.NIGHT_VISION, Set.of("NetherWart", "MagmaCream", "RedStone"), PotionData.FIRE_RESISTANCE,
+				Set.of("NetherWart", "RabbitFoot", "GrowStone"), PotionData.LEAPING,
+				Set.of("NetherWart", "Sugar", "RedStone"), PotionData.SWIFTNESS,
+				Set.of("NetherWart", "Pufferfish", "RedStone"), PotionData.WATER_BREATHING,
+				Set.of("NetherWart", "Watermelon", "GrowStone"), PotionData.HEALING,
+				Set.of("NetherWart", "SpiderEye", "GrowStone"), PotionData.POISON,
+				Set.of("NetherWart", "GhastTear", "RedStone"), PotionData.REGENERATION,
+				Set.of("NetherWart", "BlazePowder", "GrowStone"), PotionData.STRENGTH);
 	}
-	
-    public void craftable() {
-        // Don't craft if output slot isn't empty or don't have 3 ingredients
-        if (!outputSlot.getChildren().isEmpty() || craftedPotion != null || ingredientsInSlots.size() != 3) {
-            System.out.println("Craftable check failed: Output empty=" + outputSlot.getChildren().isEmpty() +
-                               ", craftedPotion null=" + (craftedPotion == null) +
-                               ", ingredient count=" + ingredientsInSlots.size());
-            return;
-        }
 
-        Set<String> currentIngredients = new HashSet<>();
-        System.out.println("Current ingredients being checked:");
-        for (Ingredient ing : ingredientsInSlots) {
-            String ingredientName = ing.getName();
-            currentIngredients.add(ingredientName);
-            System.out.println("- " + ingredientName);
-        }
-        System.out.println("Current ingredient set: " + currentIngredients);
+	public boolean craftable() {
+	    if (ingredientsInSlots.size() != 3) return false;
 
-        System.out.println("Available recipes:");
-        for (Map.Entry<Set<String>, PotionData> entry : PotionRecipeBook.RECIPES.entrySet()) {
-            System.out.println("- " + entry.getKey() + " -> " + entry.getValue().getItem().getName());
-            if (entry.getKey().equals(currentIngredients)) {
-                Potion matchedPotion = entry.getValue().getItem();
-                System.out.println("Recipe MATCHED! Crafting: " + matchedPotion.getName());
-                completeCrafting(matchedPotion);
-                return;
-            }
-        }
-
-        // If no recipe matched, you might want to handle this case
-        System.out.println("No matching recipe found for ingredients: " + currentIngredients);
-    }
-    
-	   private void completeCrafting(Potion potion) {
-	        this.craftedPotion = potion;
-
-	        // Clear ingredients
-	        ingredientsInSlots.clear();
-	        for (InventorySquare slot : slots) {
-	            slot.getChildren().clear();
-	            slot.setOnMouseClicked(null);
-	        }
-
-	        // Show crafted potion
-	        ImageView view = potion.getItemImage();
-	        view.setFitWidth(35);
-	        view.setFitHeight(35);
-	        outputSlot.getChildren().add(view);
-
-	        // Setup click handler for collecting potion
-	        outputSlot.setOnMouseClicked(e -> {
-	            if (brewingPane != null && craftedPotion != null) {
-	                brewingPane.addCraftedPotion(craftedPotion);
-	                outputSlot.getChildren().clear();
-	                outputSlot.setOnMouseClicked(null);
-	                craftedPotion = null;
-	            }
-	        });
+	    Set<String> currentIngredients = new HashSet<>();
+	    for (Ingredient ing : ingredientsInSlots) {
+	        currentIngredients.add(ing.getName());
 	    }
 
+	    for (Map.Entry<Set<String>, PotionData> entry : PotionRecipeBook.RECIPES.entrySet()) {
+	        if (entry.getKey().equals(currentIngredients)) {
+	            return true;
+	        }
+	    }
+	    return false;
+	}
+	public void craftPotion() {
+	    if (!craftable()) return;
+
+	    Set<String> currentIngredients = new HashSet<>();
+	    for (Ingredient ing : ingredientsInSlots) {
+	        currentIngredients.add(ing.getName());
+	    }
+
+	    for (Map.Entry<Set<String>, PotionData> entry : PotionRecipeBook.RECIPES.entrySet()) {
+	        if (entry.getKey().equals(currentIngredients)) {
+	            Potion matchedPotion = entry.getValue().getItem();
+	            completeCrafting(matchedPotion);
+	            associatedPot.startTiming(matchedPotion.getDuration());
+	            break;
+	        }
+	    }
+	}
+	
+	private void tryDisplayCraftedPotion() {
+	    if (craftedPotion != null || outputSlot == null || ingredientsInSlots.size() != 3) return;
+
+	    Set<String> currentIngredients = new HashSet<>();
+	    for (Ingredient ing : ingredientsInSlots) {
+	        currentIngredients.add(ing.getName());
+	    }
+
+	    for (Map.Entry<Set<String>, PotionData> entry : PotionRecipeBook.RECIPES.entrySet()) {
+	        if (entry.getKey().equals(currentIngredients)) {
+	            Potion matchedPotion = entry.getValue().getItem();
+
+	            // Display it but don't complete crafting yet
+	            outputSlot.getChildren().clear();
+	            ImageView potionView = new ImageView(matchedPotion.getItemImage().getImage());
+	            potionView.setFitWidth(35);
+	            potionView.setFitHeight(35);
+	            outputSlot.getChildren().add(potionView);
+
+	            craftedPotion = matchedPotion;
+	            break;
+	        }
+	    }
+	}
+
+	private void completeCrafting(Potion potion) {
+		associatedPot.setPotion(potion);
+
+		ingredientsInSlots.clear();
+		for (InventorySquare slot : slots) {
+			slot.getChildren().clear();
+			slot.setOnMouseClicked(null);
+		}
+
+		ImageView potionView = new ImageView(potion.getItemImage().getImage());
+		potionView.setFitWidth(35);
+		potionView.setFitHeight(35);
+		outputSlot.getChildren().add(potionView);
+
+		this.craftedPotion = potion;
+
+		brewingPane.refreshInventory();
+		GameController.getInventoryPane().refreshInventory();
+	}
 
 
 	public void resetIngredients() {

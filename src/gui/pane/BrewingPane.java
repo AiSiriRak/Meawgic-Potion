@@ -31,11 +31,14 @@ public class BrewingPane extends VBox {
 	private final IngredientCounter ingredientCounter;
 	private final PotionCounter potionCounter;
 	private final BrewingStand brewingStand;
+	private ControlBrewing controlBrewing;
 
-	public BrewingPane(BrewingStand brewingStand, IngredientCounter ingredientCounter, PotionCounter potionCounter) {
+	public BrewingPane(BrewingStand brewingStand, IngredientCounter ingredientCounter, PotionCounter potionCounter,
+			ControlBrewing controlBrewing) {
 		this.ingredientCounter = ingredientCounter;
 		this.potionCounter = potionCounter;
 		this.brewingStand = brewingStand;
+		this.controlBrewing = controlBrewing;
 		brewingStand.setBrewingPane(this);
 
 		initializePane();
@@ -109,6 +112,7 @@ public class BrewingPane extends VBox {
 		square.getChildren().add(imageView);
 
 		Text capacityText = new Text(String.valueOf(item.getCapacity()));
+		capacityText.setFont(FontRect.REGULAR.getFont(16));
 		capacityText.setStyle("-fx-fill: white; -fx-font-size: 16;");
 		StackPane.setAlignment(capacityText, Pos.BOTTOM_RIGHT);
 		square.getChildren().add(capacityText);
@@ -138,14 +142,15 @@ public class BrewingPane extends VBox {
 			brewingStand.addIngredient(ingredient);
 			ingredient.setCapacity(ingredient.getCapacity() - 1);
 		}
-		refreshInventoryDisplay();
-        GameController.getInventoryPane().refreshInventory();
+		refreshInventory();
+		GameController.getInventoryPane().refreshInventory();
 		updateCapacityDisplay(square, ingredient.getCapacity());
 	}
 
 	private void updateCapacityDisplay(InventorySquare square, int capacity) {
 		square.getChildren().removeIf(node -> node instanceof Text);
 		Text newCapacityText = new Text(String.valueOf(capacity));
+		newCapacityText.setFont(FontRect.REGULAR.getFont(16));
 		newCapacityText.setStyle("-fx-fill: white; -fx-font-size: 16;");
 		StackPane.setAlignment(newCapacityText, Pos.BOTTOM_RIGHT);
 		square.getChildren().add(newCapacityText);
@@ -153,63 +158,49 @@ public class BrewingPane extends VBox {
 
 	public void returnIngredient(Ingredient ingredient) {
 		ingredient.setCapacity(ingredient.getCapacity() + 1);
-		refreshInventoryDisplay();
+		refreshInventory();
 	}
 
-	public void refreshInventoryDisplay() {
-		for (int i = 0; i < ingredientCells.size(); i++) {
-			if (i < ingredientCounter.getIngredientCounter().size()) {
-				Ingredient ing = ingredientCounter.getIngredientCounter().get(i);
-				updateCapacityDisplay(ingredientCells.get(i), ing.getCapacity());
-			}
+	public void refreshInventory() {
+		for (InventorySquare square : ingredientCells) {
+			square.getChildren().clear();
+		}
+		for (InventorySquare square : potionCells) {
+			square.getChildren().clear();
+		}
+
+		// ingredient
+		int index = 0;
+		for (Ingredient ingredient : ingredientCounter.getIngredientCounter()) {
+			if (index >= ingredientCells.size())
+				break;
+
+			InventorySquare square = ingredientCells.get(index++);
+			setupSquareWithItem(square, ingredient);
+		}
+
+		// potion
+		index = 0;
+		for (Potion potion : potionCounter.getPotionCounter()) {
+			if (index >= potionCells.size())
+				break;
+
+			InventorySquare square = potionCells.get(index++);
+			setupSquareWithItem(square, potion);
 		}
 	}
 
 	public void addCraftedPotion(Potion potion) {
-		if (incrementExistingPotion(potion))
-			return;
-		addNewPotionSquare(potion);
-	}
-
-	private boolean incrementExistingPotion(Potion potion) {
-		for (InventorySquare square : potionCells) {
-			for (javafx.scene.Node node : square.getChildren()) {
-				if (node instanceof ImageView imageView) {
-					if (imageView.getImage().getUrl().equals(potion.getItemImage().getImage().getUrl())) {
-						for (javafx.scene.Node textNode : square.getChildren()) {
-							if (textNode instanceof Text text) {
-								int current = Integer.parseInt(text.getText());
-								text.setText(String.valueOf(current + 1));
-								return true;
-							}
-						}
-					}
-				}
-			}
-		}
-		return false;
-	}
-
-	private void addNewPotionSquare(Potion potion) {
-		for (InventorySquare square : potionCells) {
-			if (square.getChildren().isEmpty()) {
-				ImageView view = new ImageView(potion.getItemImage().getImage());
-				view.setFitWidth(IMAGE_SIZE);
-				view.setFitHeight(IMAGE_SIZE);
-				square.getChildren().add(view);
-
-				Text capacityText = new Text(String.valueOf(potion.getCapacity()));
-				capacityText.setStyle("-fx-fill: white; -fx-font-size: 16;");
-				StackPane.setAlignment(capacityText, Pos.BOTTOM_RIGHT);
-				square.getChildren().add(capacityText);
-
-				createAndAttachTooltip(square, potion.getName());
-				break;
-			}
-		}
+		potionCounter.addPotion(potion);
+		refreshInventory();
+		GameController.getInventoryPane().refreshInventory();
 	}
 
 	public ArrayList<Ingredient> getCraftIngredient() {
 		return craftIngredient;
+	}
+
+	public ControlBrewing getControlBrewing() {
+		return controlBrewing;
 	}
 }
