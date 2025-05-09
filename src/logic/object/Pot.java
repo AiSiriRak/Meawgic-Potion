@@ -1,24 +1,20 @@
 package logic.object;
 
-import gui.button.ExitButtton;
-import gui.pane.BrewingPane;
-import gui.pane.BrewingStand;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
+import gui.pane.ControlBrewing;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import logic.components.Animation;
 import logic.components.DoAnimation;
+import logic.game.GameController;
 
 public class Pot extends GameObject implements Interactable, DoAnimation {
 	protected Rectangle2D interactArea;
 	private int currentStage;
 	final private int fps = 6;
 	private Animation potAnimation;
+	private ControlBrewing controlBrewing;
 
 	public Pot(String name, double x, double y) {
 		super(name, x, y, new Rectangle2D(x + 21, y + 51, 86, 77));
@@ -36,11 +32,23 @@ public class Pot extends GameObject implements Interactable, DoAnimation {
 	@Override
 	public void interact() {
 		System.out.println("Interact with " + this.name);
-		if (this.currentStage != 2) {
-			
-			changeStage(this.currentStage + 1);
-		} else {
-			changeStage(0);
+		if (controlBrewing == null) {
+			controlBrewing = GameController.getControlBrewing();
+			if (controlBrewing == null) {
+				System.err.println("ERROR: ControlBrewing is null! Make sure GameController.setupScene() has run.");
+				return;
+			}
+		}
+		switch (this.currentStage) {
+		case 0:
+			this.controlBrewing.setVisible(true);
+			this.changeStage(1);
+			System.out.println("Crafted!!");
+			break;
+		case 2:
+			this.changeStage(0);
+			System.out.println("Gain 1 Potion!!");
+			break;
 		}
 	}
 
@@ -74,10 +82,8 @@ public class Pot extends GameObject implements Interactable, DoAnimation {
 
 		case 0:
 			this.setImage(new Image(ClassLoader.getSystemResource("Images/Pot_Empty.png").toString()));
-			
 			break;
 		case 1:
-			
 			updateAnimation();
 			break;
 		case 2:
@@ -85,4 +91,11 @@ public class Pot extends GameObject implements Interactable, DoAnimation {
 			break;
 		}
 	}
+
+	public boolean getCanInteracte() {
+		if (currentStage == 1)
+			return false;
+		return true;
+	}
+
 }

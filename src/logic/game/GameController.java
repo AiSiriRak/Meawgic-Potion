@@ -3,6 +3,7 @@ package logic.game;
 import application.Main;
 import gui.button.InventoryButton;
 import gui.button.SettingButton;
+import gui.pane.ControlBrewing;
 import gui.pane.InventoryPane;
 import gui.pane.SettingPane;
 import javafx.geometry.Insets;
@@ -28,13 +29,14 @@ public class GameController {
 	private static Map outsideMap;
 	private static Map insideMap;
 	private static Map currentMap;
+	
+	private static ControlBrewing controlBrewing;
 
 	public static void setupScene() {
 		try {
 			StackPane layeredRoot = new StackPane();
 			scene = new Scene(layeredRoot, SCREEN_WIDTH, SCREEN_HEIGHT, Color.BLACK);
 
-			// Base map
 			root = new Pane();
 
 			keyboardController = new KeyboardController();
@@ -45,7 +47,6 @@ public class GameController {
 
 			root.getChildren().add(currentMap);
 
-			// UI Components
 			InventoryButton inventoryButton = new InventoryButton();
 			SettingButton settingButton = new SettingButton();
 			InventoryPane inventoryPane = new InventoryPane();
@@ -53,6 +54,9 @@ public class GameController {
 
 			inventoryPane.setVisible(false);
 			settingPane.setVisible(false);
+			controlBrewing = new ControlBrewing();
+			controlBrewing.setVisible(false);
+			
 
 			// Button container
 			HBox overlay = new HBox(10);
@@ -64,8 +68,8 @@ public class GameController {
 			inventoryButton.setOnAction(e -> inventoryPane.setVisible(!inventoryPane.isVisible()));
 			settingButton.setOnAction(e -> settingPane.setVisible(!settingPane.isVisible()));
 
-			layeredRoot.getChildren().addAll(root, overlay, inventoryPane, settingPane);
-
+			layeredRoot.getChildren().addAll(root, overlay, inventoryPane, settingPane, controlBrewing);
+			
 			Main.getPrimaryStage().setScene(scene);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -94,5 +98,13 @@ public class GameController {
 		}
 		root.getChildren().clear();
 		root.getChildren().add(currentMap);
+	}
+	
+	public static ControlBrewing getControlBrewing() {
+	    return controlBrewing;
+	}
+	
+	public static Pane getRoot() {
+	    return root;
 	}
 }

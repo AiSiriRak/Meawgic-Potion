@@ -155,4 +155,4 @@ public class InventoryPane extends StackPane {
         exitButton.setOnMouseClicked(e -> this.setVisible(false));
         return exitButton;
     }
-}
+} 

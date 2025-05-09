@@ -6,4 +6,5 @@ public interface Interactable {
 	Rectangle2D getInteractArea();
 
 	void interact();
+
 }
