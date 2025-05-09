@@ -1,7 +1,9 @@
 package logic.game;
 
+
 import java.util.ArrayList;
 
+import Font.FontRect;
 import Inventory.IngredientCounter;
 import Inventory.PotionCounter;
 import application.Main;
@@ -10,20 +12,21 @@ import gui.button.SettingButton;
 import gui.pane.ControlBrewing;
 import gui.pane.InventoryPane;
 import gui.pane.SettingPane;
+import gui.pane.ShopPane;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
 import logic.components.InsideMap;
 import logic.components.Map;
 import logic.components.OutsideMap;
 
 public class GameController {
-	public static final int TILE_SIZE = 32;
 	public static final int SCREEN_WIDTH = 960;
 	public static final int SCREEN_HEIGHT = 600;
 
@@ -34,11 +37,12 @@ public class GameController {
 	private static Map outsideMap;
 	private static Map insideMap;
 	private static Map currentMap;
-	
+
 	private static ControlBrewing controlBrewing;
 
+	public static StackPane warningPane;
 	public static WaterBar waterBar;
-	
+
 	private static InventoryPane inventoryPane;
 	
 	private static IngredientCounter sharedIngredientCounter = new IngredientCounter();
@@ -47,6 +51,9 @@ public class GameController {
 	private static ArrayList<ControlBrewing> controlBrewings = new ArrayList<>();
     private static ControlBrewing currentControlBrewing;
     
+
+	public static ShopPane shopPane;
+
 	public static void setupScene() {
 		try {
 			StackPane layeredRoot = new StackPane();
@@ -67,13 +74,26 @@ public class GameController {
 			inventoryPane = new InventoryPane(sharedIngredientCounter, sharedPotionCounter);
 			SettingPane settingPane = new SettingPane(Main.getPrimaryStage());
 
+			shopPane = new ShopPane();
+
+			// Set WaterBar
+			warningPane = new StackPane();
+			Rectangle warningBg = new Rectangle(160, 36);
+			warningBg.setFill(Color.web("#FAF5DF"));
+			Text warning = new Text("No Water!");
+			warning.setFont(FontRect.BOLD.getFont(24));
+			warning.setFill(Color.web("#34022A"));
+			warningPane.getChildren().addAll(warningBg, warning);
+			warningPane.setTranslateX(300);
+			warningPane.setVisible(false);
+
 			waterBar = new WaterBar();
 
+			// Set InventoryPan && SettingPane
 			inventoryPane.setVisible(false);
 			settingPane.setVisible(false);
-//			controlBrewing = new ControlBrewing(sharedIngredientCounter, sharedPotionCounter);
-//			controlBrewing.setVisible(false);
-			
+
+			shopPane.setVisible(false);
 
 			// Button container
 			HBox overlay = new HBox(10);
@@ -102,13 +122,14 @@ public class GameController {
 			settingButton.setOnAction(e -> settingPane.setVisible(!settingPane.isVisible()));
 
 
+
 			for (ControlBrewing cb : controlBrewings) {
                 cb.setVisible(false);
                 layeredRoot.getChildren().add(cb);
             }
-
-            layeredRoot.getChildren().addAll(root, overlay, inventoryPane, settingPane, waterBar);
             
+
+			layeredRoot.getChildren().addAll(root, overlay, inventoryPane, settingPane, shopPane, warningPane, waterBar);
 
 
 			Main.getPrimaryStage().setScene(scene);
@@ -140,17 +161,17 @@ public class GameController {
 		root.getChildren().clear();
 		root.getChildren().add(currentMap);
 	}
-	
+
 	public static ControlBrewing getControlBrewing() {
-	    return controlBrewing;
+		return controlBrewing;
 	}
-	
+
 	public static Pane getRoot() {
-	    return root;
+		return root;
 	}
 
 	public static InventoryPane getInventoryPane() {
-	    return inventoryPane;
+		return inventoryPane;
 	}
 
 	public static IngredientCounter getSharedIngredientCounter() {

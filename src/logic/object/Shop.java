@@ -2,6 +2,7 @@ package logic.object;
 
 import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
+import logic.game.GameController;
 
 public class Shop extends GameObject implements Interactable {
 	protected Rectangle2D interactArea;
@@ -20,6 +21,7 @@ public class Shop extends GameObject implements Interactable {
 	@Override
 	public void interact() {
 		System.out.println("Interact with " + this.name);
+		GameController.shopPane.setVisible(true);
 
 	}
 

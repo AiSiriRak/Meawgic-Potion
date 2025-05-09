@@ -9,12 +9,17 @@ public class WaterBar extends Pane {
 	private String waterLevelTxt;
 	private int waterLevel;
 
+	private boolean isWarning;
+
 	private boolean isEnoughWater;
 
 	public WaterBar() {
 		this.waterLevelTxt = "00";
 		this.barView = new ImageView();
+		this.isWarning = false;
+
 		this.getChildren().add(barView);
+
 		updateBar(0);
 
 		this.setTranslateX(GameController.SCREEN_WIDTH - 100);
@@ -29,9 +34,26 @@ public class WaterBar extends Pane {
 			Image image = new Image(
 					ClassLoader.getSystemResource("Images/WaterBar_" + this.waterLevelTxt + ".png").toString());
 			barView.setImage(image);
+
 		} else {
 			System.out.println("No Water!!");
 			this.isEnoughWater = false;
+
+			this.isWarning = true;
+			Thread warningCountdown = new Thread(() -> {
+				while (this.isWarning) {
+					try {
+						GameController.warningPane.setVisible(true);
+						Thread.sleep(1000);
+						GameController.warningPane.setVisible(false);
+						this.isWarning = false;
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+			});
+			warningCountdown.start();
+
 		}
 	}
 

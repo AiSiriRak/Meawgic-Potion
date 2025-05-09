@@ -85,6 +85,16 @@ public class SettingPane extends StackPane {
 
 	private ExitButtton createExitButton() {
 		ExitButtton exitButton = new ExitButtton();
+
+		exitButton.setOnMouseEntered(e -> {
+			exitButton.setScaleX(1.08);
+			exitButton.setScaleY(1.08);
+		});
+
+		exitButton.setOnMouseExited(e -> {
+			exitButton.setScaleX(1);
+			exitButton.setScaleY(1);
+		});
 		exitButton.setOnMouseClicked(e -> this.setVisible(false));
 		return exitButton;
 	}

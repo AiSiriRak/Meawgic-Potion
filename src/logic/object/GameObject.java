@@ -5,7 +5,6 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 
 public abstract class GameObject implements Collidable, Renderable {
 
@@ -53,8 +52,6 @@ public abstract class GameObject implements Collidable, Renderable {
 		// Render Timer
 		if (this instanceof DoTimer) {
 			if (((DoTimer) this).isTiming()) {
-
-				gc.setFont(new Font(16));
 
 				gc.setFill(Color.web("#34022A", 0.7));
 				gc.fillRect(x - camX + 3, y - camY - 7, 70, 30);

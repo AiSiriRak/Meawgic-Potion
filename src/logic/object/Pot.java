@@ -1,6 +1,5 @@
 package logic.object;
 
-
 import gui.pane.ControlBrewing;
 import entity.base.Potion;
 import entity.data.PotionData;
@@ -62,6 +61,7 @@ public class Pot extends GameObject implements Interactable, DoAnimation, DoTime
     }
 	
 	
+
 	@Override
 	public Rectangle2D getInteractArea() {
 		return this.interactArea;
@@ -146,7 +146,6 @@ public class Pot extends GameObject implements Interactable, DoAnimation, DoTime
 		}
 	}
 
-
 	@Override
 	public boolean getCanInteracte() {
 		if (currentStage == 1)
@@ -204,4 +203,3 @@ public class Pot extends GameObject implements Interactable, DoAnimation, DoTime
         this.potion = potion;
     }
 }
-

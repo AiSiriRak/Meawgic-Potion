@@ -146,10 +146,19 @@ public class InventoryPane extends StackPane {
 
 	private ExitButtton createExitButton() {
 		ExitButtton exitButton = new ExitButtton();
+		exitButton.setOnMouseEntered(e -> {
+			exitButton.setScaleX(1.08);
+			exitButton.setScaleY(1.08);
+		});
+
+		exitButton.setOnMouseExited(e -> {
+			exitButton.setScaleX(1);
+			exitButton.setScaleY(1);
+		});
 		exitButton.setOnMouseClicked(e -> this.setVisible(false));
 		return exitButton;
 	}
-	
+
 	public void addPotion(Potion potion) {
 		for (Potion p : potionCounter.getPotionCounter()) {
 			if (p.getName().equals(potion.getName())) {
@@ -211,9 +220,10 @@ public class InventoryPane extends StackPane {
 		tooltip.setHideDelay(Duration.millis(100));
 		Tooltip.install(square, tooltip);
 	}
-	
+
 	public PotionCounter getPotionCounter() {
 		return potionCounter;
+
 	}
 
 }
