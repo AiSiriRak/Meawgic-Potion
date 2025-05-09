@@ -66,6 +66,22 @@ public class GameController {
 			overlay.getChildren().addAll(settingButton, inventoryButton);
 			StackPane.setAlignment(overlay, Pos.TOP_LEFT);
 
+			inventoryButton.setOnMouseEntered(e -> {
+				inventoryButton.setScaleX(1.08);
+				inventoryButton.setScaleY(1.08);
+			});
+			inventoryButton.setOnMouseExited(e -> {
+				inventoryButton.setScaleX(1);
+				inventoryButton.setScaleY(1);
+			});
+			settingButton.setOnMouseEntered(e -> {
+				settingButton.setScaleX(1.08);
+				settingButton.setScaleY(1.08);
+			});
+			settingButton.setOnMouseExited(e -> {
+				settingButton.setScaleX(1);
+				settingButton.setScaleY(1);
+			});
 			inventoryButton.setOnAction(e -> inventoryPane.setVisible(!inventoryPane.isVisible()));
 			settingButton.setOnAction(e -> settingPane.setVisible(!settingPane.isVisible()));
 
