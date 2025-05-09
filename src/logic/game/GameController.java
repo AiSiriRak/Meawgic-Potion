@@ -85,7 +85,7 @@ public class GameController {
 			settingPane.setVisible(false);
 			controlBrewing = new ControlBrewing(sharedIngredientCounter, sharedPotionCounter);
 			controlBrewing.setVisible(false);
-			shopPane.setVisible(true);
+			shopPane.setVisible(false);
 
 			// Button container
 			HBox overlay = new HBox(10);
