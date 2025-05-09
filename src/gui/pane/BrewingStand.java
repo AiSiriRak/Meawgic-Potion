@@ -255,6 +255,8 @@ public class BrewingStand extends VBox {
 			if (brewingPane != null) {
 				brewingPane.returnIngredient(ingredient);
 			}
+			outputSlot.getChildren().clear();
+			craftedPotion = null;
 		}
 
 		ingredientsInSlots.clear();
