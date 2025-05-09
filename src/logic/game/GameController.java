@@ -1,5 +1,6 @@
 package logic.game;
 
+import Font.FontRect;
 import application.Main;
 import gui.button.InventoryButton;
 import gui.button.SettingButton;
@@ -9,10 +10,15 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
 import logic.components.InsideMap;
 import logic.components.Map;
 import logic.components.OutsideMap;
@@ -30,7 +36,8 @@ public class GameController {
 	private static Map insideMap;
 	private static Map currentMap;
 
-	public static WaterBar waterBar;
+	public static StackPane warningPane;
+	public static WaterBar waterBarImg;
 
 	public static void setupScene() {
 		try {
@@ -54,8 +61,20 @@ public class GameController {
 			InventoryPane inventoryPane = new InventoryPane();
 			SettingPane settingPane = new SettingPane(Main.getPrimaryStage());
 
-			waterBar = new WaterBar();
+			// Set WaterBar
+			warningPane = new StackPane();
+			Rectangle warningBg = new Rectangle(160, 36);
+			warningBg.setFill(Color.web("#FAF5DF"));
+			Text warning = new Text("No Water!");
+			warning.setFont(FontRect.BOLD.getFont(24));
+			warning.setFill(Color.web("#34022A"));
+			warningPane.getChildren().addAll(warningBg, warning);
+			warningPane.setTranslateX(300);
+			warningPane.setVisible(false);
 
+			waterBarImg = new WaterBar();
+
+			// Set InventoryPan && SettingPane
 			inventoryPane.setVisible(false);
 			settingPane.setVisible(false);
 
@@ -85,7 +104,7 @@ public class GameController {
 			inventoryButton.setOnAction(e -> inventoryPane.setVisible(!inventoryPane.isVisible()));
 			settingButton.setOnAction(e -> settingPane.setVisible(!settingPane.isVisible()));
 
-			layeredRoot.getChildren().addAll(root, overlay, inventoryPane, settingPane, waterBar);
+			layeredRoot.getChildren().addAll(root, overlay, inventoryPane, settingPane, warningPane, waterBarImg);
 
 			Main.getPrimaryStage().setScene(scene);
 		} catch (Exception e) {

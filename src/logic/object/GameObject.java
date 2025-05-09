@@ -54,8 +54,6 @@ public abstract class GameObject implements Collidable, Renderable {
 		if (this instanceof DoTimer) {
 			if (((DoTimer) this).isTiming()) {
 
-				gc.setFont(new Font(16));
-
 				gc.setFill(Color.web("#34022A", 0.7));
 				gc.fillRect(x - camX + 3, y - camY - 7, 70, 30);
 
