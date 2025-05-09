@@ -37,7 +37,8 @@ public class ControlBrewing extends AnchorPane {
         Button craftButton = new Button("Craft Potion");
         craftButton.setOnAction(e -> {
         	if (brewingStand.craftable()) {
-                brewingStand.craftPotion(); // actually craft the potion
+                brewingStand.craftPotion();
+                brewingStand.resetIngredients();
                 associatedPot.changeStage(1);
                 this.setVisible(false);
             }
@@ -62,7 +63,7 @@ public class ControlBrewing extends AnchorPane {
     public void show() {
         this.setVisible(true);
         this.toFront();
-        brewingPane.refreshInventory(); // Add this line
+        brewingPane.refreshInventory();
     }
     
     public Pot getAssociatedPot() {
