@@ -9,6 +9,7 @@ public class Potion extends Item{
 	private int duration;
 	private boolean isCraft;
 	private ArrayList<Ingredient> ingredients;
+	private Potion potion;
 
 	public Potion(String name, int sellPrice, int duration) {
 		super(name, 1);
@@ -51,5 +52,13 @@ public class Potion extends Item{
 	public void setIngredients(ArrayList<Ingredient> ingredients) {
 		this.ingredients = ingredients;
 	}
+	
+	 public void setPotion(Potion potion) {
+	        this.potion = potion;
+	    }
+	    
+	    public Potion getPotion() {
+	        return potion;
+	    }
 
 }

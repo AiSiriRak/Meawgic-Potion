@@ -28,215 +28,204 @@ import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import logic.object.Pot;
 
 public class BrewingStand extends VBox {
-private final ArrayList<InventorySquare> slots;
-private final ArrayList<Ingredient> ingredientsInSlots;
-private BrewingPane brewingPane;
-private InventorySquare outputSlot;
-private Potion craftedPotion;
+	private final ArrayList<InventorySquare> slots;
+	private final ArrayList<Ingredient> ingredientsInSlots;
+	private BrewingPane brewingPane;
+	private InventorySquare outputSlot;
+	private Potion craftedPotion;
 
-public BrewingStand() {
-    this.slots = new ArrayList<>();
-    this.ingredientsInSlots = new ArrayList<>();
-    initializeUI();
-}
+	public BrewingStand() {
+		this.slots = new ArrayList<>();
+		this.ingredientsInSlots = new ArrayList<>();
+		initializeUI();
+	}
 
-private void initializeUI() {
-    Image backgroundImage = new Image(ClassLoader.getSystemResource("Images/Brewing_stand.png").toString());
-    BackgroundImage bgImage = new BackgroundImage(
-        backgroundImage, 
-        BackgroundRepeat.NO_REPEAT,
-        BackgroundRepeat.NO_REPEAT, 
-        BackgroundPosition.CENTER,
-        new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, true, true, false, true)
-    );
-    
-    this.setBackground(new Background(bgImage));
-    this.setPrefSize(416, 160);
-    this.setMinSize(416, 160);
-    this.setMaxSize(416, 160);
-    this.setAlignment(Pos.CENTER);
-    this.setPadding(new Insets(10));
-    this.setSpacing(21);
-    
-    setupSlots();
-}
+	private void initializeUI() {
+		Image backgroundImage = new Image(ClassLoader.getSystemResource("Images/Brewing_stand.png").toString());
+		BackgroundImage bgImage = new BackgroundImage(backgroundImage, BackgroundRepeat.NO_REPEAT,
+				BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER,
+				new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, true, true, false, true));
 
-private void setupSlots() {
-    GridPane ingredientGrid = new GridPane();
-    ingredientGrid.setAlignment(Pos.CENTER);
-    ingredientGrid.setVgap(10);
-    ingredientGrid.setHgap(20);
+		this.setBackground(new Background(bgImage));
+		this.setPrefSize(416, 160);
+		this.setMinSize(416, 160);
+		this.setMaxSize(416, 160);
+		this.setAlignment(Pos.CENTER);
+		this.setPadding(new Insets(10));
+		this.setSpacing(21);
 
-    for (int col = 0; col < 3; col++) {
-        InventorySquare slot = createSlot(col);
-        slots.add(slot);
-        ingredientGrid.add(slot, col, 0);
-    }
+		setupSlots();
+	}
 
-    outputSlot = createSlot(0);
-    GridPane potionPane = new GridPane();
-    potionPane.setAlignment(Pos.CENTER);
-    potionPane.add(outputSlot, 0, 0);
+	private void setupSlots() {
+		GridPane ingredientGrid = new GridPane();
+		ingredientGrid.setAlignment(Pos.CENTER);
+		ingredientGrid.setVgap(10);
+		ingredientGrid.setHgap(20);
 
-    this.getChildren().addAll(ingredientGrid, potionPane);
-}
+		for (int col = 0; col < 3; col++) {
+			InventorySquare slot = createSlot(col);
+			slots.add(slot);
+			ingredientGrid.add(slot, col, 0);
+		}
 
-private InventorySquare createSlot(int col) {
-    InventorySquare slot = new InventorySquare(col, 0, "Brewing");
-    slot.setPrefSize(48, 48);
-    return slot;
-}
+		outputSlot = createSlot(0);
+		GridPane potionPane = new GridPane();
+		potionPane.setAlignment(Pos.CENTER);
+		potionPane.add(outputSlot, 0, 0);
 
-public void setBrewingPane(BrewingPane pane) {
-    this.brewingPane = pane;
-}
+		this.getChildren().addAll(ingredientGrid, potionPane);
+	}
 
-public boolean hasAvailableSlot() {
-    return ingredientsInSlots.size() < 3;
-}
+	private InventorySquare createSlot(int col) {
+		InventorySquare slot = new InventorySquare(col, 0, "Brewing");
+		slot.setPrefSize(48, 48);
+		return slot;
+	}
 
-public boolean containsIngredient(Ingredient ingredient) {
-    return ingredientsInSlots.contains(ingredient);
-}
+	public void setBrewingPane(BrewingPane pane) {
+		this.brewingPane = pane;
+	}
 
-public void addIngredient(Ingredient ingredient) {
-    if (!hasAvailableSlot()) return;
+	public boolean hasAvailableSlot() {
+		return ingredientsInSlots.size() < 3;
+	}
 
-    int slotIndex = ingredientsInSlots.size();
-    InventorySquare slot = slots.get(slotIndex);
+	public boolean containsIngredient(Ingredient ingredient) {
+		return ingredientsInSlots.contains(ingredient);
+	}
 
-    ImageView view = new ImageView(ingredient.getItemImage().getImage());
-    view.setFitWidth(35);
-    view.setFitHeight(35);
-    slot.getChildren().add(view);
+	public void addIngredient(Ingredient ingredient) {
+		if (!hasAvailableSlot())
+			return;
 
-    ingredientsInSlots.add(ingredient);
-    rebuildSlotClickHandlers();
-}
+		int slotIndex = ingredientsInSlots.size();
+		InventorySquare slot = slots.get(slotIndex);
 
+		ImageView view = new ImageView(ingredient.getItemImage().getImage());
+		view.setFitWidth(35);
+		view.setFitHeight(35);
+		slot.getChildren().add(view);
 
-public void removeIngredient(Ingredient ingredient) {
-    int index = ingredientsInSlots.indexOf(ingredient);
-    if (index == -1) return;
+		ingredientsInSlots.add(ingredient);
+		rebuildSlotClickHandlers();
+	}
 
-    ingredientsInSlots.remove(index);
-    slots.get(index).getChildren().clear();
+	public void removeIngredient(Ingredient ingredient) {
+		int index = ingredientsInSlots.indexOf(ingredient);
+		if (index == -1)
+			return;
 
-    ingredient.setCapacity(ingredient.getCapacity() + 1);
+		ingredientsInSlots.remove(index);
+		slots.get(index).getChildren().clear();
 
-    shiftIngredientsLeft();
+		ingredient.setCapacity(ingredient.getCapacity() + 1);
 
-    if (brewingPane != null) {
-        brewingPane.refreshInventoryDisplay();
-    }
+		shiftIngredientsLeft();
 
-    rebuildSlotClickHandlers();
-}
+		if (brewingPane != null) {
+			brewingPane.refreshInventoryDisplay();
+		}
 
-private void shiftIngredientsLeft() {
-    for (InventorySquare slot : slots) {
-        slot.getChildren().clear();
-    }
+		rebuildSlotClickHandlers();
+	}
 
-    for (int i = 0; i < ingredientsInSlots.size(); i++) {
-        Ingredient ing = ingredientsInSlots.get(i);
-        InventorySquare slot = slots.get(i);
+	private void shiftIngredientsLeft() {
+		for (InventorySquare slot : slots) {
+			slot.getChildren().clear();
+		}
 
-        ImageView view = new ImageView(ing.getItemImage().getImage());
-        view.setFitWidth(35);
-        view.setFitHeight(35);
-        slot.getChildren().add(view);
-    }
-}
+		for (int i = 0; i < ingredientsInSlots.size(); i++) {
+			Ingredient ing = ingredientsInSlots.get(i);
+			InventorySquare slot = slots.get(i);
 
+			ImageView view = new ImageView(ing.getItemImage().getImage());
+			view.setFitWidth(35);
+			view.setFitHeight(35);
+			slot.getChildren().add(view);
+		}
+	}
 
+	private void rebuildSlotClickHandlers() {
+		for (int i = 0; i < ingredientsInSlots.size(); i++) {
+			Ingredient ing = ingredientsInSlots.get(i);
+			InventorySquare slot = slots.get(i);
+			slot.setOnMouseClicked(e -> removeIngredient(ing));
+		}
+	}
 
-private void rebuildSlotClickHandlers() {
-    for (int i = 0; i < ingredientsInSlots.size(); i++) {
-        Ingredient ing = ingredientsInSlots.get(i);
-        InventorySquare slot = slots.get(i);
-        slot.setOnMouseClicked(e -> removeIngredient(ing));
-    }
-}
+	public void craftable() {
+		if (!outputSlot.getChildren().isEmpty() || craftedPotion != null) {
+			return;
+		}
 
+		if (ingredientsInSlots.size() != 3)
+			return;
 
-public void craftable() {
-    if (!outputSlot.getChildren().isEmpty() || craftedPotion != null) {
-        return;
-    }
+		Set<String> current = new HashSet<>();
+		for (Ingredient ing : ingredientsInSlots) {
+			current.add(ing.getClass().getSimpleName());
+		}
 
-    if (ingredientsInSlots.size() != 3) return;
+		Map<Set<String>, Potion> recipes = Map.of(Set.of("NetherWart", "Carrot", "RedStone"), new NightVision(),
+				Set.of("NetherWart", "MagmaCream", "RedStone"), new FireResistance(),
+				Set.of("NetherWart", "RabbitFoot", "GrowStone"), new Leaping(),
+				Set.of("NetherWart", "Sugar", "RedStone"), new Swiftness(),
+				Set.of("NetherWart", "Pufferfish", "RedStone"), new WaterBreathing(),
+				Set.of("NetherWart", "Watermelon", "GrowStone"), new Healing(),
+				Set.of("NetherWart", "SpiderEye", "GrowStone"), new Poison(),
+				Set.of("NetherWart", "GhastTear", "RedStone"), new Regeneration(),
+				Set.of("NetherWart", "BlazePowder", "GrowStone"), new Strength());
 
-    Set<String> current = new HashSet<>();
-    for (Ingredient ing : ingredientsInSlots) {
-        current.add(ing.getClass().getSimpleName());
-    }
+		Potion matchedPotion = null;
+		for (Map.Entry<Set<String>, Potion> entry : recipes.entrySet()) {
+			if (current.equals(entry.getKey())) {
+				matchedPotion = entry.getValue();
+				break;
+			}
+		}
 
-    Map<Set<String>, Potion> recipes = Map.of(
-        Set.of("NetherWart", "Carrot", "RedStone"), new NightVision(),
-        Set.of("NetherWart", "MagmaCream", "RedStone"), new FireResistance(),
-        Set.of("NetherWart", "RabbitFoot", "GrowStone"), new Leaping(),
-        Set.of("NetherWart", "Sugar", "RedStone"), new Swiftness(),
-        Set.of("NetherWart", "Pufferfish", "RedStone"), new WaterBreathing(),
-        Set.of("NetherWart", "Watermelon", "GrowStone"), new Healing(),
-        Set.of("NetherWart", "SpiderEye", "GrowStone"), new Poison(),
-        Set.of("NetherWart", "GhastTear", "RedStone"), new Regeneration(),
-        Set.of("NetherWart", "BlazePowder", "GrowStone"), new Strength()
-    );
+		if (matchedPotion != null) {
+			ingredientsInSlots.clear();
+			for (InventorySquare slot : slots) {
+				slot.getChildren().clear();
+				slot.setOnMouseClicked(null);
+			}
 
-    Potion matchedPotion = null;
-    for (Map.Entry<Set<String>, Potion> entry : recipes.entrySet()) {
-        if (current.equals(entry.getKey())) {
-            matchedPotion = entry.getValue();
-            break;
-        }
-    }
+			outputSlot.getChildren().clear();
+			ImageView view = matchedPotion.getItemImage();
+			view.setFitWidth(35);
+			view.setFitHeight(35);
+			outputSlot.getChildren().add(view);
 
-    if (matchedPotion != null) {
-        ingredientsInSlots.clear();
-        for (InventorySquare slot : slots) {
-            slot.getChildren().clear();
-            slot.setOnMouseClicked(null);
-        }
+			this.craftedPotion = matchedPotion;
 
-        outputSlot.getChildren().clear();
-        ImageView view = matchedPotion.getItemImage();
-        view.setFitWidth(35);
-        view.setFitHeight(35);
-        outputSlot.getChildren().add(view);
+			outputSlot.setOnMouseClicked(e -> {
+				if (brewingPane != null && craftedPotion != null) {
+					brewingPane.addCraftedPotion(craftedPotion);
+					outputSlot.getChildren().clear();
+					outputSlot.setOnMouseClicked(null);
+					craftedPotion = null;
+				}
+			});
+		}
+	}
 
-        this.craftedPotion = matchedPotion;
+	public void resetIngredients() {
+		for (Ingredient ingredient : new ArrayList<>(ingredientsInSlots)) {
+			if (brewingPane != null) {
+				brewingPane.returnIngredient(ingredient);
+			}
+		}
 
-        outputSlot.setOnMouseClicked(e -> {
-            if (brewingPane != null && craftedPotion != null) {
-                brewingPane.addCraftedPotion(craftedPotion);
-                outputSlot.getChildren().clear();
-                outputSlot.setOnMouseClicked(null);
-                craftedPotion = null;
-            }
-        });
-    }
-}
-
-
-
-
-
-public void resetIngredients() {
-    for (Ingredient ingredient : new ArrayList<>(ingredientsInSlots)) {
-        if (brewingPane != null) {
-            brewingPane.returnIngredient(ingredient);
-        }
-    }
-
-    ingredientsInSlots.clear();
-    for (InventorySquare slot : slots) {
-        slot.getChildren().clear();
-        slot.setOnMouseClicked(null); 
-    }
-}
-
+		ingredientsInSlots.clear();
+		for (InventorySquare slot : slots) {
+			slot.getChildren().clear();
+			slot.setOnMouseClicked(null);
+		}
+	}
 
 }

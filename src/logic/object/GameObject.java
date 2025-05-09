@@ -1,9 +1,11 @@
 package logic.object;
 
+import Font.FontRect;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 
 public abstract class GameObject implements Collidable, Renderable {
 
@@ -22,23 +24,50 @@ public abstract class GameObject implements Collidable, Renderable {
 	}
 
 	public void render(GraphicsContext gc, double camX, double camY) {
+		gc.setImageSmoothing(false);
 
 		// Render Interact Area
 		if (this instanceof Interactable) {
-
 			Rectangle2D interactArea = ((Interactable) this).getInteractArea();
-			gc.setFill(Color.color(1, 1, 1, 0.2));
-			gc.setStroke(Color.WHITE);
-			gc.setLineWidth(interactAreaBorder);
+			if (((Interactable) this).getCanInteracte()) {
+
+				gc.setFill(Color.web("#FAF5DF", 0.2));
+				gc.setStroke(Color.web("#FAF5DF"));
+				gc.setLineWidth(interactAreaBorder);
+
+			} else {
+				gc.setFill(Color.web("#34022A", 0.3));
+				gc.setStroke(Color.color(0, 0, 0, 0));
+				gc.setLineWidth(2);
+			}
 			gc.strokeRoundRect(interactArea.getMinX() - camX, interactArea.getMinY() - camY, interactArea.getWidth(),
 					interactArea.getHeight(), 20, 20);
 			gc.fillRoundRect(interactArea.getMinX() - camX, interactArea.getMinY() - camY, interactArea.getWidth(),
 					interactArea.getHeight(), 20, 20);
 		}
 
-		// Render Image
+		// Render Image0
 		gc.drawImage(image, 0, 0, this.image.getWidth(), this.image.getHeight(), x - camX, y - camY,
 				this.image.getWidth(), this.image.getHeight());
+
+		// Render Timer
+		if (this instanceof DoTimer) {
+			if (((DoTimer) this).isTiming()) {
+
+				gc.setFont(new Font(16));
+
+				gc.setFill(Color.web("#34022A", 0.7));
+				gc.fillRect(x - camX + 3, y - camY - 7, 70, 30);
+
+				gc.setFill(Color.web("#FAF5DF"));
+				gc.fillRect(x - camX, y - camY - 10, 70, 30);
+
+				gc.setFill(Color.web("#34022A"));
+				gc.setFont(FontRect.REGULAR.getFont(16));
+				gc.fillText(((DoTimer) this).getTime(), x - camX + 9, y - camY + 10);
+
+			}
+		}
 
 		// Render Hitbox
 //		gc.setStroke(Color.RED);
@@ -53,6 +82,8 @@ public abstract class GameObject implements Collidable, Renderable {
 	}
 
 	public double getY() {
+		if (this instanceof Pond || this instanceof Door)
+			return 0;
 		return this.getHitbox().getMaxY();
 
 	}

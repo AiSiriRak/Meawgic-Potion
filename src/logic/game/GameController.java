@@ -1,5 +1,7 @@
 package logic.game;
 
+import Inventory.IngredientCounter;
+import Inventory.PotionCounter;
 import application.Main;
 import gui.button.InventoryButton;
 import gui.button.SettingButton;
@@ -9,6 +11,7 @@ import gui.pane.SettingPane;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -32,8 +35,14 @@ public class GameController {
 	
 	private static ControlBrewing controlBrewing;
 
+	public static WaterBar waterBar;
+	
+	private static InventoryPane inventoryPane;
+
 	public static void setupScene() {
 		try {
+			IngredientCounter sharedIngredientCounter = new IngredientCounter();
+			PotionCounter sharedPotionCounter = new PotionCounter();
 			StackPane layeredRoot = new StackPane();
 			scene = new Scene(layeredRoot, SCREEN_WIDTH, SCREEN_HEIGHT, Color.BLACK);
 
@@ -49,12 +58,14 @@ public class GameController {
 
 			InventoryButton inventoryButton = new InventoryButton();
 			SettingButton settingButton = new SettingButton();
-			InventoryPane inventoryPane = new InventoryPane();
+			inventoryPane = new InventoryPane(sharedIngredientCounter, sharedPotionCounter);
 			SettingPane settingPane = new SettingPane(Main.getPrimaryStage());
+
+			waterBar = new WaterBar();
 
 			inventoryPane.setVisible(false);
 			settingPane.setVisible(false);
-			controlBrewing = new ControlBrewing();
+			controlBrewing = new ControlBrewing(sharedIngredientCounter, sharedPotionCounter);
 			controlBrewing.setVisible(false);
 			
 
@@ -68,8 +79,10 @@ public class GameController {
 			inventoryButton.setOnAction(e -> inventoryPane.setVisible(!inventoryPane.isVisible()));
 			settingButton.setOnAction(e -> settingPane.setVisible(!settingPane.isVisible()));
 
-			layeredRoot.getChildren().addAll(root, overlay, inventoryPane, settingPane, controlBrewing);
-			
+
+			layeredRoot.getChildren().addAll(root, overlay, inventoryPane, settingPane, waterBar,controlBrewing);
+
+
 			Main.getPrimaryStage().setScene(scene);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -107,4 +120,9 @@ public class GameController {
 	public static Pane getRoot() {
 	    return root;
 	}
+
+	public static InventoryPane getInventoryPane() {
+	    return inventoryPane;
+	}
+
 }

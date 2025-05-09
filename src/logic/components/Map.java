@@ -56,7 +56,9 @@ public abstract class Map extends Canvas {
 	}
 
 	public void updateCanvas(GraphicsContext gc) {
-
+		
+		gc.setImageSmoothing(false);
+		
 		int scWidth = GameController.SCREEN_WIDTH;
 		int scHeight = GameController.SCREEN_HEIGHT;
 		Thread updateCanvas = new Thread(() -> {
@@ -120,7 +122,8 @@ public abstract class Map extends Canvas {
 
 		for (GameObject obj : gameObjectList) {
 			if (obj instanceof Interactable) {
-				if (((Interactable) obj).getInteractArea().contains(player.getHitbox())) {
+				if (((Interactable) obj).getInteractArea().contains(player.getHitbox())
+						&& ((Interactable) obj).getCanInteracte()) {
 					obj.setInteractAreaBorder(5);
 
 					if (keyboard.isEPressed() && !isEHandled) {
