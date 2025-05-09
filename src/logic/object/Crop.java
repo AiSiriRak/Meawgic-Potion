@@ -1,7 +1,7 @@
 package logic.object;
 
 import entity.base.Basis;
-import entity.ingredient.*;
+import entity.data.*;
 import javafx.application.Platform;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.SnapshotParameters;
@@ -44,7 +44,7 @@ public class Crop extends GameObject implements Interactable, DoTimer {
 		switch (this.currentStage) {
 
 		case 0:
-			this.item = new Carrot();
+			this.item = BasisData.CARROT.getItem();
 			this.changeStage(1);
 
 //			System.out.println("Planted!!");

@@ -1,22 +1,18 @@
 package application;
 
-import entity.ingredient.NetherWart;
-import gui.button.ExitButtton;
-import gui.pane.BrewingPane;
-import gui.pane.BrewingStand;
-import gui.pane.ControlBrewing;
-import gui.pane.InventoryPane;
-import gui.pane.SettingPane;
+//<<<<<<< HEAD
+//import entity.ingredient.NetherWart;
+//import gui.button.ExitButtton;
+//import gui.pane.BrewingPane;
+//import gui.pane.BrewingStand;
+//import gui.pane.ControlBrewing;
+//import gui.pane.InventoryPane;
+//import gui.pane.SettingPane;
+//=======
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import logic.game.GameController;
@@ -34,7 +30,7 @@ public class Main extends Application {
 		StartPage startPage = new StartPage(primaryStage);
 		Scene startScene = startPage.getScene();
 		primaryStage.setScene(startScene);
-		primaryStage.setTitle("Meowgic Potions");
+		primaryStage.setTitle("Meowgic Potion");
 		primaryStage.show();
 		primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 			@Override
@@ -46,7 +42,7 @@ public class Main extends Application {
 		primaryStage.setResizable(false);
 
 		// =================== end here ========================
-		
+
 //		HBox root = new HBox();
 //		root.setPadding(new Insets(10));
 //		root.setSpacing(10);

@@ -1,18 +1,16 @@
 package entity.base;
 
 import java.util.ArrayList;
-import java.util.List;
 
-public class Potion extends Item{
-	private String name;
+public class Potion extends Item {
 	private int sellPrice;
 	private int duration;
 	private boolean isCraft;
 	private ArrayList<Ingredient> ingredients;
 	private Potion potion;
 
-	public Potion(String name, int sellPrice, int duration) {
-		super(name, 1);
+	public Potion(String name, int capacity, int sellPrice, int duration) {
+		super(name, capacity);
 		this.setSellPrice(sellPrice);
 		this.setDuration(duration);
 		this.setCraft(false);

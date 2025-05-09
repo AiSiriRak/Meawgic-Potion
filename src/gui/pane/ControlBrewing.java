@@ -34,7 +34,7 @@ public class ControlBrewing extends AnchorPane {
         resetButton.setOnAction(e -> brewingStand.resetIngredients());
 
         Button craftButton = new Button("Craft Potion");
-        craftButton.setOnAction(e -> this.setVisible(false));
+        craftButton.setOnAction(e -> brewingStand.craftable());
 
         VBox controlBox = new VBox(10, craftButton, resetButton);
         controlBox.setAlignment(Pos.CENTER);
@@ -46,50 +46,11 @@ public class ControlBrewing extends AnchorPane {
         this.setPrefSize(500, 400);
         AnchorPane.setTopAnchor(contentBox, 10.0);
         AnchorPane.setLeftAnchor(contentBox, 35.0);
-        AnchorPane.setTopAnchor(exitButton, 55.0);
-        AnchorPane.setRightAnchor(exitButton, 260.0);
+        AnchorPane.setTopAnchor(exitButton, 25.0);
+        AnchorPane.setRightAnchor(exitButton, 255.0);
 
         this.getChildren().addAll(contentBox, exitButton);
     }
 
     
-//    public ControlBrewing() {
-//    	
-//    	    
-//    	    this.brewingStand = new BrewingStand();
-//    	    this.brewingPane = new BrewingPane(brewingStand);
-//
-//        VBox contentBox = new VBox();
-//        contentBox.setPadding(new Insets(10));
-//        contentBox.setPrefSize(960, 600);
-//        contentBox.setAlignment(Pos.CENTER);
-//        contentBox.getChildren().addAll(brewingStand, brewingPane);
-//
-//        Button resetButton = new Button("Reset Ingredients");
-//        resetButton.setOnAction(e -> brewingStand.resetIngredients());
-//
-//        Button craftButton = new Button("Craft Potion");
-//        craftButton.setOnAction(e -> {
-//                this.setVisible(false);
-//        });
-//
-//        VBox controlBox = new VBox(10, craftButton, resetButton);
-//        controlBox.setAlignment(Pos.CENTER);
-//        contentBox.getChildren().add(controlBox);
-//
-//        ExitButtton exitButton = new ExitButtton();
-//        exitButton.setOnMouseClicked(e -> this.setVisible(false));
-//
-//        this.setPrefSize(500, 400);
-//        AnchorPane.setTopAnchor(contentBox, 10.0);
-//        AnchorPane.setLeftAnchor(contentBox, 35.0);
-//        AnchorPane.setTopAnchor(exitButton, 55.0);
-//        AnchorPane.setRightAnchor(exitButton, 260.0);
-//
-//        this.getChildren().addAll(contentBox, exitButton);
-//    }
-//    
-//    public void resetAfterCrafting() {
-//        brewingStand.resetIngredients();
-//    }
 }

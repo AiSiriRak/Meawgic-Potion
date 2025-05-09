@@ -3,7 +3,7 @@ package logic.object;
 
 import gui.pane.ControlBrewing;
 import entity.base.Potion;
-import entity.potion.*;
+import entity.data.PotionData;
 import javafx.application.Platform;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.SnapshotParameters;
@@ -44,8 +44,7 @@ public class Pot extends GameObject implements Interactable, DoAnimation, DoTime
 		switch (this.currentStage) {
 		case 0:
 			GameController.getControlBrewing().setVisible(true);
-			
-			this.potion = new NightVision();
+			this.potion = PotionData.NIGHT_VISION.getItem();
 			this.startTiming(this.potion.getDuration());
 			this.changeStage(1);
 
