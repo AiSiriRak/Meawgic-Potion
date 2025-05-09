@@ -51,8 +51,8 @@ public class Crop extends GameObject implements Interactable, DoTimer {
 			break;
 
 		case 1:
-			GameController.waterBarImg.updateBar(GameController.waterBarImg.getWaterLevel() - 3);
-			if (GameController.waterBarImg.isEnoughWater()) {
+			GameController.waterBar.updateBar(GameController.waterBar.getWaterLevel() - 3);
+			if (GameController.waterBar.isEnoughWater()) {
 
 				isWatered = true;
 

@@ -9,6 +9,7 @@ import gui.button.SettingButton;
 import gui.pane.ControlBrewing;
 import gui.pane.InventoryPane;
 import gui.pane.SettingPane;
+import gui.pane.ShopPane;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -23,7 +24,6 @@ import logic.components.Map;
 import logic.components.OutsideMap;
 
 public class GameController {
-	public static final int TILE_SIZE = 32;
 	public static final int SCREEN_WIDTH = 960;
 	public static final int SCREEN_HEIGHT = 600;
 
@@ -38,10 +38,10 @@ public class GameController {
 	private static ControlBrewing controlBrewing;
 
 	public static StackPane warningPane;
-	public static WaterBar waterBarImg;
 	public static WaterBar waterBar;
 
 	private static InventoryPane inventoryPane;
+	public static ShopPane shopPane;
 
 	public static void setupScene() {
 		try {
@@ -65,6 +65,8 @@ public class GameController {
 			inventoryPane = new InventoryPane(sharedIngredientCounter, sharedPotionCounter);
 			SettingPane settingPane = new SettingPane(Main.getPrimaryStage());
 
+			shopPane = new ShopPane();
+
 			// Set WaterBar
 			warningPane = new StackPane();
 			Rectangle warningBg = new Rectangle(160, 36);
@@ -76,13 +78,14 @@ public class GameController {
 			warningPane.setTranslateX(300);
 			warningPane.setVisible(false);
 
-			waterBarImg = new WaterBar();
+			waterBar = new WaterBar();
 
 			// Set InventoryPan && SettingPane
 			inventoryPane.setVisible(false);
 			settingPane.setVisible(false);
 			controlBrewing = new ControlBrewing(sharedIngredientCounter, sharedPotionCounter);
 			controlBrewing.setVisible(false);
+			shopPane.setVisible(true);
 
 			// Button container
 			HBox overlay = new HBox(10);
@@ -110,11 +113,8 @@ public class GameController {
 			inventoryButton.setOnAction(e -> inventoryPane.setVisible(!inventoryPane.isVisible()));
 			settingButton.setOnAction(e -> settingPane.setVisible(!settingPane.isVisible()));
 
-			layeredRoot.getChildren().addAll(root, overlay, inventoryPane, settingPane, warningPane, waterBarImg);
-
-			layeredRoot.getChildren().addAll(root, overlay, inventoryPane, settingPane, waterBar);
-
-			layeredRoot.getChildren().addAll(root, overlay, inventoryPane, settingPane, waterBar, controlBrewing);
+			layeredRoot.getChildren().addAll(root, overlay, inventoryPane, settingPane, shopPane, warningPane, waterBar,
+					controlBrewing);
 
 			Main.getPrimaryStage().setScene(scene);
 		} catch (Exception e) {

@@ -26,7 +26,7 @@ public class InventoryPane extends StackPane {
 	private PotionCounter potionCounter;
 
 	public InventoryPane(IngredientCounter ingredientCounter, PotionCounter potionCounter) {
-		
+
 		this.ingredientCounter = ingredientCounter;
 		this.potionCounter = potionCounter;
 		VBox content = createContentBox();
@@ -145,64 +145,75 @@ public class InventoryPane extends StackPane {
 
 	private ExitButtton createExitButton() {
 		ExitButtton exitButton = new ExitButtton();
+		exitButton.setOnMouseEntered(e -> {
+			exitButton.setScaleX(1.08);
+			exitButton.setScaleY(1.08);
+		});
+
+		exitButton.setOnMouseExited(e -> {
+			exitButton.setScaleX(1);
+			exitButton.setScaleY(1);
+		});
 		exitButton.setOnMouseClicked(e -> this.setVisible(false));
 		return exitButton;
 	}
-	
+
 	public void refreshInventory() {
-		 for (InventorySquare square : inallCells) {
-	            square.getChildren().clear();
-	        }
-	        for (InventorySquare square : poallCells) {
-	            square.getChildren().clear();
-	        }
+		for (InventorySquare square : inallCells) {
+			square.getChildren().clear();
+		}
+		for (InventorySquare square : poallCells) {
+			square.getChildren().clear();
+		}
 
-	        // Rebuild ingredient display
-	        int index = 0;
-	        for (Ingredient ingredient : ingredientCounter.getIngredientCounter()) {
-	            if (index >= inallCells.size()) break;
-	            
-	            InventorySquare square = inallCells.get(index++);
-	            setupSquareWithItem(square, ingredient);
-	        }
-	        index = 0;
-	        for (Potion potion : potionCounter.getPotionCounter()) {
-	            if (index >= poallCells.size()) break;
-	            
-	            InventorySquare square = poallCells.get(index++);
-	            setupSquareWithItem(square, potion);
-	        }
+		// Rebuild ingredient display
+		int index = 0;
+		for (Ingredient ingredient : ingredientCounter.getIngredientCounter()) {
+			if (index >= inallCells.size())
+				break;
+
+			InventorySquare square = inallCells.get(index++);
+			setupSquareWithItem(square, ingredient);
+		}
+		index = 0;
+		for (Potion potion : potionCounter.getPotionCounter()) {
+			if (index >= poallCells.size())
+				break;
+
+			InventorySquare square = poallCells.get(index++);
+			setupSquareWithItem(square, potion);
+		}
 	}
-	
+
 	private void setupSquareWithItem(InventorySquare square, Item item) {
-        ImageView imageView = new ImageView(item.getItemImage().getImage());
-        imageView.setFitWidth(35);
-        imageView.setFitHeight(35);
-        square.setAlignment(Pos.CENTER);
-        square.getChildren().add(imageView);
+		ImageView imageView = new ImageView(item.getItemImage().getImage());
+		imageView.setFitWidth(35);
+		imageView.setFitHeight(35);
+		square.setAlignment(Pos.CENTER);
+		square.getChildren().add(imageView);
 
-        Text capacityText = new Text(String.valueOf(item.getCapacity()));
-        capacityText.setStyle("-fx-fill: white; -fx-font-size: 16;");
-        StackPane.setAlignment(capacityText, Pos.BOTTOM_RIGHT);
-        square.getChildren().add(capacityText);
+		Text capacityText = new Text(String.valueOf(item.getCapacity()));
+		capacityText.setStyle("-fx-fill: white; -fx-font-size: 16;");
+		StackPane.setAlignment(capacityText, Pos.BOTTOM_RIGHT);
+		square.getChildren().add(capacityText);
 
-        createAndAttachTooltip(square, item.getName());
-    }
+		createAndAttachTooltip(square, item.getName());
+	}
 
-    private void createAndAttachTooltip(InventorySquare square, String text) {
-        Tooltip tooltip = new Tooltip(text);
-        tooltip.setStyle("-fx-background-color: black; -fx-text-fill: white; -fx-font-size: 12;");
-        tooltip.setShowDelay(Duration.millis(300));
-        tooltip.setHideDelay(Duration.millis(100));
-        Tooltip.install(square, tooltip);
-    }
+	private void createAndAttachTooltip(InventorySquare square, String text) {
+		Tooltip tooltip = new Tooltip(text);
+		tooltip.setStyle("-fx-background-color: black; -fx-text-fill: white; -fx-font-size: 12;");
+		tooltip.setShowDelay(Duration.millis(300));
+		tooltip.setHideDelay(Duration.millis(100));
+		Tooltip.install(square, tooltip);
+	}
 
 	private void updateCapacityDisplay(InventorySquare square, int capacity) {
-	    square.getChildren().removeIf(node -> node instanceof Text);
-	    Text newCapacityText = new Text(String.valueOf(capacity));
-	    newCapacityText.setStyle("-fx-fill: white; -fx-font-size: 16;");
-	    StackPane.setAlignment(newCapacityText, Pos.BOTTOM_RIGHT);
-	    square.getChildren().add(newCapacityText);
+		square.getChildren().removeIf(node -> node instanceof Text);
+		Text newCapacityText = new Text(String.valueOf(capacity));
+		newCapacityText.setStyle("-fx-fill: white; -fx-font-size: 16;");
+		StackPane.setAlignment(newCapacityText, Pos.BOTTOM_RIGHT);
+		square.getChildren().add(newCapacityText);
 	}
 
 }

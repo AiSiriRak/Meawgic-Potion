@@ -43,11 +43,11 @@ public class Pot extends GameObject implements Interactable, DoAnimation, DoTime
 		switch (this.currentStage) {
 		case 0:
 			GameController.getControlBrewing().setVisible(true);
+
 			this.potion = PotionData.NIGHT_VISION.getItem();
 			this.startTiming(this.potion.getDuration());
 			this.changeStage(1);
 
-//			System.out.println("Crafted!!");
 			break;
 		case 2:
 			this.potion = null;
@@ -56,9 +56,8 @@ public class Pot extends GameObject implements Interactable, DoAnimation, DoTime
 			System.out.println("Gain 1 Potion!!");
 			break;
 		}
-		}
-	
-	
+	}
+
 	@Override
 	public Rectangle2D getInteractArea() {
 		return this.interactArea;
@@ -143,7 +142,6 @@ public class Pot extends GameObject implements Interactable, DoAnimation, DoTime
 		}
 	}
 
-
 	@Override
 	public boolean getCanInteracte() {
 		if (currentStage == 1)
@@ -194,4 +192,3 @@ public class Pot extends GameObject implements Interactable, DoAnimation, DoTime
 	}
 
 }
-
