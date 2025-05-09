@@ -12,6 +12,7 @@ public abstract class Item {
 		this.name = name;
 		this.setCapacity(capacity);
 		this.itemImage = new ImageView(ClassLoader.getSystemResource("Images/" + name + ".png").toString());
+		this.itemImage.setSmooth(false);
 	}
 
 	public ImageView getItemImage() {

@@ -2,6 +2,7 @@ package logic.object;
 
 import entity.base.Basis;
 import entity.ingredient.*;
+import javafx.application.Platform;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;
@@ -11,12 +12,14 @@ import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
 import logic.game.GameController;
 
-public class Crop extends GameObject implements Interactable {
+public class Crop extends GameObject implements Interactable, DoTimer {
 	protected Rectangle2D interactArea;
 	private Basis item;
 	private int currentStage;
 
 	private boolean isWatered;
+	private boolean isTiming;
+	private int currentTime;
 
 	public Crop(String name, double x, double y) {
 		super(name, x, y, new Rectangle2D(x + 0, y + 10, 192, 182));
@@ -24,8 +27,9 @@ public class Crop extends GameObject implements Interactable {
 		this.interactArea = new Rectangle2D(x + 64, y + 192, 64, 64);
 		this.currentStage = 0;
 		this.item = null;
-		isWatered = false;
-
+		this.isWatered = false;
+		this.isTiming = false;
+		this.currentTime = 0;
 	}
 
 	@Override
@@ -38,22 +42,28 @@ public class Crop extends GameObject implements Interactable {
 		System.out.println("Interact with " + this.name);
 
 		switch (this.currentStage) {
+
 		case 0:
 			this.item = new Carrot();
 			this.changeStage(1);
 
-			System.out.println("Planted!!");
+//			System.out.println("Planted!!");
 			break;
+
 		case 1:
 			GameController.waterBar.updateBar(GameController.waterBar.getWaterLevel() - 3);
 			if (GameController.waterBar.isEnoughWater()) {
+
 				isWatered = true;
+
 				this.changeStage(1);
 
-				System.out.println("Watered!!");
-			}
+				this.startTiming(this.item.getDuration());
 
+//				System.out.println("Watered!!");
+			}
 			break;
+
 		case 3:
 			this.item = null;
 			isWatered = false;
@@ -122,6 +132,55 @@ public class Crop extends GameObject implements Interactable {
 		if (currentStage == 2 || (currentStage == 1 && isWatered))
 			return false;
 		return true;
+	}
+
+	@Override
+	public void startTiming(int second) {
+		this.isTiming = true;
+		this.currentTime = second;
+
+		Thread cropTimerThread = new Thread(() -> {
+			while (this.isTiming) {
+				try {
+					Thread.sleep(1000);
+					this.currentTime--;
+
+					if (this.currentTime <= 0) {
+						this.isTiming = false;
+
+						Platform.runLater(new Runnable() {
+							@Override
+							public void run() {
+								changeStage(3);
+							}
+						});
+
+						;
+					} else if (currentTime <= second / 2) {
+						Platform.runLater(new Runnable() {
+							@Override
+							public void run() {
+								changeStage(2);
+							}
+						});
+					}
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+
+			}
+		}, "Start Timing - " + this.name);
+		cropTimerThread.start();
+	}
+
+	@Override
+	public String getTime() {
+		return String.format("%02d : %02d", Math.floorDiv(this.currentTime, 60), this.currentTime % 60);
+	}
+
+	@Override
+	public boolean isTiming() {
+		return this.isTiming;
 	}
 
 }
