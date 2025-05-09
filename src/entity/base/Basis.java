@@ -10,7 +10,6 @@ public class Basis extends Ingredient {
 		this.setBuyPrice(buyPrice);
 		this.sellPrice = sellPrice;
 		this.setDuration(duration);
-		// TODO Auto-generated constructor stub
 	}
 
 	public int getSellPrice() {

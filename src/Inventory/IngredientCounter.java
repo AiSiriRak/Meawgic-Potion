@@ -4,18 +4,8 @@ import java.util.ArrayList;
 
 import entity.base.Ingredient;
 import entity.base.Item;
-import entity.ingredient.BlazePowder;
-import entity.ingredient.Carrot;
-import entity.ingredient.GhastTear;
-import entity.ingredient.GrowStone;
-import entity.ingredient.MagmaCream;
-import entity.ingredient.NetherWart;
-import entity.ingredient.Pufferfish;
-import entity.ingredient.RabbitFoot;
-import entity.ingredient.RedStone;
-import entity.ingredient.SpiderEye;
-import entity.ingredient.Sugar;
-import entity.ingredient.Watermelon;
+import entity.data.BasisData;
+import entity.data.StoneData;
 
 public class IngredientCounter {
 	private ArrayList<Ingredient> ingredientCounter;
@@ -23,19 +13,19 @@ public class IngredientCounter {
 
 	public IngredientCounter() {
 		this.ingredientCounter = new ArrayList<>();
-		
-		this.ingredientCounter.add(new RedStone());
-		this.ingredientCounter.add(new GrowStone());
-		this.ingredientCounter.add(new NetherWart());
-		this.ingredientCounter.add(new Watermelon());
-		this.ingredientCounter.add(new Carrot());
-		this.ingredientCounter.add(new Sugar());
-		this.ingredientCounter.add(new RabbitFoot());
-		this.ingredientCounter.add(new Pufferfish());
-		this.ingredientCounter.add(new SpiderEye());
-		this.ingredientCounter.add(new MagmaCream());
-		this.ingredientCounter.add(new GhastTear());
-		this.ingredientCounter.add(new BlazePowder());
+
+		this.ingredientCounter.add(StoneData.REDSTONE.getItem());
+		this.ingredientCounter.add(StoneData.GROWSTONE.getItem());
+		this.ingredientCounter.add(BasisData.NETHER_WART.getItem());
+		this.ingredientCounter.add(BasisData.WATERMELON.getItem());
+		this.ingredientCounter.add(BasisData.CARROT.getItem());
+		this.ingredientCounter.add(BasisData.SUGAR.getItem());
+		this.ingredientCounter.add(BasisData.RABBIT_FOOT.getItem());
+		this.ingredientCounter.add(BasisData.PUFFERFISH.getItem());
+		this.ingredientCounter.add(BasisData.SPIDER_EYE.getItem());
+		this.ingredientCounter.add(BasisData.MAGMA_CREAM.getItem());
+		this.ingredientCounter.add(BasisData.GHAST_TEAR.getItem());
+		this.ingredientCounter.add(BasisData.BLAZE_POWDER.getItem());
 	}
 
 	public ArrayList<Ingredient> getIngredientCounter() {

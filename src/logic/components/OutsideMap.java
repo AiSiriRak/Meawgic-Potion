@@ -2,9 +2,8 @@ package logic.components;
 
 import java.util.ArrayList;
 
-import entity.ingredient.*;
+import entity.data.*;
 import javafx.geometry.Rectangle2D;
-import javafx.scene.image.Image;
 import logic.object.Crop;
 import logic.object.*;
 
@@ -20,7 +19,7 @@ public class OutsideMap extends Map {
 
 	public void setObject() {
 		GameObject crop1 = new Crop("Crop - 1", 768, 384);
-		((Crop) crop1).setItem(new Pufferfish());
+		((Crop) crop1).setItem(BasisData.PUFFERFISH.getItem());
 		((Crop) crop1).changeStage(3);
 		GameObject crop2 = new Crop("Crop - 2", 1088, 384);
 		GameObject crop3 = new Crop("Crop - 3", 768, 704);

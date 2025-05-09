@@ -2,18 +2,9 @@ package Inventory;
 
 import java.util.ArrayList;
 
-import entity.base.Ingredient;
 import entity.base.Item;
 import entity.base.Potion;
-import entity.potion.FireResistance;
-import entity.potion.Healing;
-import entity.potion.Leaping;
-import entity.potion.NightVision;
-import entity.potion.Poison;
-import entity.potion.Regeneration;
-import entity.potion.Strength;
-import entity.potion.Swiftness;
-import entity.potion.WaterBreathing;
+import entity.data.PotionData;
 
 public class PotionCounter {
 	private ArrayList<Potion> PotionCounter;
@@ -21,16 +12,16 @@ public class PotionCounter {
 
 	public PotionCounter() {
 		this.PotionCounter = new ArrayList<>();
-		
-		this.PotionCounter.add(new NightVision());
-		this.PotionCounter.add(new FireResistance());
-		this.PotionCounter.add(new Leaping());
-		this.PotionCounter.add(new Swiftness());
-		this.PotionCounter.add(new WaterBreathing());
-		this.PotionCounter.add(new Healing());
-		this.PotionCounter.add(new Poison());
-		this.PotionCounter.add(new Regeneration());
-		this.PotionCounter.add(new Strength());
+
+		this.PotionCounter.add(PotionData.NIGHT_VISION.getItem());
+		this.PotionCounter.add(PotionData.FIRE_RESISTANCE.getItem());
+		this.PotionCounter.add(PotionData.LEAPING.getItem());
+		this.PotionCounter.add(PotionData.SWIFTNESS.getItem());
+		this.PotionCounter.add(PotionData.WATER_BREATHING.getItem());
+		this.PotionCounter.add(PotionData.HEALING.getItem());
+		this.PotionCounter.add(PotionData.POISON.getItem());
+		this.PotionCounter.add(PotionData.REGENERATION.getItem());
+		this.PotionCounter.add(PotionData.STRENGTH.getItem());
 	}
 
 	public ArrayList<Potion> getPotionCounter() {

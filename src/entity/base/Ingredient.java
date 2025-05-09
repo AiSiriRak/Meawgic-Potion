@@ -15,6 +15,5 @@ public class Ingredient extends Item {
 	public void setGrowState(boolean growState) {
 		this.growState = growState;
 	}
-	
-	
+
 }

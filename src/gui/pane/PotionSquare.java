@@ -9,25 +9,21 @@ import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.Pane;
 
-public class PotionSquare extends Pane{
+public class PotionSquare extends Pane {
 	private int xPosition;
 	private int yPosition;
 	private String inventory;
-	
+
 	public PotionSquare(int x, int y) {
 		this.setxPosition(x);
 		this.setyPosition(y);
-		
-		Image bgImage = new Image(ClassLoader.getSystemResource("Images/"+"Brewing_Frame.png").toString());
-        BackgroundImage backgroundImage = new BackgroundImage(
-            bgImage,
-            BackgroundRepeat.NO_REPEAT,
-            BackgroundRepeat.NO_REPEAT,
-            BackgroundPosition.CENTER,
-            new BackgroundSize(48, 48, false, false, false, false)
-        );
-        this.setBackground(new Background(backgroundImage));
-        this.setBorder(Border.EMPTY);
+
+		Image bgImage = new Image(ClassLoader.getSystemResource("Images/" + "Brewing_Frame.png").toString());
+		BackgroundImage backgroundImage = new BackgroundImage(bgImage, BackgroundRepeat.NO_REPEAT,
+				BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER,
+				new BackgroundSize(48, 48, false, false, false, false));
+		this.setBackground(new Background(backgroundImage));
+		this.setBorder(Border.EMPTY);
 	}
 
 	public int getxPosition() {

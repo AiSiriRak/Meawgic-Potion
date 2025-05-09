@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.image.Image;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundPosition;
@@ -19,7 +18,7 @@ public class BrewingStand extends VBox {
 
 	public BrewingStand() {
 		this.allCells = new ArrayList<>();
-		Image backgroundImage = new Image(ClassLoader.getSystemResource("Images/"+"Brewing_stand.png").toString());
+		Image backgroundImage = new Image(ClassLoader.getSystemResource("Images/" + "Brewing_stand.png").toString());
 		BackgroundImage bgImage = new BackgroundImage(backgroundImage, BackgroundRepeat.NO_REPEAT,
 				BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER,
 				new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, true, true, false, true));
@@ -30,7 +29,7 @@ public class BrewingStand extends VBox {
 		this.setAlignment(Pos.CENTER);
 		this.setPadding(new Insets(10));
 		this.setSpacing(21);
-		
+
 		GridPane ingredient = new GridPane();
 		ingredient.setAlignment(Pos.CENTER);
 		ingredient.setVgap(10);
@@ -41,14 +40,14 @@ public class BrewingStand extends VBox {
 			allCells.add(s);
 			ingredient.add(s, col, 0);
 		}
-		
-		GridPane potionPane = new GridPane();
-        potionPane.setAlignment(Pos.CENTER);
 
-        InventorySquare potion = new InventorySquare(0, 0, "Brewing");
-        potion.setPrefSize(48, 48);
-        potionPane.add(potion, 0, 0);
-		
-		this.getChildren().addAll(ingredient,potionPane);
+		GridPane potionPane = new GridPane();
+		potionPane.setAlignment(Pos.CENTER);
+
+		InventorySquare potion = new InventorySquare(0, 0, "Brewing");
+		potion.setPrefSize(48, 48);
+		potionPane.add(potion, 0, 0);
+
+		this.getChildren().addAll(ingredient, potionPane);
 	}
 }

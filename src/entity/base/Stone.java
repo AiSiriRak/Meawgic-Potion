@@ -1,6 +1,6 @@
 package entity.base;
 
-public class Stone extends Ingredient{
+public class Stone extends Ingredient {
 	private int buyPrice;
 
 	public Stone(String name, int capacity) {
