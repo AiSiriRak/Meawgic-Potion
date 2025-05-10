@@ -168,7 +168,7 @@ public class InventoryPane extends StackPane {
 		}
 		refreshInventory();
 	}
-	
+
 	public void addIngredient(Ingredient ingredient) {
 		for (Ingredient i : ingredientCounter.getIngredientCounter()) {
 			if (i.getName().equals(ingredient.getName())) {
@@ -176,8 +176,8 @@ public class InventoryPane extends StackPane {
 				break;
 			}
 		}
-		refreshInventory();	
-		
+		refreshInventory();
+
 	}
 
 	public void refreshInventory() {

@@ -1,6 +1,5 @@
 package logic.game;
 
-
 import java.util.ArrayList;
 
 import Font.FontRect;
@@ -46,18 +45,18 @@ public class GameController {
 	public static WaterBar waterBar;
 
 	private static InventoryPane inventoryPane;
-	
+
 	private static IngredientCounter sharedIngredientCounter = new IngredientCounter();
 	private static PotionCounter sharedPotionCounter = new PotionCounter();
-	
+
 	private static ArrayList<ControlBrewing> controlBrewings = new ArrayList<>();
-    private static ControlBrewing currentControlBrewing;
-    
-    private static ArrayList<PlantPane> plantPanes = new ArrayList<>();
-    private static PlantPane currentPlantPane;
+	private static ControlBrewing currentControlBrewing;
+
+	private static ArrayList<PlantPane> plantPanes = new ArrayList<>();
+	private static PlantPane currentPlantPane;
 
 	public static ShopPane shopPane;
-	
+
 	public static Coin coin;
 
 	public static void setupScene() {
@@ -128,22 +127,19 @@ public class GameController {
 			inventoryButton.setOnAction(e -> inventoryPane.setVisible(!inventoryPane.isVisible()));
 			settingButton.setOnAction(e -> settingPane.setVisible(!settingPane.isVisible()));
 
-
-
 			for (ControlBrewing cb : controlBrewings) {
-                cb.setVisible(false);
-                layeredRoot.getChildren().add(cb);
-            }
-			
+				cb.setVisible(false);
+				layeredRoot.getChildren().add(cb);
+			}
+
 			for (PlantPane p : plantPanes) {
 				System.out.println(3);
-                p.setVisible(false);
-                layeredRoot.getChildren().add(p);
-            }
-            
+				p.setVisible(false);
+				layeredRoot.getChildren().add(p);
+			}
 
-			layeredRoot.getChildren().addAll(root, overlay, inventoryPane, settingPane, shopPane, warningPane, waterBar);
-
+			layeredRoot.getChildren().addAll(root, overlay, inventoryPane, settingPane, shopPane, warningPane,
+					waterBar);
 
 			Main.getPrimaryStage().setScene(scene);
 		} catch (Exception e) {
@@ -202,18 +198,18 @@ public class GameController {
 	public static void setSharedPotionCounter(PotionCounter sharedPotionCounter) {
 		GameController.sharedPotionCounter = sharedPotionCounter;
 	}
-	
+
 	public static void addControlBrewing(ControlBrewing controlBrewing) {
-        controlBrewings.add(controlBrewing);
-    }
+		controlBrewings.add(controlBrewing);
+	}
 
-    public static void setCurrentControlBrewing(ControlBrewing controlBrewing) {
-        currentControlBrewing = controlBrewing;
-    }
+	public static void setCurrentControlBrewing(ControlBrewing controlBrewing) {
+		currentControlBrewing = controlBrewing;
+	}
 
-    public static ControlBrewing getCurrentControlBrewing() {
-        return currentControlBrewing;
-    }
+	public static ControlBrewing getCurrentControlBrewing() {
+		return currentControlBrewing;
+	}
 
 	public static PlantPane getCurrentPlantPane() {
 		return currentPlantPane;
@@ -222,10 +218,10 @@ public class GameController {
 	public static void setCurrentPlantPane(PlantPane currentPlantPane) {
 		GameController.currentPlantPane = currentPlantPane;
 	}
-	
+
 	public static void addPlantPane(PlantPane plantPane) {
-        plantPanes.add(plantPane);
-    }
+		plantPanes.add(plantPane);
+	}
 
 	public static PlantPane getPlantPane() {
 		return plantPane;
