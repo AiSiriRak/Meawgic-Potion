@@ -2,6 +2,7 @@ package logic.object;
 
 import javafx.geometry.Rectangle2D;
 import javafx.scene.image.Image;
+import logic.components.OutsideMap;
 import logic.game.GameController;
 
 public class House extends GameObject implements Interactable {
@@ -27,7 +28,10 @@ public class House extends GameObject implements Interactable {
 
 	@Override
 	public boolean getCanInteracte() {
-		return true;
+		if (GameController.currentMap instanceof OutsideMap)
+			return true;
+		else
+			return false;
 	}
 
 }

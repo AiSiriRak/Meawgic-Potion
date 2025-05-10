@@ -36,7 +36,7 @@ public class GameController {
 
 	private static Map outsideMap;
 	private static Map insideMap;
-	private static Map currentMap;
+	public static Map currentMap;
 
 	private static ControlBrewing controlBrewing;
 	private static PlantPane plantPane;
