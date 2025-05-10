@@ -1,4 +1,4 @@
-package gui.pane;
+package gui;
 
 import java.util.ArrayList;
 
@@ -9,10 +9,8 @@ import entity.base.Ingredient;
 import entity.base.Item;
 import entity.base.Potion;
 import entity.base.Stone;
-import gui.button.ExitButtton;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -32,7 +30,7 @@ public class InventoryPane extends StackPane {
 		this.ingredientCounter = ingredientCounter;
 		this.potionCounter = potionCounter;
 		VBox content = createContentBox();
-		ExitButtton exitButton = createExitButton();
+		GameButton exitButton = createExitButton();
 
 		AnchorPane container = new AnchorPane();
 		container.setPrefSize(500, 400);
@@ -92,7 +90,7 @@ public class InventoryPane extends StackPane {
 					square.setAlignment(Pos.CENTER);
 
 					square.getChildren().add(imageView);
-					Text capacityText = new Text(String.valueOf(ingredient.getCapacity()));
+					Text capacityText = new Text(String.valueOf(ingredient.getAmount()));
 					capacityText.setFont(FontRect.REGULAR.getFont(14));
 					capacityText.setStyle("-fx-fill: white; -fx-font-size: 16;");
 
@@ -104,12 +102,12 @@ public class InventoryPane extends StackPane {
 					tooltip.setShowDelay(Duration.millis(300));
 					tooltip.setHideDelay(Duration.millis(100));
 					Tooltip.install(square, tooltip);
-					
+
 					square.setOnMouseClicked(e -> {
-					    if (ingredient instanceof Stone) {
-					        GameController.getInventoryPane().addIngredient((Stone) ingredient);
-					        GameController.coin.decreaseCoin(5);
-					    }
+						if (ingredient instanceof Stone) {
+							GameController.getInventoryPane().addIngredient((Stone) ingredient);
+							GameController.coin.decreaseCoin(5);
+						}
 					});
 
 				} else if (cellList == poallCells && index < potions.size()) {
@@ -120,7 +118,7 @@ public class InventoryPane extends StackPane {
 					square.setAlignment(Pos.CENTER);
 
 					square.getChildren().add(imageView);
-					Text capacityText = new Text(String.valueOf(potion.getCapacity()));
+					Text capacityText = new Text(String.valueOf(potion.getAmount()));
 					capacityText.setFont(FontRect.REGULAR.getFont(16));
 					capacityText.setStyle("-fx-fill: white; -fx-font-size: 16;");
 
@@ -133,7 +131,7 @@ public class InventoryPane extends StackPane {
 					tooltip.setHideDelay(Duration.millis(100));
 					Tooltip.install(square, tooltip);
 				}
-				
+
 			}
 		}
 
@@ -154,8 +152,8 @@ public class InventoryPane extends StackPane {
 		return new Background(bgImage);
 	}
 
-	private ExitButtton createExitButton() {
-		ExitButtton exitButton = new ExitButtton();
+	private GameButton createExitButton() {
+		GameButton exitButton = new GameButton("Exit");
 		exitButton.setOnMouseEntered(e -> {
 			exitButton.setScaleX(1.08);
 			exitButton.setScaleY(1.08);
@@ -172,7 +170,7 @@ public class InventoryPane extends StackPane {
 	public void addPotion(Potion potion) {
 		for (Potion p : potionCounter.getPotionCounter()) {
 			if (p.getName().equals(potion.getName())) {
-				p.setCapacity(p.getCapacity() + 1);
+				p.setAmount(p.getAmount() + 1);
 				break;
 			}
 		}
@@ -182,7 +180,7 @@ public class InventoryPane extends StackPane {
 	public void addIngredient(Ingredient ingredient) {
 		for (Ingredient i : ingredientCounter.getIngredientCounter()) {
 			if (i.getName().equals(ingredient.getName())) {
-				i.setCapacity(i.getCapacity() + 1);
+				i.setAmount(i.getAmount() + 1);
 				break;
 			}
 		}
@@ -226,7 +224,7 @@ public class InventoryPane extends StackPane {
 		square.setAlignment(Pos.CENTER);
 		square.getChildren().add(imageView);
 
-		Text capacityText = new Text(String.valueOf(item.getCapacity()));
+		Text capacityText = new Text(String.valueOf(item.getAmount()));
 		capacityText.setStyle("-fx-fill: white; -fx-font-size: 16;");
 		StackPane.setAlignment(capacityText, Pos.BOTTOM_RIGHT);
 		square.getChildren().add(capacityText);

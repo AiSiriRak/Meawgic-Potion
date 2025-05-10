@@ -1,8 +1,7 @@
-package gui.pane;
+package gui;
 
 import Font.FontRect;
 import application.StartPage;
-import gui.button.ExitButtton;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.image.Image;
@@ -21,7 +20,7 @@ public class SettingPane extends StackPane {
 		this.primaryStage = primaryStage;
 
 		VBox contentBox = createContentBox();
-		ExitButtton exitButton = createExitButton();
+		GameButton exitButton = createExitButton();
 		AnchorPane container = createContainer(contentBox, exitButton);
 
 		this.setAlignment(Pos.CENTER);
@@ -83,8 +82,8 @@ public class SettingPane extends StackPane {
 		return button;
 	}
 
-	private ExitButtton createExitButton() {
-		ExitButtton exitButton = new ExitButtton();
+	private GameButton createExitButton() {
+		GameButton exitButton = new GameButton("Exit");
 
 		exitButton.setOnMouseEntered(e -> {
 			exitButton.setScaleX(1.08);
@@ -99,7 +98,7 @@ public class SettingPane extends StackPane {
 		return exitButton;
 	}
 
-	private AnchorPane createContainer(VBox contentBox, ExitButtton exitButton) {
+	private AnchorPane createContainer(VBox contentBox, GameButton exitButton) {
 		AnchorPane container = new AnchorPane();
 		container.setPrefSize(500, 400);
 

@@ -1,14 +1,14 @@
-package gui.pane;
+package gui;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 import Font.FontRect;
-import entity.base.Basis;
+import entity.base.Crop;
 import entity.base.Item;
 import entity.base.Potion;
-import entity.data.BasisData;
+import entity.data.CropData;
 import entity.data.PotionData;
 import javafx.geometry.Pos;
 import javafx.scene.image.ImageView;
@@ -20,7 +20,7 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import logic.game.GameController;
 
-public class ShopSquare extends StackPane {
+public class QuestSquare extends StackPane {
 	private ImageView frame;
 	private ImageView coin;
 	private boolean isEnoughItem;
@@ -31,7 +31,7 @@ public class ShopSquare extends StackPane {
 	private String itemNameDisplay;
 	private int quantity;
 
-	public ShopSquare() {
+	public QuestSquare() {
 		this.frame = new ImageView(ClassLoader.getSystemResource("Images/Shop_Frame.png").toString());
 		this.coin = new ImageView(ClassLoader.getSystemResource("Images/Coin.png").toString());
 		this.coin.setScaleX(0.625);
@@ -78,14 +78,14 @@ public class ShopSquare extends StackPane {
 	    if (item instanceof Potion) {
 	        for (Potion p : GameController.getInventoryPane().getPotionCounter().getPotionCounter()) {
 	            if (p.getName().equals(item.getName())) {
-	                p.setCapacity(p.getCapacity() - quantity);
+	                p.setAmount(p.getAmount() - quantity);
 	                break;
 	            }
 	        }
 	    } else {
-	        for (Basis b : GameController.getInventoryPane().getIngredientCounter().getBasisCounter()) {
+	        for (Crop b : GameController.getInventoryPane().getIngredientCounter().getBasisCounter()) {
 	            if (b.getName().equals(item.getName())) {
-	                b.setCapacity(b.getCapacity() - quantity);
+	                b.setAmount(b.getAmount() - quantity);
 	                break;
 	            }
 	        }
@@ -101,9 +101,9 @@ public class ShopSquare extends StackPane {
 	private void setupNewGoods() {
 		this.item = getRandomItem();
 		this.sellPrice = (this.item instanceof Potion) ? ((Potion) this.item).getSellPrice()
-				: ((Basis) this.item).getSellPrice();
+				: ((Crop) this.item).getSellPrice();
 		this.itemNameDisplay = (this.item instanceof Potion) ? this.item.getName() + "\nPotion" : this.item.getName();
-		this.quantity = (int) (Math.random() * 5) + 1;
+		this.quantity = (int) (Math.random() * 3) + 1;
 
 		this.itemDisplay = new VBox(6);
 		this.itemDisplay.setAlignment(Pos.CENTER);
@@ -147,7 +147,7 @@ public class ShopSquare extends StackPane {
 			allItems.add(p.getItem());
 		}
 
-		for (BasisData b : BasisData.values()) {
+		for (CropData b : CropData.values()) {
 			allItems.add(b.getItem());
 		}
 
@@ -156,7 +156,7 @@ public class ShopSquare extends StackPane {
 	}
 
 	private void checkIsEnoughItem() {
-		if (this.item.getCapacity() >= this.quantity) {
+		if (this.item.getAmount() >= this.quantity) {
 			this.isEnoughItem = true;
 			setOpacity(1);
 		} else {

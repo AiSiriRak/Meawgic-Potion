@@ -55,7 +55,7 @@ public class PotionCounter {
     public void addPotion(Potion potion) {
         for (Potion p : potionCounter) {
             if (p.getName().equals(potion.getName())) {
-                p.setCapacity(p.getCapacity() + 1);
+                p.setAmount(p.getAmount() + 1);
                 return;
             }
         }

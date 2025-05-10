@@ -1,4 +1,4 @@
-package gui.pane;
+package gui;
 
 import java.util.ArrayList;
 
@@ -19,10 +19,6 @@ import javafx.util.Duration;
 import logic.game.GameController;
 
 public class BrewingPane extends VBox {
-	private static final int GRID_ROWS = 2;
-	private static final int GRID_COLS = 7;
-	private static final int SQUARE_SIZE = 48;
-	private static final int IMAGE_SIZE = 35;
 
 	private final ArrayList<InventorySquare> ingredientCells = new ArrayList<>();
 	private final ArrayList<InventorySquare> potionCells = new ArrayList<>();
@@ -111,7 +107,7 @@ public class BrewingPane extends VBox {
 		square.setAlignment(Pos.CENTER);
 		square.getChildren().add(imageView);
 
-		Text capacityText = new Text(String.valueOf(item.getCapacity()));
+		Text capacityText = new Text(String.valueOf(item.getAmount()));
 		capacityText.setFont(FontRect.REGULAR.getFont(16));
 		capacityText.setStyle("-fx-fill: white; -fx-font-size: 16;");
 		StackPane.setAlignment(capacityText, Pos.BOTTOM_RIGHT);
@@ -133,18 +129,18 @@ public class BrewingPane extends VBox {
 	}
 
 	private void handleIngredientClick(Ingredient ingredient, InventorySquare square) {
-		if (ingredient.getCapacity() <= 0)
+		if (ingredient.getAmount() <= 0)
 			return;
 
 		if (brewingStand.containsIngredient(ingredient)) {
 			brewingStand.removeIngredient(ingredient);
 		} else if (brewingStand.hasAvailableSlot()) {
 			brewingStand.addIngredient(ingredient);
-			ingredient.setCapacity(ingredient.getCapacity() - 1);
+			ingredient.setAmount(ingredient.getAmount() - 1);
 		}
 		refreshInventory();
 		GameController.getInventoryPane().refreshInventory();
-		updateCapacityDisplay(square, ingredient.getCapacity());
+		updateCapacityDisplay(square, ingredient.getAmount());
 	}
 
 	private void updateCapacityDisplay(InventorySquare square, int capacity) {
@@ -157,7 +153,7 @@ public class BrewingPane extends VBox {
 	}
 
 	public void returnIngredient(Ingredient ingredient) {
-		ingredient.setCapacity(ingredient.getCapacity() + 1);
+		ingredient.setAmount(ingredient.getAmount() + 1);
 		refreshInventory();
 	}
 

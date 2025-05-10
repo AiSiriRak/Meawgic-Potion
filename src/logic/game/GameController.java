@@ -6,13 +6,12 @@ import Font.FontRect;
 import Inventory.IngredientCounter;
 import Inventory.PotionCounter;
 import application.Main;
-import gui.button.InventoryButton;
-import gui.button.SettingButton;
-import gui.pane.ControlBrewing;
-import gui.pane.InventoryPane;
-import gui.pane.PlantPane;
-import gui.pane.SettingPane;
-import gui.pane.ShopPane;
+import gui.ControlBrewing;
+import gui.GameButton;
+import gui.InventoryPane;
+import gui.PlantPane;
+import gui.SettingPane;
+import gui.ShopPane;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -41,7 +40,7 @@ public class GameController {
 	private static InventoryPane inventoryPane;
 	private static ControlBrewing controlBrewing;
 	private static PlantPane plantPane;
-	
+
 	private static ArrayList<ControlBrewing> controlBrewings = new ArrayList<>();
 	private static ControlBrewing currentControlBrewing;
 
@@ -75,13 +74,13 @@ public class GameController {
 
 			root.getChildren().add(currentMap);
 
-			InventoryButton inventoryButton = new InventoryButton();
+			GameButton inventoryButton = new GameButton("Inventory", 64);
 			inventoryPane = new InventoryPane(sharedIngredientCounter, sharedPotionCounter);
-			SettingButton settingButton = new SettingButton();
+			GameButton settingButton = new GameButton("setting", 64);
 			SettingPane settingPane = new SettingPane(Main.getPrimaryStage());
 
 			shopPane = new ShopPane();
-			
+
 			coin = new Coin();
 
 			// Set WaterBar
@@ -94,7 +93,7 @@ public class GameController {
 			warningWaterPane.getChildren().addAll(warningBg, warning);
 			warningWaterPane.setTranslateX(300);
 			warningWaterPane.setVisible(false);
-			
+
 			warningCoinPane = new StackPane();
 			Rectangle warningBg2 = new Rectangle(300, 36);
 			warningBg2.setFill(Color.web("#FAF5DF"));
@@ -120,22 +119,6 @@ public class GameController {
 			overlay.getChildren().addAll(settingButton, inventoryButton);
 			StackPane.setAlignment(overlay, Pos.TOP_LEFT);
 
-			inventoryButton.setOnMouseEntered(e -> {
-				inventoryButton.setScaleX(1.08);
-				inventoryButton.setScaleY(1.08);
-			});
-			inventoryButton.setOnMouseExited(e -> {
-				inventoryButton.setScaleX(1);
-				inventoryButton.setScaleY(1);
-			});
-			settingButton.setOnMouseEntered(e -> {
-				settingButton.setScaleX(1.08);
-				settingButton.setScaleY(1.08);
-			});
-			settingButton.setOnMouseExited(e -> {
-				settingButton.setScaleX(1);
-				settingButton.setScaleY(1);
-			});
 			inventoryButton.setOnAction(e -> inventoryPane.setVisible(!inventoryPane.isVisible()));
 			settingButton.setOnAction(e -> settingPane.setVisible(!settingPane.isVisible()));
 
@@ -146,18 +129,19 @@ public class GameController {
 
 			for (PlantPane p : plantPanes) {
 				System.out.println(3);
-                p.setVisible(false);
-                layeredRoot.getChildren().add(p);
-            }
-			
+				p.setVisible(false);
+				layeredRoot.getChildren().add(p);
+			}
+
 			coinText = new Text();
-	        updateCoinDisplay();
-	        coinText.setFont(FontRect.BOLD.getFont(20));
-	        coinText.setFill(Color.WHITE);
-	        StackPane.setAlignment(coinText, Pos.TOP_RIGHT);
-	        StackPane.setMargin(coinText, new Insets(10, 20, 0, 0));
-            
-			layeredRoot.getChildren().addAll(root, overlay, inventoryPane, settingPane, shopPane, warningWaterPane, warningCoinPane, waterBar,coinText);
+			updateCoinDisplay();
+			coinText.setFont(FontRect.BOLD.getFont(20));
+			coinText.setFill(Color.WHITE);
+			StackPane.setAlignment(coinText, Pos.TOP_RIGHT);
+			StackPane.setMargin(coinText, new Insets(10, 20, 0, 0));
+
+			layeredRoot.getChildren().addAll(root, overlay, inventoryPane, settingPane, shopPane, warningWaterPane,
+					warningCoinPane, waterBar, coinText);
 
 			Main.getPrimaryStage().setScene(scene);
 		} catch (Exception e) {
@@ -188,20 +172,20 @@ public class GameController {
 		root.getChildren().clear();
 		root.getChildren().add(currentMap);
 	}
-	
+
 	public static void updateCoinDisplay() {
-	    if (coinText != null && coin != null) {
-	        coinText.setText("Coins : " + coin.getCoin());
-	    }
+		if (coinText != null && coin != null) {
+			coinText.setText("Coins : " + coin.getCoin());
+		}
 	}
-	
+
 	public static void addControlBrewing(ControlBrewing controlBrewing) {
-        controlBrewings.add(controlBrewing);
-    }
-	
+		controlBrewings.add(controlBrewing);
+	}
+
 	public static void addPlantPane(PlantPane plantPane) {
-        plantPanes.add(plantPane);
-    }
+		plantPanes.add(plantPane);
+	}
 
 	public static ControlBrewing getControlBrewing() {
 		return controlBrewing;

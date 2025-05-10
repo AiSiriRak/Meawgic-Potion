@@ -1,18 +1,16 @@
 package entity.base;
 
 import javafx.scene.image.ImageView;
-import logic.game.GameController;
 
 public abstract class Item {
 	private String name;
-	private int capacity;
+	private int amount;
 	private ImageView itemImage;
 
-	protected Item(String name, int capacity) {
+	protected Item(String name) {
 		this.name = name;
-		this.setCapacity(0);
+		this.setAmount(0);
 		this.itemImage = new ImageView(ClassLoader.getSystemResource("Images/" + name + ".png").toString());
-		this.itemImage.setSmooth(false);
 	}
 
 	public ImageView getItemImage() {
@@ -23,15 +21,12 @@ public abstract class Item {
 		this.itemImage = itemImage;
 	}
 
-	public int getCapacity() {
-		return capacity;
+	public int getAmount() {
+		return amount;
 	}
 
-	public void setCapacity(int capacity) {
-		if (capacity < 0)
-			this.capacity = 0;
-		else
-			this.capacity = capacity;
+	public void setAmount(int capacity) {
+		this.amount = Math.max(capacity, 0);
 	}
 
 	public String getName() {

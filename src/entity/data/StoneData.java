@@ -3,17 +3,17 @@ package entity.data;
 import entity.base.Stone;
 
 public enum StoneData {
-	REDSTONE("RedStone", 0),
-	GROWSTONE("GrowStone", 0);
+	REDSTONE("RedStone"),
+	GROWSTONE("GrowStone");
 
-	private final Stone item;
+	private final Stone stone;
 
-	StoneData(String name, int capacity) {
-		this.item = new Stone(name, capacity);
+	StoneData(String name) {
+		this.stone = new Stone(name);
 	}
 
 	public Stone getItem() {
-		return item;
+		return stone;
 	}
 
 }

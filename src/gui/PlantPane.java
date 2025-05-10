@@ -1,14 +1,10 @@
-package gui.pane;
+package gui;
 
 import java.util.ArrayList;
 
 import Font.FontRect;
 import Inventory.IngredientCounter;
-import Inventory.PotionCounter;
-import entity.base.Basis;
-import entity.base.Ingredient;
-import entity.base.Potion;
-import gui.button.ExitButtton;
+import entity.base.Crop;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Tooltip;
@@ -25,16 +21,16 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import logic.game.GameController;
-import logic.object.Crop;
+import logic.object.CropPlot;
 
 public class PlantPane extends StackPane {
 	private final ArrayList<InventorySquare> inallCells = new ArrayList<>();
-	private Crop associatedCrop;
+	private CropPlot associatedCrop;
 
-	public PlantPane(Crop associatedCrop) {
+	public PlantPane(CropPlot associatedCrop) {
 	    this.associatedCrop = associatedCrop;
 	    VBox content = createContentBox();
-	    ExitButtton exitButton = createExitButton();
+	    GameButton exitButton = createExitButton();
 
 	    StackPane.setAlignment(content, Pos.CENTER);
 	    exitButton.setTranslateX(180);
@@ -83,7 +79,7 @@ public class PlantPane extends StackPane {
 	    grid.setPickOnBounds(true);
 	    grid.setMouseTransparent(false);
 
-	    ArrayList<Basis> ingredients = new IngredientCounter().getBasisCounter();
+	    ArrayList<Crop> ingredients = new IngredientCounter().getBasisCounter();
 	    
 	    int index = 0;
 	    for (int row = 0; row < 3; row++) {
@@ -96,7 +92,7 @@ public class PlantPane extends StackPane {
 	            grid.add(square, col, row);
 
 	            if (index < ingredients.size()) {
-	                Basis ingredient = ingredients.get(index++);
+	                Crop ingredient = ingredients.get(index++);
 	                ImageView imageView = new ImageView(ingredient.getItemImage().getImage());
 	                imageView.setFitWidth(35);
 	                imageView.setFitHeight(35);
@@ -143,8 +139,8 @@ public class PlantPane extends StackPane {
 	    return grid;
 	}
 
-	private ExitButtton createExitButton() {
-		ExitButtton exitButton = new ExitButtton();
+	private GameButton createExitButton() {
+		GameButton exitButton = new GameButton("Exit");
 		exitButton.setOnMouseEntered(e -> {
 			exitButton.setScaleX(1.08);
 			exitButton.setScaleY(1.08);
@@ -165,7 +161,7 @@ public class PlantPane extends StackPane {
 		
 	}
 	
-	public Crop getAssociatedCrop() {
+	public CropPlot getAssociatedCrop() {
 	    return this.associatedCrop;
 	}
 }

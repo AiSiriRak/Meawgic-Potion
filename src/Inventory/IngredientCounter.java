@@ -5,11 +5,11 @@ import javafx.beans.property.SimpleIntegerProperty;
 
 import java.util.ArrayList;
 
-import entity.base.Basis;
+import entity.base.Crop;
 import entity.base.Ingredient;
 import entity.base.Item;
 
-import entity.data.BasisData;
+import entity.data.CropData;
 import entity.data.StoneData;
 
 public class IngredientCounter {
@@ -26,16 +26,16 @@ public class IngredientCounter {
 
 		this.ingredientCounter.add(StoneData.REDSTONE.getItem());
 		this.ingredientCounter.add(StoneData.GROWSTONE.getItem());
-		this.ingredientCounter.add(BasisData.NETHER_WART.getItem());
-		this.ingredientCounter.add(BasisData.WATERMELON.getItem());
-		this.ingredientCounter.add(BasisData.CARROT.getItem());
-		this.ingredientCounter.add(BasisData.SUGAR.getItem());
-		this.ingredientCounter.add(BasisData.RABBIT_FOOT.getItem());
-		this.ingredientCounter.add(BasisData.PUFFERFISH.getItem());
-		this.ingredientCounter.add(BasisData.SPIDER_EYE.getItem());
-		this.ingredientCounter.add(BasisData.MAGMA_CREAM.getItem());
-		this.ingredientCounter.add(BasisData.GHAST_TEAR.getItem());
-		this.ingredientCounter.add(BasisData.BLAZE_POWDER.getItem());
+		this.ingredientCounter.add(CropData.NETHER_WART.getItem());
+		this.ingredientCounter.add(CropData.WATERMELON.getItem());
+		this.ingredientCounter.add(CropData.CARROT.getItem());
+		this.ingredientCounter.add(CropData.SUGAR.getItem());
+		this.ingredientCounter.add(CropData.RABBIT_FOOT.getItem());
+		this.ingredientCounter.add(CropData.PUFFERFISH.getItem());
+		this.ingredientCounter.add(CropData.SPIDER_EYE.getItem());
+		this.ingredientCounter.add(CropData.MAGMA_CREAM.getItem());
+		this.ingredientCounter.add(CropData.GHAST_TEAR.getItem());
+		this.ingredientCounter.add(CropData.BLAZE_POWDER.getItem());
 	}
 
 	public ArrayList<Ingredient> getIngredientCounter() {
@@ -47,11 +47,11 @@ public class IngredientCounter {
 		this.ingredientCounter = ingredientCounter;
 	}
 	
-	public ArrayList<Basis> getBasisCounter() {
-		ArrayList<Basis> basis = new ArrayList<>();
+	public ArrayList<Crop> getBasisCounter() {
+		ArrayList<Crop> basis = new ArrayList<>();
 		for(Ingredient i : ingredientCounter) {
-			if (i instanceof Basis) {
-				basis.add((Basis) i);
+			if (i instanceof Crop) {
+				basis.add((Crop) i);
 			}
 		}
 		return basis;
