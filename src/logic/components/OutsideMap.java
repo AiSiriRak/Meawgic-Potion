@@ -20,65 +20,55 @@ public class OutsideMap extends Map {
 	}
 
 	public void setObject() {
-		GameObject crop1 = new Crop("Crop - 1", 768, 384);
-//		((Crop) crop1).setItem(BasisData.PUFFERFISH.getItem());
-//		((Crop) crop1).changeStage(3);
-		GameObject crop2 = new Crop("Crop - 2", 1088, 384);
-		GameObject crop3 = new Crop("Crop - 3", 768, 704);
-		GameObject crop4 = new Crop("Crop - 4", 1088, 704);
-		PlantPane plantPane1 = new PlantPane((Crop) crop1); 
-		PlantPane plantPane2 = new PlantPane((Crop) crop2);
-		PlantPane plantPane3 = new PlantPane((Crop) crop3); 
-		PlantPane plantPane4 = new PlantPane((Crop) crop4); 
-		gameObjectList.add(crop1);
-		gameObjectList.add(crop2);
-		gameObjectList.add(crop3);
-		gameObjectList.add(crop4);
-		((Crop) crop1).setPlantPane(plantPane1);
-		((Crop) crop2).setPlantPane(plantPane2);
-		((Crop) crop3).setPlantPane(plantPane3);
-		((Crop) crop4).setPlantPane(plantPane4);
-		GameController.addPlantPane(plantPane1);
-		GameController.addPlantPane(plantPane2);
-		GameController.addPlantPane(plantPane3);
-		GameController.addPlantPane(plantPane4);
+		setCrop("Crop - 1", 768, 384);
+		setCrop("Crop - 2", 1088, 384);
+		setCrop("Crop - 3", 768, 704);
+		setCrop("Crop - 4", 1088, 704);
 
-		GameObject house = new House("House", 448, 0);
+		House house = new House("House", 448, 0);
 		gameObjectList.add(house);
 
-		GameObject pond = new Pond("Pond", 128, 512);
+		Pond pond = new Pond("Pond", 128, 512);
 		gameObjectList.add(pond);
 
-		GameObject shop = new Shop("Shop", 256, 128);
+		Shop shop = new Shop("Shop", 256, 128);
 		gameObjectList.add(shop);
 
-		ArrayList<GameObject> tree = new ArrayList<>();
-		tree.add(new Tree("Tree", 668, 261));
+		ArrayList<Tree> tree = new ArrayList<>();
+		tree.add(new Tree("Tree", 15, 940));
 		tree.add(new Tree("Tree", 21, 59));
+		tree.add(new Tree("Tree", 24, 696));
 		tree.add(new Tree("Tree", 132, 251));
+		tree.add(new Tree("Tree", 144, 894));
+		tree.add(new Tree("Tree", 289, 940));
+		tree.add(new Tree("Tree", 327, 586));
 		tree.add(new Tree("Tree", 340, 115));
+		tree.add(new Tree("Tree", 381, 307));
 		tree.add(new Tree("Tree", 393, 5));
+		tree.add(new Tree("Tree", 422, 835));
+		tree.add(new Tree("Tree", 668, 261));
+		tree.add(new Tree("Tree", 668, 926));
 		tree.add(new Tree("Tree", 768, 36));
 		tree.add(new Tree("Tree", 857, 103));
 		tree.add(new Tree("Tree", 981, 19));
-		tree.add(new Tree("Tree", 1121, 115));
-		tree.add(new Tree("Tree", 381, 307));
-		tree.add(new Tree("Tree", 1264, 36));
-		tree.add(new Tree("Tree", 1388, 186));
-		tree.add(new Tree("Tree", 1374, 415));
-		tree.add(new Tree("Tree", 1423, 638));
-		tree.add(new Tree("Tree", 1374, 926));
-		tree.add(new Tree("Tree", 1202, 926));
 		tree.add(new Tree("Tree", 997, 896));
-		tree.add(new Tree("Tree", 668, 926));
-		tree.add(new Tree("Tree", 327, 586));
-		tree.add(new Tree("Tree", 422, 835));
-		tree.add(new Tree("Tree", 24, 696));
-		tree.add(new Tree("Tree", 15, 940));
-		tree.add(new Tree("Tree", 144, 894));
-		tree.add(new Tree("Tree", 289, 940));
+		tree.add(new Tree("Tree", 1121, 115));
+		tree.add(new Tree("Tree", 1202, 926));
+		tree.add(new Tree("Tree", 1264, 36));
+		tree.add(new Tree("Tree", 1374, 415));
+		tree.add(new Tree("Tree", 1374, 926));
+		tree.add(new Tree("Tree", 1388, 186));
+		tree.add(new Tree("Tree", 1423, 638));
 
 		gameObjectList.addAll(tree);
+	}
+
+	private void setCrop(String name, int x, int y) {
+		Crop crop = new Crop(name, x, y);
+		PlantPane plantPane = new PlantPane(crop);
+		gameObjectList.add(crop);
+		crop.setPlantPane(plantPane);
+		GameController.addPlantPane(plantPane);
 
 	}
 

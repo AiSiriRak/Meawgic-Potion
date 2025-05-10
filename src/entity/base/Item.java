@@ -1,6 +1,7 @@
 package entity.base;
 
 import javafx.scene.image.ImageView;
+import logic.game.GameController;
 
 public abstract class Item {
 	private String name;

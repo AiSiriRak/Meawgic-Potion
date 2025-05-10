@@ -19,6 +19,7 @@ public class Pot extends GameObject implements Interactable, DoAnimation, DoTime
 	protected Rectangle2D interactArea;
 	private Potion potion;
 	private int currentStage;
+
 	final private int fps = 6;
 	private Animation potAnimation;
 
@@ -43,18 +44,19 @@ public class Pot extends GameObject implements Interactable, DoAnimation, DoTime
 		System.out.println("Interact with " + this.name);
 
 		switch (this.currentStage) {
+		// Empty Pot
 		case 0:
 			if (controlBrewing != null) {
 				controlBrewing.show();
 				GameController.setCurrentControlBrewing(controlBrewing);
 			}
 			break;
+		// Already Done Pot
 		case 2:
 			if (potion != null) {
 				GameController.getInventoryPane().addPotion(potion);
 				this.potion = null;
 				this.changeStage(0);
-				System.out.println("Gained 1 Potion!!");
 			}
 			break;
 		}

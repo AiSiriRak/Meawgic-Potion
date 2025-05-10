@@ -73,9 +73,7 @@ public class ShopSquare extends StackPane {
 	}
 
 	private void sell() {
-		System.out.println(this.item.getCapacity() + "");
 		this.item.setCapacity(this.item.getCapacity() - this.quantity);
-		System.out.println(this.item.getCapacity() + "");
 		GameController.getInventoryPane().refreshInventory();
 		setupNewGoods();
 	}
