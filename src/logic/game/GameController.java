@@ -1,6 +1,5 @@
 package logic.game;
 
-
 import java.util.ArrayList;
 
 import Font.FontRect;
@@ -37,34 +36,32 @@ public class GameController {
 
 	private static Map outsideMap;
 	private static Map insideMap;
-	private static Map currentMap;
+	public static Map currentMap;
 
+	private static InventoryPane inventoryPane;
 	private static ControlBrewing controlBrewing;
 	private static PlantPane plantPane;
+	
+	private static ArrayList<ControlBrewing> controlBrewings = new ArrayList<>();
+	private static ControlBrewing currentControlBrewing;
+
+	private static ArrayList<PlantPane> plantPanes = new ArrayList<>();
+	private static PlantPane currentPlantPane;
 
 	public static StackPane warningWaterPane;
 	public static WaterBar waterBar;
 
-	private static InventoryPane inventoryPane;
-	
 	private static IngredientCounter sharedIngredientCounter = new IngredientCounter();
 	private static PotionCounter sharedPotionCounter = new PotionCounter();
-	
-	private static ArrayList<ControlBrewing> controlBrewings = new ArrayList<>();
-    private static ControlBrewing currentControlBrewing;
-    
-    private static ArrayList<PlantPane> plantPanes = new ArrayList<>();
-    private static PlantPane currentPlantPane;
 
 	public static ShopPane shopPane;
-	
+
 	public static Coin coin;
 	private static Text coinText;
 	public static StackPane warningCoinPane;
 
 	public static void setupScene() {
 		try {
-			coin = new Coin();
 			StackPane layeredRoot = new StackPane();
 			scene = new Scene(layeredRoot, SCREEN_WIDTH, SCREEN_HEIGHT, Color.BLACK);
 
@@ -84,6 +81,8 @@ public class GameController {
 			SettingPane settingPane = new SettingPane(Main.getPrimaryStage());
 
 			shopPane = new ShopPane();
+			
+			coin = new Coin();
 
 			// Set WaterBar
 			warningWaterPane = new StackPane();
@@ -97,13 +96,13 @@ public class GameController {
 			warningWaterPane.setVisible(false);
 			
 			warningCoinPane = new StackPane();
-			Rectangle warningBg2 = new Rectangle(160, 36);
+			Rectangle warningBg2 = new Rectangle(300, 36);
 			warningBg2.setFill(Color.web("#FAF5DF"));
-			Text warning2 = new Text("Not Enough Money");
+			Text warning2 = new Text("Not Enough Money!!!");
 			warning2.setFont(FontRect.BOLD.getFont(24));
 			warning2.setFill(Color.web("#34022A"));
 			warningCoinPane.getChildren().addAll(warningBg2, warning2);
-			warningCoinPane.setAlignment(Pos.CENTER);
+			warningCoinPane.setTranslateY(150);
 			warningCoinPane.setVisible(false);
 
 			waterBar = new WaterBar();
@@ -140,13 +139,11 @@ public class GameController {
 			inventoryButton.setOnAction(e -> inventoryPane.setVisible(!inventoryPane.isVisible()));
 			settingButton.setOnAction(e -> settingPane.setVisible(!settingPane.isVisible()));
 
-
-
 			for (ControlBrewing cb : controlBrewings) {
-                cb.setVisible(false);
-                layeredRoot.getChildren().add(cb);
-            }
-			
+				cb.setVisible(false);
+				layeredRoot.getChildren().add(cb);
+			}
+
 			for (PlantPane p : plantPanes) {
 				System.out.println(3);
                 p.setVisible(false);
@@ -161,7 +158,6 @@ public class GameController {
 	        StackPane.setMargin(coinText, new Insets(10, 20, 0, 0));
             
 			layeredRoot.getChildren().addAll(root, overlay, inventoryPane, settingPane, shopPane, warningWaterPane, warningCoinPane, waterBar,coinText);
-
 
 			Main.getPrimaryStage().setScene(scene);
 		} catch (Exception e) {
@@ -235,13 +231,13 @@ public class GameController {
 		GameController.sharedPotionCounter = sharedPotionCounter;
 	}
 
-    public static void setCurrentControlBrewing(ControlBrewing controlBrewing) {
-        currentControlBrewing = controlBrewing;
-    }
+	public static void setCurrentControlBrewing(ControlBrewing controlBrewing) {
+		currentControlBrewing = controlBrewing;
+	}
 
-    public static ControlBrewing getCurrentControlBrewing() {
-        return currentControlBrewing;
-    }
+	public static ControlBrewing getCurrentControlBrewing() {
+		return currentControlBrewing;
+	}
 
 	public static PlantPane getCurrentPlantPane() {
 		return currentPlantPane;

@@ -1,6 +1,7 @@
 package entity.base;
 
 import javafx.scene.image.ImageView;
+import logic.game.GameController;
 
 public abstract class Item {
 	private String name;
@@ -9,7 +10,7 @@ public abstract class Item {
 
 	protected Item(String name, int capacity) {
 		this.name = name;
-		this.setCapacity(capacity);
+		this.setCapacity(0);
 		this.itemImage = new ImageView(ClassLoader.getSystemResource("Images/" + name + ".png").toString());
 		this.itemImage.setSmooth(false);
 	}

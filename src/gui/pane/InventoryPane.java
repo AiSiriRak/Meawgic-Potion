@@ -8,6 +8,7 @@ import Inventory.PotionCounter;
 import entity.base.Ingredient;
 import entity.base.Item;
 import entity.base.Potion;
+import entity.base.Stone;
 import gui.button.ExitButtton;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -18,6 +19,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
+import logic.game.GameController;
 
 public class InventoryPane extends StackPane {
 	private final ArrayList<InventorySquare> poallCells = new ArrayList<>();
@@ -102,6 +104,13 @@ public class InventoryPane extends StackPane {
 					tooltip.setShowDelay(Duration.millis(300));
 					tooltip.setHideDelay(Duration.millis(100));
 					Tooltip.install(square, tooltip);
+					
+					square.setOnMouseClicked(e -> {
+					    if (ingredient instanceof Stone) {
+					        GameController.getInventoryPane().addIngredient((Stone) ingredient);
+					        GameController.coin.decreaseCoin(5);
+					    }
+					});
 
 				} else if (cellList == poallCells && index < potions.size()) {
 					Potion potion = potions.get(index++);
@@ -124,6 +133,7 @@ public class InventoryPane extends StackPane {
 					tooltip.setHideDelay(Duration.millis(100));
 					Tooltip.install(square, tooltip);
 				}
+				
 			}
 		}
 
@@ -168,7 +178,7 @@ public class InventoryPane extends StackPane {
 		}
 		refreshInventory();
 	}
-	
+
 	public void addIngredient(Ingredient ingredient) {
 		for (Ingredient i : ingredientCounter.getIngredientCounter()) {
 			if (i.getName().equals(ingredient.getName())) {
@@ -176,8 +186,8 @@ public class InventoryPane extends StackPane {
 				break;
 			}
 		}
-		refreshInventory();	
-		
+		refreshInventory();
+
 	}
 
 	public void refreshInventory() {
@@ -235,6 +245,10 @@ public class InventoryPane extends StackPane {
 	public PotionCounter getPotionCounter() {
 		return potionCounter;
 
+	}
+
+	public IngredientCounter getIngredientCounter() {
+		return ingredientCounter;
 	}
 
 }

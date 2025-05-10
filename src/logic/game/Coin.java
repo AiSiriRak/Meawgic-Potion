@@ -1,18 +1,15 @@
 package logic.game;
 
 public class Coin {
+
     private int coin;
     private boolean isEnoughCoin;
     private boolean isWarning;
 
     public Coin() {
-        this.setCoin(100);
+        this.coin = 100;
         this.isWarning = false;
         this.isEnoughCoin = true;
-    }
-    
-    public boolean canAfford(int price) {
-        return coin >= price;
     }
 
     public void increaseCoin(int amount) {
@@ -20,8 +17,8 @@ public class Coin {
         GameController.updateCoinDisplay();
     }
 
-    public boolean tryPurchase(int price) {
-        if (canAfford(price)) {
+    public boolean decreaseCoin(int price) {
+        if (coin >= price) {
             coin -= price;
             GameController.updateCoinDisplay();
             return true;
@@ -29,13 +26,14 @@ public class Coin {
         else {
 			System.out.println("Not Enough Money");
 			this.isEnoughCoin = false;
-
 			this.isWarning = true;
 			Thread warningCountdown = new Thread(() -> {
 				while (this.isWarning) {
 					try {
+						System.out.println(1);
 						GameController.warningCoinPane.setVisible(true);
 						Thread.sleep(1000);
+						System.out.println(2);
 						GameController.warningCoinPane.setVisible(false);
 						this.isWarning = false;
 					} catch (InterruptedException e) {
@@ -48,18 +46,9 @@ public class Coin {
         return false;
     }
 
-    public int getCoin() {
-        return coin;
-    }
-
-    public void setCoin(int coin) {
-        this.coin = coin;
-    }
-    
-    @Override
-    public String toString() {
-    	return String.valueOf(coin);
-    }
+	public int getCoin() {
+		return coin;
+	}
 
 	public boolean isEnoughCoin() {
 		return isEnoughCoin;
@@ -76,5 +65,10 @@ public class Coin {
 	public void setWarning(boolean isWarning) {
 		this.isWarning = isWarning;
 	}
+	
+    @Override
+    public String toString() {
+    	return String.valueOf(coin);
+    }
 
 }

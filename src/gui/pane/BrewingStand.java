@@ -5,11 +5,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Optional;
 import java.util.Set;
 
 import entity.base.Ingredient;
 import entity.base.Potion;
 import entity.data.PotionData;
+import entity.data.PotionRecipeData;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.image.Image;
@@ -107,10 +109,10 @@ public class BrewingStand extends VBox {
 		slot.getChildren().add(view);
 
 		ingredientsInSlots.add(ingredient);
-		System.out.println("Ingredient added to BrewingStand: " + ingredient.getClass().getSimpleName()); // Added print
+		System.out.println("Ingredient added to BrewingStand: " + ingredient.getClass().getSimpleName());
 		rebuildSlotClickHandlers();
 
-		tryDisplayCraftedPotion();
+		displayCraftedPotion();
 	}
 
 	public void removeIngredient(Ingredient ingredient) {
@@ -123,7 +125,7 @@ public class BrewingStand extends VBox {
 
 		ingredient.setCapacity(ingredient.getCapacity() + 1);
 
-		shiftIngredientsLeft();
+		shiftIngredients();
 
 		if (brewingPane != null) {
 			brewingPane.refreshInventory();
@@ -132,10 +134,10 @@ public class BrewingStand extends VBox {
 		rebuildSlotClickHandlers();
 		outputSlot.getChildren().clear();
 		craftedPotion = null;
-		tryDisplayCraftedPotion();
+		displayCraftedPotion();
 	}
 
-	private void shiftIngredientsLeft() {
+	private void shiftIngredients() {
 		for (InventorySquare slot : slots) {
 			slot.getChildren().clear();
 		}
@@ -159,18 +161,6 @@ public class BrewingStand extends VBox {
 		}
 	}
 
-	public class PotionRecipeBook {
-		public static final Map<Set<String>, PotionData> RECIPES = Map.of(Set.of("NetherWart", "Carrot", "RedStone"),
-				PotionData.NIGHT_VISION, Set.of("NetherWart", "MagmaCream", "RedStone"), PotionData.FIRE_RESISTANCE,
-				Set.of("NetherWart", "RabbitFoot", "GrowStone"), PotionData.LEAPING,
-				Set.of("NetherWart", "Sugar", "RedStone"), PotionData.SWIFTNESS,
-				Set.of("NetherWart", "Pufferfish", "RedStone"), PotionData.WATER_BREATHING,
-				Set.of("NetherWart", "Watermelon", "GrowStone"), PotionData.HEALING,
-				Set.of("NetherWart", "SpiderEye", "GrowStone"), PotionData.POISON,
-				Set.of("NetherWart", "GhastTear", "RedStone"), PotionData.REGENERATION,
-				Set.of("NetherWart", "BlazePowder", "GrowStone"), PotionData.STRENGTH);
-	}
-
 	public boolean craftable() {
 		if (ingredientsInSlots.size() != 3)
 			return false;
@@ -180,13 +170,9 @@ public class BrewingStand extends VBox {
 			currentIngredients.add(ing.getName());
 		}
 
-		for (Map.Entry<Set<String>, PotionData> entry : PotionRecipeBook.RECIPES.entrySet()) {
-			if (entry.getKey().equals(currentIngredients)) {
-				return true;
-			}
-		}
-		return false;
+		return PotionRecipeData.getPotionByIngredients(currentIngredients).isPresent();
 	}
+
 
 	public void craftPotion() {
 		if (!craftable())
@@ -197,17 +183,16 @@ public class BrewingStand extends VBox {
 			currentIngredients.add(ing.getName());
 		}
 
-		for (Map.Entry<Set<String>, PotionData> entry : PotionRecipeBook.RECIPES.entrySet()) {
-			if (entry.getKey().equals(currentIngredients)) {
-				Potion matchedPotion = entry.getValue().getItem();
-				completeCrafting(matchedPotion);
-				associatedPot.startTiming(matchedPotion.getDuration());
-				break;
-			}
+		Optional<PotionData> potionDataOpt = PotionRecipeData.getPotionByIngredients(currentIngredients);
+		if (potionDataOpt.isPresent()) {
+			Potion matchedPotion = potionDataOpt.get().getItem();
+			completeCrafting(matchedPotion);
+			associatedPot.startTiming(matchedPotion.getDuration());
 		}
 	}
 
-	private void tryDisplayCraftedPotion() {
+
+	private void displayCraftedPotion() {
 		if (craftedPotion != null || outputSlot == null || ingredientsInSlots.size() != 3)
 			return;
 
@@ -216,20 +201,16 @@ public class BrewingStand extends VBox {
 			currentIngredients.add(ing.getName());
 		}
 
-		for (Map.Entry<Set<String>, PotionData> entry : PotionRecipeBook.RECIPES.entrySet()) {
-			if (entry.getKey().equals(currentIngredients)) {
-				Potion matchedPotion = entry.getValue().getItem();
+		Optional<PotionData> potionDataOpt = PotionRecipeData.getPotionByIngredients(currentIngredients);
+		if (potionDataOpt.isPresent()) {
+			Potion matchedPotion = potionDataOpt.get().getItem();
+			outputSlot.getChildren().clear();
+			ImageView potionView = new ImageView(matchedPotion.getItemImage().getImage());
+			potionView.setFitWidth(35);
+			potionView.setFitHeight(35);
+			outputSlot.getChildren().add(potionView);
 
-				// Display it but don't complete crafting yet
-				outputSlot.getChildren().clear();
-				ImageView potionView = new ImageView(matchedPotion.getItemImage().getImage());
-				potionView.setFitWidth(35);
-				potionView.setFitHeight(35);
-				outputSlot.getChildren().add(potionView);
-
-				craftedPotion = matchedPotion;
-				break;
-			}
+			craftedPotion = matchedPotion;
 		}
 	}
 

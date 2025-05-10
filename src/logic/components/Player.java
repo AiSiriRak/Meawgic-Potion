@@ -16,7 +16,7 @@ public class Player implements Collidable, Renderable, DoAnimation {
 	private Animation walkUpAnimation;
 	private Animation walkLeftAnimation;
 	private Animation walkRightAnimation;
-	final private int fps = 6;
+	final private int FPS = 9;
 	private String direction;
 
 	private Rectangle2D hitbox;
@@ -43,25 +43,25 @@ public class Player implements Collidable, Renderable, DoAnimation {
 				new Image(ClassLoader.getSystemResource("Images/walk_down_1.png").toString()),
 				new Image(ClassLoader.getSystemResource("Images/walk_down_2.png").toString()),
 				new Image(ClassLoader.getSystemResource("Images/walk_down_3.png").toString()) };
-		walkDownAnimation = new Animation(walkDownFrames, fps);
+		walkDownAnimation = new Animation(walkDownFrames, FPS);
 
 		Image[] walkUpFrames = new Image[] {
 				new Image(ClassLoader.getSystemResource("Images/walk_up_1.png").toString()),
 				new Image(ClassLoader.getSystemResource("Images/walk_up_2.png").toString()),
 				new Image(ClassLoader.getSystemResource("Images/walk_up_3.png").toString()) };
-		walkUpAnimation = new Animation(walkUpFrames, fps);
+		walkUpAnimation = new Animation(walkUpFrames, FPS);
 
 		Image[] walkLeftFrames = new Image[] {
 				new Image(ClassLoader.getSystemResource("Images/walk_left_1.png").toString()),
 				new Image(ClassLoader.getSystemResource("Images/walk_left_2.png").toString()),
 				new Image(ClassLoader.getSystemResource("Images/walk_left_3.png").toString()) };
-		walkLeftAnimation = new Animation(walkLeftFrames, fps);
+		walkLeftAnimation = new Animation(walkLeftFrames, FPS);
 
 		Image[] walkRightFrames = new Image[] {
 				new Image(ClassLoader.getSystemResource("Images/walk_right_1.png").toString()),
 				new Image(ClassLoader.getSystemResource("Images/walk_right_2.png").toString()),
 				new Image(ClassLoader.getSystemResource("Images/walk_right_3.png").toString()) };
-		walkRightAnimation = new Animation(walkRightFrames, fps);
+		walkRightAnimation = new Animation(walkRightFrames, FPS);
 	}
 
 	public void updateAnimation() {

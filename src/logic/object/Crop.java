@@ -22,7 +22,7 @@ public class Crop extends GameObject implements Interactable, DoTimer {
 	private boolean isWatered;
 	private boolean isTiming;
 	private int currentTime;
-	
+
 	private PlantPane plantPane;
 
 	public Crop(String name, double x, double y) {
@@ -106,15 +106,15 @@ public class Crop extends GameObject implements Interactable, DoTimer {
        	img = new Image(ClassLoader.getSystemResource("Images/Crop_0.png").toString());
 			break;
 		case 1:
-	       	 if (plantPane != null) {
-	             plantPane.show();
-	             GameController.setCurrentPlantPane(plantPane);
-	             if (isWatered) {
-	 				img = new Image(ClassLoader.getSystemResource("Images/Crop_1.png").toString());
-	 			} else {
-	 				img = new Image(ClassLoader.getSystemResource("Images/Crop_1_Dry.png").toString());
-	 			}
-	         }
+			if (plantPane != null) {
+				plantPane.show();
+				GameController.setCurrentPlantPane(plantPane);
+				if (isWatered) {
+					img = new Image(ClassLoader.getSystemResource("Images/Crop_1.png").toString());
+				} else {
+					img = new Image(ClassLoader.getSystemResource("Images/Crop_1_Dry.png").toString());
+				}
+			}
 			break;
 		case 2:
 			img = new Image(ClassLoader.getSystemResource("Images/Crop_2.png").toString());
@@ -196,8 +196,8 @@ public class Crop extends GameObject implements Interactable, DoTimer {
 	public boolean isTiming() {
 		return this.isTiming;
 	}
-	
+
 	public void setPlantPane(PlantPane planePane) {
-        this.plantPane = planePane;
-    }
+		this.plantPane = planePane;
+	}
 }

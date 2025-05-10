@@ -19,12 +19,13 @@ public class Pot extends GameObject implements Interactable, DoAnimation, DoTime
 	protected Rectangle2D interactArea;
 	private Potion potion;
 	private int currentStage;
+
 	final private int fps = 6;
 	private Animation potAnimation;
 
 	private boolean isTiming;
 	private int currentTime;
-	
+
 	private ControlBrewing controlBrewing;
 
 	public Pot(String name, double x, double y) {
@@ -38,29 +39,28 @@ public class Pot extends GameObject implements Interactable, DoAnimation, DoTime
 		setAnimation();
 	}
 
-    @Override
-    public void interact() {
-        System.out.println("Interact with " + this.name);
+	@Override
+	public void interact() {
+		System.out.println("Interact with " + this.name);
 
-        switch (this.currentStage) {
-            case 0:
-            	 if (controlBrewing != null) {
-                     controlBrewing.show();
-                     GameController.setCurrentControlBrewing(controlBrewing);
-                 }
-                break;
-            case 2:
-                if (potion != null) {
-                    GameController.getInventoryPane().addPotion(potion);
-                    this.potion = null;
-                    this.changeStage(0);
-                    System.out.println("Gained 1 Potion!!");
-                }
-                break;
-        }
-    }
-	
-	
+		switch (this.currentStage) {
+		// Empty Pot
+		case 0:
+			if (controlBrewing != null) {
+				controlBrewing.show();
+				GameController.setCurrentControlBrewing(controlBrewing);
+			}
+			break;
+		// Already Done Pot
+		case 2:
+			if (potion != null) {
+				GameController.getInventoryPane().addPotion(potion);
+				this.potion = null;
+				this.changeStage(0);
+			}
+			break;
+		}
+	}
 
 	@Override
 	public Rectangle2D getInteractArea() {
@@ -196,10 +196,10 @@ public class Pot extends GameObject implements Interactable, DoAnimation, DoTime
 	}
 
 	public void setControlBrewing(ControlBrewing controlBrewing) {
-        this.controlBrewing = controlBrewing;
-    }
-	
-    public void setPotion(Potion potion) {
-        this.potion = potion;
-    }
+		this.controlBrewing = controlBrewing;
+	}
+
+	public void setPotion(Potion potion) {
+		this.potion = potion;
+	}
 }

@@ -1,7 +1,5 @@
 package gui.pane;
 
-import java.util.ArrayList;
-
 import Font.FontRect;
 import gui.button.ExitButtton;
 import javafx.geometry.Pos;
@@ -10,7 +8,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
-import logic.game.GameController;
 
 public class ShopPane extends StackPane {
 

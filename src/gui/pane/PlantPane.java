@@ -107,7 +107,7 @@ public class PlantPane extends StackPane {
 	                priceText.setFont(FontRect.REGULAR.getFont(14));
 	                priceText.setStyle("-fx-fill: white;");
 	                
-	                ImageView coinView = new ImageView(ClassLoader.getSystemResource("Images/Brewing_frame.png").toString());
+	                ImageView coinView = new ImageView(ClassLoader.getSystemResource("Images/coin.png").toString());
 	                coinView.setFitWidth(14);
 	                coinView.setPreserveRatio(true);
 	                coinView.setMouseTransparent(true);
@@ -127,7 +127,7 @@ public class PlantPane extends StackPane {
 
 	                square.setOnMouseClicked(e -> {
 	                    System.out.println("Attempting to purchase: " + ingredient.getName());
-	                    if (GameController.coin.tryPurchase(ingredient.getBuyPrice())) {
+	                    if (GameController.coin.decreaseCoin(ingredient.getBuyPrice())) {
 	                        System.out.println("Purchase successful!");
 	                        associatedCrop.setItem(ingredient);
 	                        associatedCrop.changeStage(1);
