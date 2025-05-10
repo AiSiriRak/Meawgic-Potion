@@ -15,4 +15,15 @@ public class GameButton extends Button {
 		setText("");
 		setStyle("-fx-background-color: transparent; -fx-padding: 0; -fx-border-color: transparent;");
 	}
+	
+	public GameButton(String text,int size) {
+		super(text);
+		ImageView imageView = new ImageView(ClassLoader.getSystemResource("Images/" + text + "_btn.png").toString());
+		imageView.setFitWidth(size);
+		imageView.setPreserveRatio(true);
+		imageView.setSmooth(true);
+		setGraphic(imageView);
+		setText("");
+		setStyle("-fx-background-color: transparent; -fx-padding: 0; -fx-border-color: transparent;");
+	}
 }

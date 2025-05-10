@@ -1,5 +1,6 @@
 package application;
 
+import gui.pane.PlantPane;
 //<<<<<<< HEAD
 //import entity.ingredient.NetherWart;
 //import gui.button.ExitButtton;
@@ -12,10 +13,14 @@ package application;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import logic.game.GameController;
+import logic.object.Crop;
 
 public class Main extends Application {
 	private static Stage primaryStage;
@@ -48,6 +53,11 @@ public class Main extends Application {
 //		root.setSpacing(10);
 //		root.setPrefSize(960, 600);
 //		root.setAlignment(Pos.CENTER);
+//		
+//		Crop c = new Crop("", 0, 0);
+//		PlantPane p = new PlantPane(c);
+//		root.getChildren().add(p);
+		
 //		
 //		ControlBrewing b = new ControlBrewing();
 //		root.getChildren().add(b);

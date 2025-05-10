@@ -2,6 +2,8 @@ package logic.object;
 
 import entity.base.Basis;
 import entity.data.*;
+import gui.pane.ControlBrewing;
+import gui.pane.PlantPane;
 import javafx.application.Platform;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.SnapshotParameters;
@@ -20,6 +22,8 @@ public class Crop extends GameObject implements Interactable, DoTimer {
 	private boolean isWatered;
 	private boolean isTiming;
 	private int currentTime;
+	
+	private PlantPane plantPane;
 
 	public Crop(String name, double x, double y) {
 		super(name, x, y, new Rectangle2D(x + 0, y + 10, 192, 182));
@@ -45,7 +49,6 @@ public class Crop extends GameObject implements Interactable, DoTimer {
 
 		case 0:
 			this.item = BasisData.CARROT.getItem();
-			this.changeStage(1);
 
 //			System.out.println("Planted!!");
 			break;
@@ -65,6 +68,7 @@ public class Crop extends GameObject implements Interactable, DoTimer {
 			break;
 
 		case 3:
+			GameController.getInventoryPane().addIngredient(item);
 			this.item = null;
 			isWatered = false;
 			this.changeStage(0);
@@ -93,14 +97,18 @@ public class Crop extends GameObject implements Interactable, DoTimer {
 		Image img = null;
 		switch (this.currentStage) {
 		case 0:
-			img = new Image(ClassLoader.getSystemResource("Images/Crop_0.png").toString());
+       	img = new Image(ClassLoader.getSystemResource("Images/Crop_0.png").toString());
 			break;
 		case 1:
-			if (isWatered) {
-				img = new Image(ClassLoader.getSystemResource("Images/Crop_1.png").toString());
-			} else {
-				img = new Image(ClassLoader.getSystemResource("Images/Crop_1_Dry.png").toString());
-			}
+	       	 if (plantPane != null) {
+	             if (isWatered) {
+	 				img = new Image(ClassLoader.getSystemResource("Images/Crop_1.png").toString());
+	 			} else {
+	 				img = new Image(ClassLoader.getSystemResource("Images/Crop_1_Dry.png").toString());
+		             plantPane.show();
+		             GameController.setCurrentPlantPane(plantPane);
+	 			}
+	         }
 			break;
 		case 2:
 			img = new Image(ClassLoader.getSystemResource("Images/Crop_2.png").toString());
@@ -182,5 +190,8 @@ public class Crop extends GameObject implements Interactable, DoTimer {
 	public boolean isTiming() {
 		return this.isTiming;
 	}
-
+	
+	public void setPlantPane(PlantPane planePane) {
+        this.plantPane = planePane;
+    }
 }

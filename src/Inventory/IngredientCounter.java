@@ -5,6 +5,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 
 import java.util.ArrayList;
 
+import entity.base.Basis;
 import entity.base.Ingredient;
 import entity.base.Item;
 
@@ -37,13 +38,23 @@ public class IngredientCounter {
 		this.ingredientCounter.add(BasisData.BLAZE_POWDER.getItem());
 	}
 
-	// Ingredient list accessors
 	public ArrayList<Ingredient> getIngredientCounter() {
 		return ingredientCounter;
 	}
+	
 
 	public void setIngredientCounter(ArrayList<Ingredient> ingredientCounter) {
 		this.ingredientCounter = ingredientCounter;
+	}
+	
+	public ArrayList<Basis> getBasisCounter() {
+		ArrayList<Basis> basis = new ArrayList<>();
+		for(Ingredient i : ingredientCounter) {
+			if (i instanceof Basis) {
+				basis.add((Basis) i);
+			}
+		}
+		return basis;
 	}
 
 	// Item accessors

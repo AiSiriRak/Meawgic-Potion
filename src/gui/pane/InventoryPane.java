@@ -168,6 +168,17 @@ public class InventoryPane extends StackPane {
 		}
 		refreshInventory();
 	}
+	
+	public void addIngredient(Ingredient ingredient) {
+		for (Ingredient i : ingredientCounter.getIngredientCounter()) {
+			if (i.getName().equals(ingredient.getName())) {
+				i.setCapacity(i.getCapacity() + 1);
+				break;
+			}
+		}
+		refreshInventory();	
+		
+	}
 
 	public void refreshInventory() {
 		for (InventorySquare square : inallCells) {

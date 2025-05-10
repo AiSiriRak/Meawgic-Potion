@@ -3,8 +3,10 @@ package logic.components;
 import java.util.ArrayList;
 
 import entity.data.*;
+import gui.pane.PlantPane;
 import javafx.geometry.Rectangle2D;
 import logic.object.Crop;
+import logic.game.GameController;
 import logic.object.*;
 
 public class OutsideMap extends Map {
@@ -19,15 +21,27 @@ public class OutsideMap extends Map {
 
 	public void setObject() {
 		GameObject crop1 = new Crop("Crop - 1", 768, 384);
-		((Crop) crop1).setItem(BasisData.PUFFERFISH.getItem());
-		((Crop) crop1).changeStage(3);
+//		((Crop) crop1).setItem(BasisData.PUFFERFISH.getItem());
+//		((Crop) crop1).changeStage(3);
 		GameObject crop2 = new Crop("Crop - 2", 1088, 384);
 		GameObject crop3 = new Crop("Crop - 3", 768, 704);
 		GameObject crop4 = new Crop("Crop - 4", 1088, 704);
+		PlantPane plantPane1 = new PlantPane((Crop) crop1); 
+		PlantPane plantPane2 = new PlantPane((Crop) crop2);
+		PlantPane plantPane3 = new PlantPane((Crop) crop3); 
+		PlantPane plantPane4 = new PlantPane((Crop) crop4); 
 		gameObjectList.add(crop1);
 		gameObjectList.add(crop2);
 		gameObjectList.add(crop3);
 		gameObjectList.add(crop4);
+		((Crop) crop1).setPlantPane(plantPane1);
+		((Crop) crop2).setPlantPane(plantPane2);
+		((Crop) crop3).setPlantPane(plantPane3);
+		((Crop) crop4).setPlantPane(plantPane4);
+		GameController.addPlantPane(plantPane1);
+		GameController.addPlantPane(plantPane2);
+		GameController.addPlantPane(plantPane3);
+		GameController.addPlantPane(plantPane4);
 
 		GameObject house = new House("House", 448, 0);
 		gameObjectList.add(house);

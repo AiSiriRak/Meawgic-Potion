@@ -62,10 +62,10 @@ public class BrewingPane extends VBox {
 
 	private void setupContent() {
 		Text inventoryLabel = createSectionLabel("INVENTORY", 24);
-		GridPane ingredientGrid = createItemGrid(ingredientCells, ingredientCounter.getIngredientCounter(), true);
+		GridPane ingredientGrid = createInventoryGrid(ingredientCells, ingredientCounter.getIngredientCounter(), true);
 
-		Text potionLabel = createSectionLabel("POTIONS", 16);
-		GridPane potionGrid = createItemGrid(potionCells, potionCounter.getPotionCounter(), false);
+		Text potionLabel = createSectionLabel("POTIONS", 24);
+		GridPane potionGrid = createInventoryGrid(potionCells, potionCounter.getPotionCounter(), false);
 
 		this.getChildren().addAll(inventoryLabel, ingredientGrid, potionLabel, potionGrid);
 	}
@@ -76,7 +76,7 @@ public class BrewingPane extends VBox {
 		return label;
 	}
 
-	private GridPane createItemGrid(ArrayList<InventorySquare> cells, ArrayList<? extends Item> items,
+	private GridPane createInventoryGrid(ArrayList<InventorySquare> cells, ArrayList<? extends Item> items,
 			boolean isIngredient) {
 		GridPane grid = new GridPane();
 		grid.setAlignment(Pos.CENTER);
@@ -84,10 +84,10 @@ public class BrewingPane extends VBox {
 		grid.setHgap(5);
 
 		int index = 0;
-		for (int row = 0; row < GRID_ROWS; row++) {
-			for (int col = 0; col < GRID_COLS; col++) {
+		for (int row = 0; row < 2; row++) {
+			for (int col = 0; col < 7; col++) {
 				InventorySquare square = new InventorySquare(col, row, "Brewing");
-				square.setPrefSize(SQUARE_SIZE, SQUARE_SIZE);
+				square.setPrefSize(48, 48);
 				cells.add(square);
 				grid.add(square, col, row);
 
@@ -106,8 +106,8 @@ public class BrewingPane extends VBox {
 
 	private void setupSquareWithItem(InventorySquare square, Item item) {
 		ImageView imageView = new ImageView(item.getItemImage().getImage());
-		imageView.setFitWidth(IMAGE_SIZE);
-		imageView.setFitHeight(IMAGE_SIZE);
+		imageView.setFitWidth(35);
+		imageView.setFitHeight(35);
 		square.setAlignment(Pos.CENTER);
 		square.getChildren().add(imageView);
 

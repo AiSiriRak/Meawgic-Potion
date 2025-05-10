@@ -11,6 +11,7 @@ import gui.button.InventoryButton;
 import gui.button.SettingButton;
 import gui.pane.ControlBrewing;
 import gui.pane.InventoryPane;
+import gui.pane.PlantPane;
 import gui.pane.SettingPane;
 import gui.pane.ShopPane;
 import javafx.geometry.Insets;
@@ -39,6 +40,7 @@ public class GameController {
 	private static Map currentMap;
 
 	private static ControlBrewing controlBrewing;
+	private static PlantPane plantPane;
 
 	public static StackPane warningPane;
 	public static WaterBar waterBar;
@@ -51,11 +53,16 @@ public class GameController {
 	private static ArrayList<ControlBrewing> controlBrewings = new ArrayList<>();
     private static ControlBrewing currentControlBrewing;
     
+    private static ArrayList<PlantPane> plantPanes = new ArrayList<>();
+    private static PlantPane currentPlantPane;
 
 	public static ShopPane shopPane;
+	
+	public static Coin coin;
 
 	public static void setupScene() {
 		try {
+			coin = new Coin();
 			StackPane layeredRoot = new StackPane();
 			scene = new Scene(layeredRoot, SCREEN_WIDTH, SCREEN_HEIGHT, Color.BLACK);
 
@@ -70,8 +77,8 @@ public class GameController {
 			root.getChildren().add(currentMap);
 
 			InventoryButton inventoryButton = new InventoryButton();
-			SettingButton settingButton = new SettingButton();
 			inventoryPane = new InventoryPane(sharedIngredientCounter, sharedPotionCounter);
+			SettingButton settingButton = new SettingButton();
 			SettingPane settingPane = new SettingPane(Main.getPrimaryStage());
 
 			shopPane = new ShopPane();
@@ -126,6 +133,12 @@ public class GameController {
 			for (ControlBrewing cb : controlBrewings) {
                 cb.setVisible(false);
                 layeredRoot.getChildren().add(cb);
+            }
+			
+			for (PlantPane p : plantPanes) {
+				System.out.println(3);
+                p.setVisible(false);
+                layeredRoot.getChildren().add(p);
             }
             
 
@@ -201,4 +214,20 @@ public class GameController {
     public static ControlBrewing getCurrentControlBrewing() {
         return currentControlBrewing;
     }
+
+	public static PlantPane getCurrentPlantPane() {
+		return currentPlantPane;
+	}
+
+	public static void setCurrentPlantPane(PlantPane currentPlantPane) {
+		GameController.currentPlantPane = currentPlantPane;
+	}
+	
+	public static void addPlantPane(PlantPane plantPane) {
+        plantPanes.add(plantPane);
+    }
+
+	public static PlantPane getPlantPane() {
+		return plantPane;
+	}
 }
