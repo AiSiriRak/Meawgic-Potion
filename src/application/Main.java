@@ -17,8 +17,10 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.layout.HBox;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import logic.game.Coin;
 import logic.game.GameController;
 import logic.object.Crop;
 
@@ -54,9 +56,18 @@ public class Main extends Application {
 //		root.setPrefSize(960, 600);
 //		root.setAlignment(Pos.CENTER);
 //		
+//		Coin co = new Coin();
+//		Text coinText = new Text(co.toString());
+		
+
+
+		
 //		Crop c = new Crop("", 0, 0);
 //		PlantPane p = new PlantPane(c);
-//		root.getChildren().add(p);
+//		Crop c1 = new Crop("", 0, 0);
+//		PlantPane p1 = new PlantPane(c1);
+//		root.getChildren().addAll(p,p1,coinText);
+		
 		
 //		
 //		ControlBrewing b = new ControlBrewing();

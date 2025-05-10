@@ -48,10 +48,12 @@ public class Crop extends GameObject implements Interactable, DoTimer {
 		switch (this.currentStage) {
 
 		case 0:
-			this.item = BasisData.CARROT.getItem();
-			this.changeStage(1);
-//			System.out.println("Planted!!");
-			break;
+            // Only show plant selection if no item is set
+            if (this.item == null && plantPane != null) {
+                plantPane.show();
+                GameController.setCurrentPlantPane(plantPane);
+            }
+            break;
 
 		case 1:
 			GameController.waterBar.updateBar(GameController.waterBar.getWaterLevel() - 3);
@@ -93,11 +95,14 @@ public class Crop extends GameObject implements Interactable, DoTimer {
 		Canvas canvas = new Canvas(192, 192);
 		GraphicsContext gc = canvas.getGraphicsContext2D();
 		gc.setImageSmoothing(false);
+		
+		if (plantPane != null && stage > 0) {
+	        plantPane.setVisible(false);
+	    }
 
 		Image img = null;
 		switch (this.currentStage) {
 		case 0:
-			
        	img = new Image(ClassLoader.getSystemResource("Images/Crop_0.png").toString());
 			break;
 		case 1:

@@ -42,7 +42,7 @@ public class GameController {
 	private static ControlBrewing controlBrewing;
 	private static PlantPane plantPane;
 
-	public static StackPane warningPane;
+	public static StackPane warningWaterPane;
 	public static WaterBar waterBar;
 
 	private static InventoryPane inventoryPane;
@@ -59,6 +59,8 @@ public class GameController {
 	public static ShopPane shopPane;
 	
 	public static Coin coin;
+	private static Text coinText;
+	public static StackPane warningCoinPane;
 
 	public static void setupScene() {
 		try {
@@ -84,15 +86,25 @@ public class GameController {
 			shopPane = new ShopPane();
 
 			// Set WaterBar
-			warningPane = new StackPane();
+			warningWaterPane = new StackPane();
 			Rectangle warningBg = new Rectangle(160, 36);
 			warningBg.setFill(Color.web("#FAF5DF"));
 			Text warning = new Text("No Water!");
 			warning.setFont(FontRect.BOLD.getFont(24));
 			warning.setFill(Color.web("#34022A"));
-			warningPane.getChildren().addAll(warningBg, warning);
-			warningPane.setTranslateX(300);
-			warningPane.setVisible(false);
+			warningWaterPane.getChildren().addAll(warningBg, warning);
+			warningWaterPane.setTranslateX(300);
+			warningWaterPane.setVisible(false);
+			
+			warningCoinPane = new StackPane();
+			Rectangle warningBg2 = new Rectangle(160, 36);
+			warningBg2.setFill(Color.web("#FAF5DF"));
+			Text warning2 = new Text("Not Enough Money");
+			warning2.setFont(FontRect.BOLD.getFont(24));
+			warning2.setFill(Color.web("#34022A"));
+			warningCoinPane.getChildren().addAll(warningBg2, warning2);
+			warningCoinPane.setAlignment(Pos.CENTER);
+			warningCoinPane.setVisible(false);
 
 			waterBar = new WaterBar();
 
@@ -140,9 +152,15 @@ public class GameController {
                 p.setVisible(false);
                 layeredRoot.getChildren().add(p);
             }
+			
+			coinText = new Text();
+	        updateCoinDisplay();
+	        coinText.setFont(FontRect.BOLD.getFont(20));
+	        coinText.setFill(Color.WHITE);
+	        StackPane.setAlignment(coinText, Pos.TOP_RIGHT);
+	        StackPane.setMargin(coinText, new Insets(10, 20, 0, 0));
             
-
-			layeredRoot.getChildren().addAll(root, overlay, inventoryPane, settingPane, shopPane, warningPane, waterBar);
+			layeredRoot.getChildren().addAll(root, overlay, inventoryPane, settingPane, shopPane, warningWaterPane, warningCoinPane, waterBar,coinText);
 
 
 			Main.getPrimaryStage().setScene(scene);
@@ -174,6 +192,20 @@ public class GameController {
 		root.getChildren().clear();
 		root.getChildren().add(currentMap);
 	}
+	
+	public static void updateCoinDisplay() {
+	    if (coinText != null && coin != null) {
+	        coinText.setText("Coins : " + coin.getCoin());
+	    }
+	}
+	
+	public static void addControlBrewing(ControlBrewing controlBrewing) {
+        controlBrewings.add(controlBrewing);
+    }
+	
+	public static void addPlantPane(PlantPane plantPane) {
+        plantPanes.add(plantPane);
+    }
 
 	public static ControlBrewing getControlBrewing() {
 		return controlBrewing;
@@ -202,10 +234,6 @@ public class GameController {
 	public static void setSharedPotionCounter(PotionCounter sharedPotionCounter) {
 		GameController.sharedPotionCounter = sharedPotionCounter;
 	}
-	
-	public static void addControlBrewing(ControlBrewing controlBrewing) {
-        controlBrewings.add(controlBrewing);
-    }
 
     public static void setCurrentControlBrewing(ControlBrewing controlBrewing) {
         currentControlBrewing = controlBrewing;
@@ -222,10 +250,6 @@ public class GameController {
 	public static void setCurrentPlantPane(PlantPane currentPlantPane) {
 		GameController.currentPlantPane = currentPlantPane;
 	}
-	
-	public static void addPlantPane(PlantPane plantPane) {
-        plantPanes.add(plantPane);
-    }
 
 	public static PlantPane getPlantPane() {
 		return plantPane;

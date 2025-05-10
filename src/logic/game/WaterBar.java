@@ -43,9 +43,9 @@ public class WaterBar extends Pane {
 			Thread warningCountdown = new Thread(() -> {
 				while (this.isWarning) {
 					try {
-						GameController.warningPane.setVisible(true);
+						GameController.warningWaterPane.setVisible(true);
 						Thread.sleep(1000);
-						GameController.warningPane.setVisible(false);
+						GameController.warningWaterPane.setVisible(false);
 						this.isWarning = false;
 					} catch (InterruptedException e) {
 						e.printStackTrace();

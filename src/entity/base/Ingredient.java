@@ -4,7 +4,7 @@ public class Ingredient extends Item {
 	private boolean growState;
 
 	public Ingredient(String name, int capacity) {
-		super(name, 10);
+		super(name, 0);
 		this.setGrowState(false);
 	}
 

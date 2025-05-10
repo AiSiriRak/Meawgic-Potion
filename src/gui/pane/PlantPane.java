@@ -14,7 +14,6 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundPosition;
@@ -25,30 +24,25 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
-import javafx.util.Duration;
-import logic.game.Coin;
 import logic.game.GameController;
 import logic.object.Crop;
 
 public class PlantPane extends StackPane {
 	private final ArrayList<InventorySquare> inallCells = new ArrayList<>();
-	private Coin coin;
 	private Crop associatedCrop;
 
 	public PlantPane(Crop associatedCrop) {
-		this.associatedCrop = associatedCrop;
-		VBox content = createContentBox();
-		ExitButtton exitButton = createExitButton();
+	    this.associatedCrop = associatedCrop;
+	    VBox content = createContentBox();
+	    ExitButtton exitButton = createExitButton();
 
-		AnchorPane container = new AnchorPane();
-		container.setPrefSize(500, 400);
-		
-		AnchorPane.setTopAnchor(exitButton, 170.0);
-		AnchorPane.setRightAnchor(exitButton, 100.0);
-		container.getChildren().add(exitButton);
-
-		PlantPane.setAlignment(content,Pos.CENTER);
-		this.getChildren().addAll(content,container);
+	    StackPane.setAlignment(content, Pos.CENTER);
+	    exitButton.setTranslateX(180);
+	    exitButton.setTranslateY(-180);
+	    StackPane.setMargin(exitButton, new Insets(170, 100, 0, 0));
+	    
+	    this.getChildren().addAll(content, exitButton);
+	    this.setPickOnBounds(false);
 	}
 
 	private Background createBackgroundImage(String filename) {
@@ -86,6 +80,8 @@ public class PlantPane extends StackPane {
 	    grid.setAlignment(Pos.CENTER);
 	    grid.setHgap(5);
 	    grid.setVgap(5);
+	    grid.setPickOnBounds(true);
+	    grid.setMouseTransparent(false);
 
 	    ArrayList<Basis> ingredients = new IngredientCounter().getBasisCounter();
 	    
@@ -94,55 +90,52 @@ public class PlantPane extends StackPane {
 	        for (int col = 0; col < 4; col++) {
 	            InventorySquare square = new InventorySquare(col, row, "Inventory");
 	            square.setPrefSize(48, 48);
+	            square.setPickOnBounds(true);
+	            square.setMouseTransparent(false);
 	            cellList.add(square);
 	            grid.add(square, col, row);
 
 	            if (index < ingredients.size()) {
 	                Basis ingredient = ingredients.get(index++);
-	                ImageView imageView = ingredient.getItemImage();
+	                ImageView imageView = new ImageView(ingredient.getItemImage().getImage());
 	                imageView.setFitWidth(35);
 	                imageView.setFitHeight(35);
-	                square.setAlignment(Pos.CENTER);
+	                imageView.setPickOnBounds(false);
+	                imageView.setMouseTransparent(true);
 
-	               
-	                
 	                Text priceText = new Text(String.valueOf(ingredient.getBuyPrice()));
 	                priceText.setFont(FontRect.REGULAR.getFont(14));
-	                priceText.setStyle("-fx-fill: white; -fx-font-size: 14;");
+	                priceText.setStyle("-fx-fill: white;");
 	                
 	                ImageView coinView = new ImageView(ClassLoader.getSystemResource("Images/Brewing_frame.png").toString());
 	                coinView.setFitWidth(14);
 	                coinView.setPreserveRatio(true);
-	                coinView.setSmooth(true);
-	                
-	                HBox container = new HBox();
-	                container.getChildren().addAll(coinView, priceText);
-	                container.setAlignment(Pos.BOTTOM_RIGHT);
-	                StackPane imageStack = new StackPane();
-	                imageStack.setAlignment(Pos.CENTER);
-	                imageStack.getChildren().add(imageView);
+	                coinView.setMouseTransparent(true);
 
-	                StackPane.setAlignment(container, Pos.BOTTOM_RIGHT);
-	                imageStack.getChildren().add(container);
+	                HBox priceContainer = new HBox(2, coinView, priceText);
+	                priceContainer.setAlignment(Pos.BOTTOM_RIGHT);
+	                priceContainer.setMouseTransparent(true);
 
-	                square.getChildren().add(imageStack);
+	                StackPane contentStack = new StackPane();
+	                contentStack.getChildren().addAll(imageView, priceContainer);
+	                contentStack.setMouseTransparent(true);
+
+	                square.getChildren().add(contentStack);
 
 	                Tooltip tooltip = new Tooltip(ingredient.getName());
-	                tooltip.setStyle("-fx-background-color: black; -fx-text-fill: white; -fx-font-size: 12;");
-	                tooltip.setShowDelay(Duration.millis(300));
-	                tooltip.setHideDelay(Duration.millis(100));
 	                Tooltip.install(square, tooltip);
-	                
+
 	                square.setOnMouseClicked(e -> {
-	                    System.out.println("Square clicked!");
-	                    if (GameController.coin.tryPurchase(ingredient)) {
+	                    System.out.println("Attempting to purchase: " + ingredient.getName());
+	                    if (GameController.coin.tryPurchase(ingredient.getBuyPrice())) {
 	                        System.out.println("Purchase successful!");
 	                        associatedCrop.setItem(ingredient);
 	                        associatedCrop.changeStage(1);
 	                        this.setVisible(false);
 	                    } else {
-	                        System.out.println("Not enough coins!");
+	                    	
 	                    }
+	                    e.consume();
 	                });
 	            }
 	        }
@@ -170,5 +163,9 @@ public class PlantPane extends StackPane {
         this.setVisible(true);
         this.toFront();
 		
+	}
+	
+	public Crop getAssociatedCrop() {
+	    return this.associatedCrop;
 	}
 }

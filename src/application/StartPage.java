@@ -8,6 +8,7 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import logic.game.GameController;
 
@@ -58,7 +59,7 @@ public class StartPage {
 			exitButton.setScaleY(1);
 		});
 		exitButton.setOnMouseClicked(e -> primaryStage.close());
-
+		
 		btn.getChildren().addAll(startButton, exitButton);
 		root.getChildren().addAll(gameLogo, btn);
 
