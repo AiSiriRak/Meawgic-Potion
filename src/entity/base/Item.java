@@ -25,8 +25,8 @@ public abstract class Item {
 		return amount;
 	}
 
-	public void setAmount(int capacity) {
-		this.amount = Math.max(capacity, 0);
+	public void setAmount(int amount) {
+		this.amount = Math.max(amount, 0);
 	}
 
 	public String getName() {

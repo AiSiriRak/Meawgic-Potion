@@ -15,6 +15,7 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 import logic.game.GameController;
@@ -90,12 +91,12 @@ public class InventoryPane extends StackPane {
 					square.setAlignment(Pos.CENTER);
 
 					square.getChildren().add(imageView);
-					Text capacityText = new Text(String.valueOf(ingredient.getAmount()));
-					capacityText.setFont(FontRect.REGULAR.getFont(14));
-					capacityText.setStyle("-fx-fill: white; -fx-font-size: 16;");
+					Text amountText = new Text(String.valueOf(ingredient.getAmount()));
+					amountText.setFont(FontRect.REGULAR.getFont(16));
+					amountText.setFill(Color.WHITE);
 
-					StackPane.setAlignment(capacityText, Pos.BOTTOM_RIGHT);
-					square.getChildren().add(capacityText);
+					StackPane.setAlignment(amountText, Pos.BOTTOM_RIGHT);
+					square.getChildren().add(amountText);
 
 					Tooltip tooltip = new Tooltip(ingredient.getName());
 					tooltip.setStyle("-fx-background-color: black; -fx-text-fill: white; -fx-font-size: 12;");
@@ -118,12 +119,12 @@ public class InventoryPane extends StackPane {
 					square.setAlignment(Pos.CENTER);
 
 					square.getChildren().add(imageView);
-					Text capacityText = new Text(String.valueOf(potion.getAmount()));
-					capacityText.setFont(FontRect.REGULAR.getFont(16));
-					capacityText.setStyle("-fx-fill: white; -fx-font-size: 16;");
+					Text amountText = new Text(String.valueOf(potion.getAmount()));
+					amountText.setFont(FontRect.REGULAR.getFont(16));
+					amountText.setFill(Color.WHITE);
 
-					StackPane.setAlignment(capacityText, Pos.BOTTOM_RIGHT);
-					square.getChildren().add(capacityText);
+					StackPane.setAlignment(amountText, Pos.BOTTOM_RIGHT);
+					square.getChildren().add(amountText);
 
 					Tooltip tooltip = new Tooltip(potion.getName());
 					tooltip.setStyle("-fx-background-color: black; -fx-text-fill: white; -fx-font-size: 12;");
@@ -224,10 +225,10 @@ public class InventoryPane extends StackPane {
 		square.setAlignment(Pos.CENTER);
 		square.getChildren().add(imageView);
 
-		Text capacityText = new Text(String.valueOf(item.getAmount()));
-		capacityText.setStyle("-fx-fill: white; -fx-font-size: 16;");
-		StackPane.setAlignment(capacityText, Pos.BOTTOM_RIGHT);
-		square.getChildren().add(capacityText);
+		Text amountText = new Text(String.valueOf(item.getAmount()));
+		amountText.setStyle("-fx-fill: white; -fx-font-size: 16;");
+		StackPane.setAlignment(amountText, Pos.BOTTOM_RIGHT);
+		square.getChildren().add(amountText);
 
 		createAndAttachTooltip(square, item.getName());
 	}

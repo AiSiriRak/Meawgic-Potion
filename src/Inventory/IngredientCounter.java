@@ -16,13 +16,12 @@ public class IngredientCounter {
 	private ArrayList<Ingredient> ingredientCounter;
 	private Item item;
 
-	// Add these properties to track capacity
+	// Add these properties to track amount
 	private final IntegerProperty currentCount = new SimpleIntegerProperty(0);
 	private final IntegerProperty maxCapacity = new SimpleIntegerProperty(12);
 
 	public IngredientCounter() {
 		this.ingredientCounter = new ArrayList<>();
-
 
 		this.ingredientCounter.add(StoneData.REDSTONE.getItem());
 		this.ingredientCounter.add(StoneData.GROWSTONE.getItem());
@@ -41,15 +40,14 @@ public class IngredientCounter {
 	public ArrayList<Ingredient> getIngredientCounter() {
 		return ingredientCounter;
 	}
-	
 
 	public void setIngredientCounter(ArrayList<Ingredient> ingredientCounter) {
 		this.ingredientCounter = ingredientCounter;
 	}
-	
+
 	public ArrayList<Crop> getBasisCounter() {
 		ArrayList<Crop> basis = new ArrayList<>();
-		for(Ingredient i : ingredientCounter) {
+		for (Ingredient i : ingredientCounter) {
 			if (i instanceof Crop) {
 				basis.add((Crop) i);
 			}

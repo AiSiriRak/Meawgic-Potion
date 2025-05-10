@@ -56,7 +56,8 @@ public class GameController {
 	public static ShopPane shopPane;
 
 	public static Coin coin;
-	private static Text coinText;
+	private static String coinText;
+	private static StackPane coinPane;
 	public static StackPane warningCoinPane;
 
 	public static void setupScene() {
@@ -81,29 +82,17 @@ public class GameController {
 
 			shopPane = new ShopPane();
 
-			coin = new Coin();
-
-			// Set WaterBar
-			warningWaterPane = new StackPane();
-			Rectangle warningBg = new Rectangle(160, 36);
-			warningBg.setFill(Color.web("#FAF5DF"));
-			Text warning = new Text("No Water!");
-			warning.setFont(FontRect.BOLD.getFont(24));
-			warning.setFill(Color.web("#34022A"));
-			warningWaterPane.getChildren().addAll(warningBg, warning);
+			// Set Water Warning Pane
+			warningWaterPane = getTextPane(160, 36, "No Water!!!");
 			warningWaterPane.setTranslateX(300);
 			warningWaterPane.setVisible(false);
 
-			warningCoinPane = new StackPane();
-			Rectangle warningBg2 = new Rectangle(300, 36);
-			warningBg2.setFill(Color.web("#FAF5DF"));
-			Text warning2 = new Text("Not Enough Money!!!");
-			warning2.setFont(FontRect.BOLD.getFont(24));
-			warning2.setFill(Color.web("#34022A"));
-			warningCoinPane.getChildren().addAll(warningBg2, warning2);
+			// Set Coin Warning Pane
+			warningCoinPane = getTextPane(300, 36, "Not Enough Money!!!");
 			warningCoinPane.setTranslateY(150);
 			warningCoinPane.setVisible(false);
 
+			// Set Waterbar
 			waterBar = new WaterBar();
 
 			// Set InventoryPan && SettingPane
@@ -111,6 +100,13 @@ public class GameController {
 			settingPane.setVisible(false);
 
 			shopPane.setVisible(false);
+
+			// Setup Coin
+			coin = new Coin();
+			updateCoinDisplay();
+			coinPane = getTextPane(200, 36, coinText);
+			coinPane.setTranslateX(360);
+			coinPane.setTranslateY(-270);
 
 			// Button container
 			HBox overlay = new HBox(10);
@@ -133,20 +129,27 @@ public class GameController {
 				layeredRoot.getChildren().add(p);
 			}
 
-			coinText = new Text();
-			updateCoinDisplay();
-			coinText.setFont(FontRect.BOLD.getFont(20));
-			coinText.setFill(Color.WHITE);
-			StackPane.setAlignment(coinText, Pos.TOP_RIGHT);
-			StackPane.setMargin(coinText, new Insets(10, 20, 0, 0));
-
-			layeredRoot.getChildren().addAll(root, overlay, inventoryPane, settingPane, shopPane, warningWaterPane,
-					warningCoinPane, waterBar, coinText);
+			layeredRoot.getChildren().addAll(root, warningWaterPane, warningCoinPane, waterBar, coinPane, overlay,
+					inventoryPane, settingPane, shopPane);
 
 			Main.getPrimaryStage().setScene(scene);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	private static StackPane getTextPane(int width, int height, String word) {
+		Text text = new Text(word);
+		text.setFont(FontRect.BOLD.getFont(24));
+		text.setFill(Color.web("#34022A"));
+
+		StackPane textPane = new StackPane();
+		Rectangle textBg = new Rectangle(width, height);
+		textBg.setFill(Color.web("#FAF5DF"));
+
+		textPane.getChildren().addAll(textBg, text);
+
+		return textPane;
 	}
 
 	public static void resetGame() {
@@ -162,7 +165,7 @@ public class GameController {
 	}
 
 	public static void switchCurrentMap() {
-		if (currentMap == outsideMap) {
+		if (currentMap instanceof OutsideMap) {
 			insideMap.resetPlayerPos();
 			currentMap = insideMap;
 		} else {
@@ -174,8 +177,8 @@ public class GameController {
 	}
 
 	public static void updateCoinDisplay() {
-		if (coinText != null && coin != null) {
-			coinText.setText("Coins : " + coin.getCoin());
+		if (coin != null) {
+			coinText = "Coins : " + coin.getCoin();
 		}
 	}
 

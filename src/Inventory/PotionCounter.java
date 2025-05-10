@@ -14,9 +14,9 @@ public class PotionCounter {
 	private ArrayList<Potion> potionCounter;
 	private Item item;
 
-	// Capacity tracking
+	// Amount tracking
 	private final IntegerProperty currentCount = new SimpleIntegerProperty(0);
-	private final IntegerProperty maxCapacity = new SimpleIntegerProperty(12);
+	private final IntegerProperty maxAmount = new SimpleIntegerProperty(12);
 
 	public PotionCounter() {
 
@@ -51,7 +51,7 @@ public class PotionCounter {
 		this.item = item;
 	}
 
-	// Capacity logic
+	// Amount logic
     public void addPotion(Potion potion) {
         for (Potion p : potionCounter) {
             if (p.getName().equals(potion.getName())) {
@@ -74,8 +74,8 @@ public class PotionCounter {
 		return currentCount;
 	}
 
-	public IntegerProperty maxCapacityProperty() {
-		return maxCapacity;
+	public IntegerProperty maxAmountProperty() {
+		return maxAmount;
 	}
 
 	public int getCurrentCount() {
@@ -86,11 +86,11 @@ public class PotionCounter {
 		this.currentCount.set(count);
 	}
 
-	public int getMaxCapacity() {
-		return maxCapacity.get();
+	public int getMaxAmount() {
+		return maxAmount.get();
 	}
 
-	public void setMaxCapacity(int capacity) {
-		this.maxCapacity.set(capacity);
+	public void setMaxAmount(int amount) {
+		this.maxAmount.set(amount);
 	}
 }

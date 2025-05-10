@@ -64,7 +64,7 @@ public class QuestSquare extends StackPane {
 
 	}
 
-	private void update() {
+	public void update() {
 		checkIsEnoughItem();
 		setMouseAction();
 		getChildren().clear();
@@ -73,30 +73,30 @@ public class QuestSquare extends StackPane {
 	}
 
 	private void sell() {
-	    if (!isEnoughItem) return;
+		if (!isEnoughItem)
+			return;
 
-	    if (item instanceof Potion) {
-	        for (Potion p : GameController.getInventoryPane().getPotionCounter().getPotionCounter()) {
-	            if (p.getName().equals(item.getName())) {
-	                p.setAmount(p.getAmount() - quantity);
-	                break;
-	            }
-	        }
-	    } else {
-	        for (Crop b : GameController.getInventoryPane().getIngredientCounter().getBasisCounter()) {
-	            if (b.getName().equals(item.getName())) {
-	                b.setAmount(b.getAmount() - quantity);
-	                break;
-	            }
-	        }
-	    }
+		if (item instanceof Potion) {
+			for (Potion p : GameController.getInventoryPane().getPotionCounter().getPotionCounter()) {
+				if (p.getName().equals(item.getName())) {
+					p.setAmount(p.getAmount() - quantity);
+					break;
+				}
+			}
+		} else {
+			for (Crop b : GameController.getInventoryPane().getIngredientCounter().getBasisCounter()) {
+				if (b.getName().equals(item.getName())) {
+					b.setAmount(b.getAmount() - quantity);
+					break;
+				}
+			}
+		}
 
-	    GameController.coin.increaseCoin(sellPrice*quantity); 
-	    GameController.updateCoinDisplay();
-	    GameController.getInventoryPane().refreshInventory();
-	    setupNewGoods();
+		GameController.coin.increaseCoin(sellPrice * quantity);
+		GameController.updateCoinDisplay();
+		GameController.getInventoryPane().refreshInventory();
+		setupNewGoods();
 	}
-
 
 	private void setupNewGoods() {
 		this.item = getRandomItem();
@@ -105,7 +105,7 @@ public class QuestSquare extends StackPane {
 		this.itemNameDisplay = (this.item instanceof Potion) ? this.item.getName() + "\nPotion" : this.item.getName();
 		this.quantity = (int) (Math.random() * 3) + 1;
 
-		this.itemDisplay = new VBox(6);
+		this.itemDisplay = new VBox(-2);
 		this.itemDisplay.setAlignment(Pos.CENTER);
 
 		Text itemName = new Text(this.itemNameDisplay);
@@ -113,13 +113,14 @@ public class QuestSquare extends StackPane {
 		itemName.setFill(Color.web("#7A3E58"));
 		itemName.setTextAlignment(TextAlignment.CENTER);
 
-		HBox upper = new HBox(15);
+		HBox upper = new HBox();
 		upper.setAlignment(Pos.CENTER);
+		upper.setTranslateX(-7);
 
 		ImageView itemImg = new ImageView(
 				ClassLoader.getSystemResource("Images/" + this.item.getName() + ".png").toString());
-		itemImg.setScaleX(2);
-		itemImg.setScaleY(2);
+		itemImg.setScaleX(0.7);
+		itemImg.setScaleY(0.7);
 
 		Text quantityTxt = new Text("x " + this.quantity);
 		quantityTxt.setFont(FontRect.REGULAR.getFont(24));

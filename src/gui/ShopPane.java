@@ -2,6 +2,7 @@ package gui;
 
 import Font.FontRect;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
@@ -59,5 +60,11 @@ public class ShopPane extends StackPane {
 		this.questGrid.add(new QuestSquare(), 1, 0);
 		this.questGrid.add(new QuestSquare(), 0, 1);
 		this.questGrid.add(new QuestSquare(), 1, 1);
+	}
+
+	public void refresh() {
+		for (Node questSquare : this.questGrid.getChildren()) {
+			((QuestSquare) questSquare).update();
+		}
 	}
 }

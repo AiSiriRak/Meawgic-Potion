@@ -107,11 +107,11 @@ public class BrewingPane extends VBox {
 		square.setAlignment(Pos.CENTER);
 		square.getChildren().add(imageView);
 
-		Text capacityText = new Text(String.valueOf(item.getAmount()));
-		capacityText.setFont(FontRect.REGULAR.getFont(16));
-		capacityText.setStyle("-fx-fill: white; -fx-font-size: 16;");
-		StackPane.setAlignment(capacityText, Pos.BOTTOM_RIGHT);
-		square.getChildren().add(capacityText);
+		Text amountText = new Text(String.valueOf(item.getAmount()));
+		amountText.setFont(FontRect.REGULAR.getFont(16));
+		amountText.setStyle("-fx-fill: white; -fx-font-size: 16;");
+		StackPane.setAlignment(amountText, Pos.BOTTOM_RIGHT);
+		square.getChildren().add(amountText);
 
 		createAndAttachTooltip(square, item.getName());
 	}
@@ -140,16 +140,16 @@ public class BrewingPane extends VBox {
 		}
 		refreshInventory();
 		GameController.getInventoryPane().refreshInventory();
-		updateCapacityDisplay(square, ingredient.getAmount());
+		updateAmountDisplay(square, ingredient.getAmount());
 	}
 
-	private void updateCapacityDisplay(InventorySquare square, int capacity) {
+	private void updateAmountDisplay(InventorySquare square, int amount) {
 		square.getChildren().removeIf(node -> node instanceof Text);
-		Text newCapacityText = new Text(String.valueOf(capacity));
-		newCapacityText.setFont(FontRect.REGULAR.getFont(16));
-		newCapacityText.setStyle("-fx-fill: white; -fx-font-size: 16;");
-		StackPane.setAlignment(newCapacityText, Pos.BOTTOM_RIGHT);
-		square.getChildren().add(newCapacityText);
+		Text newAmountText = new Text(String.valueOf(amount));
+		newAmountText.setFont(FontRect.REGULAR.getFont(16));
+		newAmountText.setStyle("-fx-fill: white; -fx-font-size: 16;");
+		StackPane.setAlignment(newAmountText, Pos.BOTTOM_RIGHT);
+		square.getChildren().add(newAmountText);
 	}
 
 	public void returnIngredient(Ingredient ingredient) {
