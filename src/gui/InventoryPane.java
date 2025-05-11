@@ -109,9 +109,12 @@ public class InventoryPane extends StackPane {
 
 					square.setOnMouseClicked(e -> {
 						if (ingredient instanceof Stone) {
+							if(GameController.coin.decreaseCoin(5)) {
 							GameController.getInventoryPane().addIngredient((Stone) ingredient);
-							GameController.coin.decreaseCoin(5);
 							SoundController.getInstance().playEffectSound("Buy");
+							}
+							else
+								SoundController.getInstance().playEffectSound("Wrong");
 						}
 					});
 

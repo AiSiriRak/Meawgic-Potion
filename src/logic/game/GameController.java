@@ -137,7 +137,7 @@ public class GameController {
 
 	        // Set Coin Warning Pane
 	        warningCoinPane = getTextPane(300, 36, new Text("Not Enough Money!!!"));
-	        warningCoinPane.setTranslateY(150);
+	        warningCoinPane.setTranslateY(200);
 	        warningCoinPane.setVisible(false);
 
 	        // Set Waterbar

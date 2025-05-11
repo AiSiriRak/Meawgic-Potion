@@ -3,13 +3,11 @@ package logic.game;
 public class Coin {
 
     private int coin;
-    private boolean isEnoughCoin;
     private boolean isWarning;
 
     public Coin() {
         this.coin = 100;
         this.isWarning = false;
-        this.isEnoughCoin = true;
     }
 
     public void increaseCoin(int amount) {
@@ -25,7 +23,6 @@ public class Coin {
         }
         else {
 			System.out.println("Not Enough Money");
-			this.isEnoughCoin = false;
 			this.isWarning = true;
 			Thread warningCountdown = new Thread(() -> {
 				while (this.isWarning) {
