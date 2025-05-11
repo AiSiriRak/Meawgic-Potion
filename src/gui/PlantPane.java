@@ -26,55 +26,41 @@ import logic.game.SoundController;
 import logic.object.CropPlot;
 
 public class PlantPane extends StackPane {
-	private final ArrayList<InventorySquare> inallCells = new ArrayList<>();
+	private final ArrayList<InventorySquare> ingredientAllCells = new ArrayList<>();
 	private CropPlot associatedCrop;
 
 	public PlantPane(CropPlot associatedCrop) {
 		this.associatedCrop = associatedCrop;
-		VBox content = createContentBox();
-		GameButton exitButton = new GameButton("Exit", "Click_ingredient");
-		exitButton.setOnMouseClicked(e -> this.setVisible(false));
-
-		StackPane.setAlignment(content, Pos.CENTER);
-		exitButton.setTranslateX(180);
-		exitButton.setTranslateY(-180);
-		StackPane.setMargin(exitButton, new Insets(170, 100, 0, 0));
-
-		this.getChildren().addAll(content, exitButton);
-		this.setPickOnBounds(false);
-	}
-
-	private Background createBackgroundImage(String filename) {
-		Image image = new Image(ClassLoader.getSystemResource("Images/" + filename).toString());
+		VBox contentBox = new VBox(10);
+		Image image = new Image(ClassLoader.getSystemResource("Images/Inventory_pane.png").toString());
 		BackgroundImage bgImage = new BackgroundImage(image, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT,
 				BackgroundPosition.CENTER,
 				new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, true, true, false, true));
-		return new Background(bgImage);
-	}
-
-	private Text createTitleText(String text, int fontSize) {
-		Text title = new Text(text);
-		title.setFont(FontRect.BOLD.getFont(fontSize));
-		return title;
-	}
-
-	private VBox createContentBox() {
-		VBox contentBox = new VBox(10);
 		contentBox.setPrefSize(272, 209);
 		contentBox.setMinSize(272, 209);
 		contentBox.setMaxSize(272, 209);
 		contentBox.setAlignment(Pos.CENTER);
 		contentBox.setPadding(new Insets(10));
-		contentBox.setBackground(createBackgroundImage("Inventory_pane.png"));
-
-		Text inventoryLabel = createTitleText("SEED", 24);
-		GridPane ingredientGrid = createInventoryGrid(inallCells);
+		contentBox.setBackground(new Background(bgImage));
+		
+		Text inventoryLabel = new Text("SEED");
+		inventoryLabel.setFont(FontRect.BOLD.getFont(24));
+		GridPane ingredientGrid = createSeedGrid(ingredientAllCells);
 
 		contentBox.getChildren().addAll(inventoryLabel, ingredientGrid);
-		return contentBox;
+		GameButton exitButton = new GameButton("Exit", "Click_ingredient");
+		exitButton.setOnMouseClicked(e -> this.setVisible(false));
+
+		StackPane.setAlignment(contentBox, Pos.CENTER);
+		exitButton.setTranslateX(180);
+		exitButton.setTranslateY(-180);
+		StackPane.setMargin(exitButton, new Insets(170, 100, 0, 0));
+
+		this.getChildren().addAll(contentBox, exitButton);
+		this.setPickOnBounds(false);
 	}
 
-	private GridPane createInventoryGrid(ArrayList<InventorySquare> cellList) {
+	private GridPane createSeedGrid(ArrayList<InventorySquare> cellList) {
 		GridPane grid = new GridPane();
 		grid.setAlignment(Pos.CENTER);
 		grid.setHgap(5);
@@ -106,12 +92,12 @@ public class PlantPane extends StackPane {
 					priceText.setFont(FontRect.REGULAR.getFont(14));
 					priceText.setFill(Color.WHITE);
 
-					ImageView coinView = new ImageView(ClassLoader.getSystemResource("Images/coin.png").toString());
-					coinView.setFitWidth(14);
-					coinView.setPreserveRatio(true);
-					coinView.setMouseTransparent(true);
+					ImageView coinImage = new ImageView(ClassLoader.getSystemResource("Images/coin.png").toString());
+					coinImage.setFitWidth(14);
+					coinImage.setPreserveRatio(true);
+					coinImage.setMouseTransparent(true);
 
-					HBox priceContainer = new HBox(2, coinView, priceText);
+					HBox priceContainer = new HBox(2, coinImage, priceText);
 					priceContainer.setAlignment(Pos.BOTTOM_RIGHT);
 					priceContainer.setMouseTransparent(true);
 
@@ -135,7 +121,6 @@ public class PlantPane extends StackPane {
 						} else {
 							SoundController.getInstance().playEffectSound("Wrong");
 						}
-						e.consume();
 					});
 				}
 			}
@@ -147,10 +132,6 @@ public class PlantPane extends StackPane {
 		System.out.println("PlantPane is showing!");
 		this.setVisible(true);
 		this.toFront();
-
 	}
-
-	public CropPlot getAssociatedCrop() {
-		return this.associatedCrop;
-	}
+	
 }
