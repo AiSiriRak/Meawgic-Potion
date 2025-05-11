@@ -17,7 +17,7 @@ import logic.game.GameController;
 import logic.game.SoundController;
 
 public class Pot extends GameObject implements Interactable, DoAnimation, DoTimer {
-	protected Rectangle2D interactArea;
+	private Rectangle2D interactArea;
 	private Potion potion;
 	private int currentStage;
 

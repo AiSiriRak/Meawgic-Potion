@@ -35,10 +35,10 @@ public class ControlBrewing extends AnchorPane {
 		GameButton resetButton = new GameButton("ResetIngredient", 150, "Click_ingredient");
 		resetButton.setOnMouseClicked(e -> brewingStand.resetIngredients());
 
-		GameButton craftButton = new GameButton("Craft",150, "Click_ingredient");
-		craftButton.setOnMouseClicked(e -> {
-			if (brewingStand.craftable()) {
-				brewingStand.craftPotion();
+		GameButton brewButton = new GameButton("Brew",150, "Click_ingredient");
+		brewButton.setOnMouseClicked(e -> {
+			if (brewingStand.brewable()) {
+				brewingStand.brewPotion();
 				brewingStand.resetIngredients();
 				associatedPot.changeStage(1);
 				this.setVisible(false);
@@ -49,7 +49,7 @@ public class ControlBrewing extends AnchorPane {
 			}
 		});
 
-		HBox controlBox = new HBox(10, craftButton, resetButton);
+		HBox controlBox = new HBox(10, brewButton, resetButton);
 		controlBox.setAlignment(Pos.CENTER);
 		contentBox.getChildren().add(controlBox);
 

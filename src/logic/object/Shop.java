@@ -5,7 +5,7 @@ import javafx.scene.image.Image;
 import logic.game.GameController;
 
 public class Shop extends GameObject implements Interactable {
-	protected Rectangle2D interactArea;
+	private final Rectangle2D interactArea;
 
 	public Shop(String name, double x, double y) {
 		super(name, x, y, new Rectangle2D(x + 9, y + 115, 49, 13));
@@ -20,7 +20,6 @@ public class Shop extends GameObject implements Interactable {
 
 	@Override
 	public void interact() {
-		System.out.println("Interact with " + this.name);
 		GameController.shopPane.refresh();
 		GameController.shopPane.setVisible(true);
 

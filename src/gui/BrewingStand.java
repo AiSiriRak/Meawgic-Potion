@@ -31,7 +31,7 @@ public class BrewingStand extends VBox {
 	private final ArrayList<Ingredient> ingredientsInSlots;
 	private BrewingPane brewingPane;
 	private InventorySquare outputSlot;
-	private Potion craftedPotion;
+	private Potion brewedPotion;
 	private Pot associatedPot;
 
 	public BrewingStand(Pot associatedPot) {
@@ -112,7 +112,7 @@ public class BrewingStand extends VBox {
 		System.out.println("Ingredient added to BrewingStand: " + ingredient.getClass().getSimpleName());
 		rebuildSlotClickHandlers();
 
-		displayCraftedPotion();
+		displayBrewedPotion();
 	}
 
 	public void removeIngredient(Ingredient ingredient) {
@@ -133,8 +133,8 @@ public class BrewingStand extends VBox {
 
 		rebuildSlotClickHandlers();
 		outputSlot.getChildren().clear();
-		craftedPotion = null;
-		displayCraftedPotion();
+		brewedPotion = null;
+		displayBrewedPotion();
 	}
 
 	private void shiftIngredients() {
@@ -161,7 +161,7 @@ public class BrewingStand extends VBox {
 		}
 	}
 
-	public boolean craftable() {
+	public boolean brewable() {
 		if (ingredientsInSlots.size() != 3)
 			return false;
 
@@ -174,8 +174,8 @@ public class BrewingStand extends VBox {
 	}
 
 
-	public void craftPotion() {
-		if (!craftable())
+	public void brewPotion() {
+		if (!brewable())
 			return;
 
 		Set<String> currentIngredients = new HashSet<>();
@@ -186,14 +186,14 @@ public class BrewingStand extends VBox {
 		Optional<PotionData> potionDataOpt = PotionRecipeData.getPotionByIngredients(currentIngredients);
 		if (potionDataOpt.isPresent()) {
 			Potion matchedPotion = potionDataOpt.get().getItem();
-			completeCrafting(matchedPotion);
+			completeBrewing(matchedPotion);
 			associatedPot.startTiming(matchedPotion.getDuration());
 		}
 	}
 
 
-	private void displayCraftedPotion() {
-		if (craftedPotion != null || outputSlot == null || ingredientsInSlots.size() != 3)
+	private void displayBrewedPotion() {
+		if (brewedPotion != null || outputSlot == null || ingredientsInSlots.size() != 3)
 			return;
 
 		Set<String> currentIngredients = new HashSet<>();
@@ -210,11 +210,11 @@ public class BrewingStand extends VBox {
 			potionView.setFitHeight(35);
 			outputSlot.getChildren().add(potionView);
 
-			craftedPotion = matchedPotion;
+			brewedPotion = matchedPotion;
 		}
 	}
 
-	private void completeCrafting(Potion potion) {
+	private void completeBrewing(Potion potion) {
 		associatedPot.setPotion(potion);
 
 		ingredientsInSlots.clear();
@@ -228,7 +228,7 @@ public class BrewingStand extends VBox {
 		potionView.setFitHeight(35);
 		outputSlot.getChildren().add(potionView);
 
-		this.craftedPotion = potion;
+		this.brewedPotion = potion;
 
 		brewingPane.refreshInventory();
 		GameController.getInventoryPane().refreshInventory();
@@ -240,7 +240,7 @@ public class BrewingStand extends VBox {
 				brewingPane.returnIngredient(ingredient);
 			}
 			outputSlot.getChildren().clear();
-			craftedPotion = null;
+			brewedPotion = null;
 		}
 
 		ingredientsInSlots.clear();

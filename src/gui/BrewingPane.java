@@ -23,7 +23,7 @@ public class BrewingPane extends VBox {
 
 	private final ArrayList<InventorySquare> ingredientCells = new ArrayList<>();
 	private final ArrayList<InventorySquare> potionCells = new ArrayList<>();
-	private final ArrayList<Ingredient> craftIngredient = new ArrayList<>();
+	private final ArrayList<Ingredient> brewIngredient = new ArrayList<>();
 
 	private final IngredientCounter ingredientCounter;
 	private final PotionCounter potionCounter;
@@ -189,8 +189,8 @@ public class BrewingPane extends VBox {
 		}
 	}
 
-	public ArrayList<Ingredient> getCraftIngredient() {
-		return craftIngredient;
+	public ArrayList<Ingredient> getBrewIngredient() {
+		return brewIngredient;
 	}
 
 	public ControlBrewing getControlBrewing() {
