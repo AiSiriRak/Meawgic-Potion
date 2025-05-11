@@ -26,7 +26,7 @@ public class Shop extends GameObject implements Interactable {
 	}
 
 	@Override
-	public boolean getCanInteracte() {
+	public boolean getCanInteract() {
 		return true;
 	}
 

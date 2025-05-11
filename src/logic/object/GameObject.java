@@ -28,7 +28,7 @@ public abstract class GameObject implements Collidable, Renderable {
 		// Render Interact Area
 		if (this instanceof Interactable) {
 			Rectangle2D interactArea = ((Interactable) this).getInteractArea();
-			if (((Interactable) this).getCanInteracte()) {
+			if (((Interactable) this).getCanInteract()) {
 
 				gc.setFill(Color.web("#FAF5DF", 0.2));
 				gc.setStroke(Color.web("#FAF5DF"));

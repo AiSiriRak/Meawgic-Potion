@@ -139,7 +139,7 @@ public class Pot extends GameObject implements Interactable, DoAnimation, DoTime
 	}
 
 	@Override
-	public boolean getCanInteracte() {
+	public boolean getCanInteract() {
 		if (currentStage == 1)
 			return false;
 		return true;

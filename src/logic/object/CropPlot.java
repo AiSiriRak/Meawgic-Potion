@@ -145,7 +145,7 @@ public class CropPlot extends GameObject implements Interactable, DoTimer {
 	}
 
 	@Override
-	public boolean getCanInteracte() {
+	public boolean getCanInteract() {
 		if (currentStage == 2 || (currentStage == 1 && isWatered))
 			return false;
 		return true;

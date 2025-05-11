@@ -29,7 +29,7 @@ public class House extends GameObject implements Interactable {
 	}
 
 	@Override
-	public boolean getCanInteracte() {
+	public boolean getCanInteract() {
 		if (GameController.currentMap instanceof OutsideMap)
 			return true;
 		else

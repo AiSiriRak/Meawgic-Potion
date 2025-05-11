@@ -124,7 +124,7 @@ public abstract class Map extends Canvas {
 		for (GameObject obj : gameObjectList) {
 			if (obj instanceof Interactable) {
 				if (((Interactable) obj).getInteractArea().contains(player.getHitbox())
-						&& ((Interactable) obj).getCanInteracte()) {
+						&& ((Interactable) obj).getCanInteract()) {
 					obj.setInteractAreaBorder(5);
 
 					if (keyboard.isEPressed() && !isEHandled) {

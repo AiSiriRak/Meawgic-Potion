@@ -46,7 +46,7 @@ public class Pond extends GameObject implements Interactable, DoAnimation {
 	}
 
 	@Override
-	public boolean getCanInteracte() {
+	public boolean getCanInteract() {
 		if (GameController.waterBar.getWaterLevel() == 10)
 			return false;
 		return true;
