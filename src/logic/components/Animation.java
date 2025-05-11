@@ -1,6 +1,7 @@
 package logic.components;
 
 import javafx.scene.image.Image;
+import logic.game.SoundController;
 
 public class Animation {
 

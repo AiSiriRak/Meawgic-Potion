@@ -6,6 +6,7 @@ import Font.FontRect;
 import Inventory.IngredientCounter;
 import Inventory.PotionCounter;
 import application.Main;
+import gui.button.ExitButtton;
 import gui.button.InventoryButton;
 import gui.button.SettingButton;
 import gui.pane.ControlBrewing;
@@ -16,6 +17,13 @@ import gui.pane.ShopPane;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -58,6 +66,7 @@ public class GameController {
 
 	public static Coin coin;
 	private static Text coinText;
+	
 	public static StackPane warningCoinPane;
 
 	public static void setupScene() {
@@ -79,6 +88,39 @@ public class GameController {
 			inventoryPane = new InventoryPane(sharedIngredientCounter, sharedPotionCounter);
 			SettingButton settingButton = new SettingButton();
 			SettingPane settingPane = new SettingPane(Main.getPrimaryStage());
+			
+			
+			Image PotionGuildeImg = new Image(ClassLoader.getSystemResource("Images/PotionGuide.png" ).toString());
+	        BackgroundImage bg = new BackgroundImage(PotionGuildeImg, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT,
+	                BackgroundPosition.CENTER,
+	                new BackgroundSize(500, 384.6, false, false, false, false));
+			ImageView potionGuideButton = new ImageView(ClassLoader.getSystemResource("Images/Setting_btn.png" ).toString());
+	      
+			StackPane PotionGuide = new StackPane();
+			PotionGuide.setBackground(new Background(bg));
+			ExitButtton exitButton = new ExitButtton();
+			exitButton.setOnAction(e -> {
+				PotionGuide.setVisible(false);
+			});
+			PotionGuide.setAlignment(Pos.TOP_RIGHT);
+			PotionGuide.setVisible(false); 
+
+			potionGuideButton.setOnMouseClicked(e -> {
+				PotionGuide.setVisible(!PotionGuide.isVisible());
+				exitButton.setVisible(true);
+			});
+	        potionGuideButton.setOnMouseEntered(e -> {
+				SoundController.getInstance().playEffectSound("Click_ingredient");
+				potionGuideButton.setScaleX(1.08);
+				potionGuideButton.setScaleY(1.08);
+			});
+			potionGuideButton.setOnMouseExited(e -> {
+				potionGuideButton.setScaleX(1);
+				potionGuideButton.setScaleY(1);
+			});
+			
+			PotionGuide.getChildren().add(exitButton);
+			
 
 			shopPane = new ShopPane();
 			
@@ -117,10 +159,11 @@ public class GameController {
 			HBox overlay = new HBox(10);
 			overlay.setAlignment(Pos.BOTTOM_LEFT);
 			overlay.setPadding(new Insets(10));
-			overlay.getChildren().addAll(settingButton, inventoryButton);
+			overlay.getChildren().addAll(settingButton, inventoryButton, potionGuideButton);
 			StackPane.setAlignment(overlay, Pos.TOP_LEFT);
 
 			inventoryButton.setOnMouseEntered(e -> {
+				SoundController.getInstance().playEffectSound("Click_ingredient");
 				inventoryButton.setScaleX(1.08);
 				inventoryButton.setScaleY(1.08);
 			});
@@ -129,6 +172,7 @@ public class GameController {
 				inventoryButton.setScaleY(1);
 			});
 			settingButton.setOnMouseEntered(e -> {
+				SoundController.getInstance().playEffectSound("Click_ingredient");
 				settingButton.setScaleX(1.08);
 				settingButton.setScaleY(1.08);
 			});
@@ -157,7 +201,7 @@ public class GameController {
 	        StackPane.setAlignment(coinText, Pos.TOP_RIGHT);
 	        StackPane.setMargin(coinText, new Insets(10, 20, 0, 0));
             
-			layeredRoot.getChildren().addAll(root, overlay, inventoryPane, settingPane, shopPane, warningWaterPane, warningCoinPane, waterBar,coinText);
+			layeredRoot.getChildren().addAll(root, overlay, inventoryPane, settingPane,PotionGuide, shopPane, warningWaterPane, warningCoinPane, waterBar,coinText);
 
 			Main.getPrimaryStage().setScene(scene);
 		} catch (Exception e) {

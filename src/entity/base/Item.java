@@ -10,7 +10,7 @@ public abstract class Item {
 
 	protected Item(String name, int capacity) {
 		this.name = name;
-		this.setCapacity(0);
+		this.setCapacity(10);
 		this.itemImage = new ImageView(ClassLoader.getSystemResource("Images/" + name + ".png").toString());
 		this.itemImage.setSmooth(false);
 	}

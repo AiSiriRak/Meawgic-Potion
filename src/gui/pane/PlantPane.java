@@ -25,6 +25,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import logic.game.GameController;
+import logic.game.SoundController;
 import logic.object.Crop;
 
 public class PlantPane extends StackPane {
@@ -131,6 +132,7 @@ public class PlantPane extends StackPane {
 	                        System.out.println("Purchase successful!");
 	                        associatedCrop.setItem(ingredient);
 	                        associatedCrop.changeStage(1);
+	                        SoundController.getInstance().playEffectSound("buy");
 	                        this.setVisible(false);
 	                    } else {
 	                    	

@@ -17,6 +17,7 @@ import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 import logic.game.GameController;
+import logic.game.SoundController;
 
 public class BrewingPane extends VBox {
 	private static final int GRID_ROWS = 2;
@@ -137,8 +138,10 @@ public class BrewingPane extends VBox {
 			return;
 
 		if (brewingStand.containsIngredient(ingredient)) {
+			SoundController.getInstance().playEffectSound("Click_ingredient");
 			brewingStand.removeIngredient(ingredient);
 		} else if (brewingStand.hasAvailableSlot()) {
+			SoundController.getInstance().playEffectSound("Click_ingredient");
 			brewingStand.addIngredient(ingredient);
 			ingredient.setCapacity(ingredient.getCapacity() - 1);
 		}

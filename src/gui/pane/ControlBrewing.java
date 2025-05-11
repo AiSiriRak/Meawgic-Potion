@@ -7,8 +7,11 @@ import gui.button.ExitButtton;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import logic.game.SoundController;
 import logic.object.Pot;
 
 public class ControlBrewing extends AnchorPane {
@@ -30,21 +33,32 @@ public class ControlBrewing extends AnchorPane {
         contentBox.setPrefSize(960, 600);
         contentBox.setAlignment(Pos.CENTER);
         contentBox.getChildren().addAll(brewingStand, brewingPane);
+        
+        ImageView resetButton = new ImageView(ClassLoader.getSystemResource("Images/ResetIngredient_btn.png").toString());
+        resetButton.setFitWidth(100);
+        resetButton.setPreserveRatio(true);
+        resetButton.setSmooth(true);
+        resetButton.setOnMouseClicked(e -> brewingStand.resetIngredients());
 
-        Button resetButton = new Button("Reset Ingredients");
-        resetButton.setOnAction(e -> brewingStand.resetIngredients());
-
-        Button craftButton = new Button("Craft Potion");
-        craftButton.setOnAction(e -> {
+        ImageView craftButton = new ImageView(ClassLoader.getSystemResource("Images/Craft_btn.png").toString());
+        craftButton.setFitWidth(100);
+        craftButton.setPreserveRatio(true);
+        craftButton.setSmooth(true);
+        craftButton.setOnMouseClicked(e -> {
         	if (brewingStand.craftable()) {
                 brewingStand.craftPotion();
                 brewingStand.resetIngredients();
                 associatedPot.changeStage(1);
                 this.setVisible(false);
+                SoundController.getInstance().playEffectSound("Buy");
             }
+        	else {
+        		SoundController.getInstance().playEffectSound("Buy");
+        	}
         });
 
-        VBox controlBox = new VBox(10, craftButton, resetButton);
+        HBox controlBox = new HBox(10, craftButton, resetButton);
+        controlBox.setSpacing(20);
         controlBox.setAlignment(Pos.CENTER);
         contentBox.getChildren().add(controlBox);
 
@@ -54,7 +68,7 @@ public class ControlBrewing extends AnchorPane {
         this.setPrefSize(500, 400);
         AnchorPane.setTopAnchor(contentBox, 10.0);
         AnchorPane.setLeftAnchor(contentBox, 35.0);
-        AnchorPane.setTopAnchor(exitButton, 25.0);
+        AnchorPane.setTopAnchor(exitButton, 30.0);
         AnchorPane.setRightAnchor(exitButton, 255.0);
 
         this.getChildren().addAll(contentBox, exitButton);

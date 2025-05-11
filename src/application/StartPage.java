@@ -8,9 +8,9 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import logic.game.GameController;
+import logic.game.SoundController;
 
 public class StartPage {
 	private final Scene scene;
@@ -20,7 +20,6 @@ public class StartPage {
 		root.setAlignment(Pos.CENTER);
 		root.setBackground(new Background(new BackgroundImage(
 				new Image(ClassLoader.getSystemResource("Images/Start_BG.png").toString()), null, null, null, null)));
-//		root.setBackground(new Background(new BackgroundFill(Color.web("#FAF5DF"), null, null)));
 
 		HBox btn = new HBox(200);
 		btn.setAlignment(Pos.CENTER);
@@ -32,6 +31,7 @@ public class StartPage {
 		startButton.setPreserveRatio(true);
 		startButton.setSmooth(true);
 		startButton.setOnMouseEntered(e -> {
+			SoundController.getInstance().playEffectSound("Opening_game");
 			startButton.setScaleX(1.08);
 			startButton.setScaleY(1.08);
 		});
@@ -42,7 +42,6 @@ public class StartPage {
 		});
 		startButton.setOnMouseClicked(e -> {
 			primaryStage.setScene(GameController.getScene());
-//            GameController.setupScene();
 		});
 
 		ImageView exitButton = new ImageView(ClassLoader.getSystemResource("Images/ExitGame_btn.png").toString());
@@ -50,6 +49,7 @@ public class StartPage {
 		exitButton.setPreserveRatio(true);
 		exitButton.setSmooth(true);
 		exitButton.setOnMouseEntered(e -> {
+			SoundController.getInstance().playEffectSound("Opening_game");
 			exitButton.setScaleX(1.08);
 			exitButton.setScaleY(1.08);
 		});

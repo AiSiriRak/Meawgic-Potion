@@ -5,6 +5,7 @@ import javafx.scene.image.Image;
 import logic.components.Animation;
 import logic.components.DoAnimation;
 import logic.game.GameController;
+import logic.game.SoundController;
 
 public class Pond extends GameObject implements Interactable, DoAnimation {
 
@@ -26,6 +27,7 @@ public class Pond extends GameObject implements Interactable, DoAnimation {
 
 	@Override
 	public void interact() {
+		SoundController.getInstance().playEffectSound("Water");
 		System.out.println("Interact with " + this.name);
 		GameController.waterBar.updateBar(10);
 

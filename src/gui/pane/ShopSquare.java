@@ -19,6 +19,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import logic.game.GameController;
+import logic.game.SoundController;
 
 public class ShopSquare extends StackPane {
 	private ImageView frame;
@@ -95,6 +96,7 @@ public class ShopSquare extends StackPane {
 	    GameController.updateCoinDisplay();
 	    GameController.getInventoryPane().refreshInventory();
 	    setupNewGoods();
+	    SoundController.getInstance().playEffectSound("Buy");
 	}
 
 
