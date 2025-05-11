@@ -9,7 +9,7 @@ public abstract class Item {
 
 	protected Item(String name) {
 		this.name = name;
-		this.setAmount(0);
+		this.setAmount(10);
 		this.itemImage = new ImageView(ClassLoader.getSystemResource("Images/" + name + ".png").toString());
 	}
 

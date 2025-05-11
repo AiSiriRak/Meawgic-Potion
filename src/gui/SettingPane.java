@@ -135,6 +135,17 @@ public class SettingPane extends StackPane {
 		primaryStage.setScene(startPage.getScene());
 	}
 
+	// Getters and setters
+	public boolean isSoundEnabled() {
+		return soundEnabled;
+	}
+
+	public void setSoundEnabled(boolean soundEnabled) {
+		this.soundEnabled = soundEnabled;
+	}
+
+
+
 	public Stage getPrimaryStage() {
 		return primaryStage;
 	}
