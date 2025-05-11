@@ -150,7 +150,7 @@ public class BrewingPane extends VBox {
 			square.getChildren().clear();
 		}
 
-		// ingredient
+		// ingredients
 		int index = 0;
 		for (Ingredient ingredient : ingredientCounter.getIngredientCounter()) {
 			if (index >= ingredientAllCells.size())
@@ -160,7 +160,7 @@ public class BrewingPane extends VBox {
 			setupSquareWithItem(square, ingredient);
 		}
 
-		// potion
+		// potions
 		index = 0;
 		for (Potion potion : potionCounter.getPotionCounter()) {
 			if (index >= potionAllCells.size())
