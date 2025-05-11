@@ -39,7 +39,6 @@ public class Pot extends GameObject implements Interactable, DoAnimation, DoTime
 
 	@Override
 	public void interact() {
-		System.out.println("Interact with " + this.name);
 
 		switch (this.currentStage) {
 		// Empty Pot
@@ -63,14 +62,6 @@ public class Pot extends GameObject implements Interactable, DoAnimation, DoTime
 	@Override
 	public Rectangle2D getInteractArea() {
 		return this.interactArea;
-	}
-
-	public void interactAreaRender(GraphicsContext gc, double camX, double camY) {
-
-		gc.setFill(Color.GREEN);
-		gc.fillRect(interactArea.getMinX() - camX, interactArea.getMinY() - camY, interactArea.getWidth(),
-				interactArea.getHeight());
-
 	}
 
 	public void setAnimation() {
