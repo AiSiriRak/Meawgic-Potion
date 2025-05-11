@@ -132,7 +132,7 @@ public class PlantPane extends StackPane {
 							SoundController.getInstance().playEffectSound("buy");
 							this.setVisible(false);
 						} else {
-
+							SoundController.getInstance().playEffectSound("Wrong");
 						}
 						e.consume();
 					});

@@ -165,7 +165,6 @@ public class GameController {
 	        }
 
 	        for (PlantPane p : plantPanes) {
-	            System.out.println(3);
 	            p.setVisible(false);
 	            layeredRoot.getChildren().add(p);
 	        }

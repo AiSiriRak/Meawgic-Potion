@@ -19,6 +19,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 import logic.game.GameController;
+import logic.game.SoundController;
 
 public class InventoryPane extends StackPane {
 	private final ArrayList<InventorySquare> poallCells = new ArrayList<>();
@@ -108,6 +109,7 @@ public class InventoryPane extends StackPane {
 						if (ingredient instanceof Stone) {
 							GameController.getInventoryPane().addIngredient((Stone) ingredient);
 							GameController.coin.decreaseCoin(5);
+							SoundController.getInstance().playEffectSound("Buy");
 						}
 					});
 

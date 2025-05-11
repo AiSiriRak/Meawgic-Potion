@@ -77,7 +77,7 @@ public class SoundController {
             if (resource != null) {
                 Media media = new Media(resource.toString());
                 MediaPlayer effectPlayer = new MediaPlayer(media);
-                effectPlayer.setVolume(0.7);
+                effectPlayer.setVolume(0.9);
                 effectPlayer.setOnReady(() -> effectPlayer.play());
                 effectPlayer.setOnEndOfMedia(() -> activeEffects.remove(effectPlayer));
                 effectPlayer.setOnError(() -> System.err.println("playEffectSound: MediaPlayer error: " + effectPlayer.getError()));

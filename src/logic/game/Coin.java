@@ -30,10 +30,8 @@ public class Coin {
 			Thread warningCountdown = new Thread(() -> {
 				while (this.isWarning) {
 					try {
-						System.out.println(1);
 						GameController.warningCoinPane.setVisible(true);
 						Thread.sleep(1000);
-						System.out.println(2);
 						GameController.warningCoinPane.setVisible(false);
 						this.isWarning = false;
 					} catch (InterruptedException e) {

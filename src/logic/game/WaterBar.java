@@ -37,6 +37,7 @@ public class WaterBar extends Pane {
 
 		} else {
 			System.out.println("No Water!!");
+			SoundController.getInstance().playEffectSound("Wrong");
 			this.isEnoughWater = false;
 
 			this.isWarning = true;

@@ -19,7 +19,6 @@ public class Main extends Application {
 		GameController.setupScene();
 		SoundController.getInstance().playMusic();
 
-		//Set Stage
 		StartPage startPage = new StartPage(primaryStage);
 		Scene startScene = startPage.getScene();
 		primaryStage.setScene(startScene);

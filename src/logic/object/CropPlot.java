@@ -59,7 +59,7 @@ public class CropPlot extends GameObject implements Interactable, DoTimer {
 		case 1:
 			GameController.waterBar.updateBar(GameController.waterBar.getWaterLevel() - 3);
 			if (GameController.waterBar.isEnoughWater()) {
-//				SoundController.getInstance().playEffectSound("Water");
+				SoundController.getInstance().playEffectSound("Water");
 				isWatered = true;
 
 				this.changeStage(2);
@@ -71,6 +71,7 @@ public class CropPlot extends GameObject implements Interactable, DoTimer {
 			break;
 
 		case 3:
+			SoundController.getInstance().playEffectSound("Gain");
 			GameController.getInventoryPane().addIngredient(item);
 			this.item = null;
 			isWatered = false;

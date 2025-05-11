@@ -96,7 +96,7 @@ public class QuestSquare extends StackPane {
 		GameController.coin.increaseCoin(sellPrice * quantity);
 		GameController.updateCoinDisplay();
 		GameController.getInventoryPane().refreshInventory();
-		SoundController.getInstance().playEffectSound("Buy");
+		SoundController.getInstance().playEffectSound("Sell");
 		setupNewGoods();
 	}
 

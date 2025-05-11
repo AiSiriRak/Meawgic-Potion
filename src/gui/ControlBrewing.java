@@ -46,7 +46,10 @@ public class ControlBrewing extends AnchorPane {
 				brewingStand.resetIngredients();
 				associatedPot.changeStage(1);
 				this.setVisible(false);
-				SoundController.getInstance().playEffectSound("Buy");
+				SoundController.getInstance().playEffectSound("Sell");
+			}
+			else {
+				SoundController.getInstance().playEffectSound("Wrong");
 			}
 		});
 
