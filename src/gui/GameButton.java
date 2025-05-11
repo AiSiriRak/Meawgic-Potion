@@ -2,6 +2,7 @@ package gui;
 
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
+import logic.game.SoundController;
 
 public class GameButton extends Button {
 
@@ -29,6 +30,18 @@ public class GameButton extends Button {
 		setOnMouseEntered(e -> {
 			setScaleX(1.08);
 			setScaleY(1.08);
+		});
+		setOnMouseExited(e -> {
+			setScaleX(1);
+			setScaleY(1);
+		});
+	}
+	
+	public void setSoundHover(String sound) {
+		setOnMouseEntered(e -> {
+			setScaleX(1.08);
+			setScaleY(1.08);
+			SoundController.getInstance().playEffectSound(sound);
 		});
 		setOnMouseExited(e -> {
 			setScaleX(1);

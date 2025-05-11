@@ -1,5 +1,6 @@
 package application;
 
+import gui.GameButton;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -30,12 +31,14 @@ public class StartPage {
 		HBox btn = new HBox(200);
 		btn.setAlignment(Pos.CENTER);
 
-		ImageView startButton = setNewButton("StartGame_btn.png");
+		GameButton startButton = new GameButton("StartGame",200);
+		startButton.setSoundHover("Opening_game");
 		startButton.setOnMouseClicked(e -> {
 			primaryStage.setScene(GameController.getScene());
 		});
 
-		ImageView exitButton = setNewButton("ExitGame_btn.png");
+		GameButton exitButton = new GameButton("ExitGame", 200);
+		exitButton.setSoundHover("Opening_game");
 		exitButton.setOnMouseClicked(e -> primaryStage.close());
 
 		btn.getChildren().addAll(startButton, exitButton);

@@ -19,7 +19,6 @@ public class Player implements Collidable, Renderable, DoAnimation {
 	private Animation walkRightAnimation;
 	final private int FPS = 9;
 	private String direction;
-	private boolean isMoving;
 
 	private Rectangle2D hitbox;
 

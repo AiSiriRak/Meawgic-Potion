@@ -29,7 +29,7 @@ public class SettingPane extends StackPane {
 	}
 
 	private VBox createContentBox() {
-		VBox contentBox = new VBox(10);
+		VBox contentBox = new VBox(5);
 		contentBox.setPrefSize(384, 320);
 		contentBox.setMinSize(384, 224);
 		contentBox.setMaxSize(384, 224);
@@ -40,7 +40,7 @@ public class SettingPane extends StackPane {
 		Text title = new Text("Game Options");
 		title.setFont(FontRect.REGULAR.getFont(35));
 
-		VBox soundBox = new VBox(20, createToggleSetting("Sound", true), createToggleSetting("Effect", false));
+		VBox soundBox = new VBox(10, createToggleSetting("Sound", true), createToggleSetting("Effect", false));
 		soundBox.setAlignment(Pos.CENTER);
 
 		HBox buttonBox = new HBox(20, createIconButton("ResetGame_btn.png", GameController::resetGame),
@@ -56,9 +56,9 @@ public class SettingPane extends StackPane {
 
 	private HBox createToggleSetting(String label, boolean isSound) {
 		Text text = new Text(label);
-		text.setFont(FontRect.REGULAR.getFont(16));
+		text.setFont(FontRect.REGULAR.getFont(20));
 		ImageView toggleBtn = new ImageView(new Image(getImagePath("On_btn.png")));
-		toggleBtn.setFitWidth(64);
+		toggleBtn.setFitWidth(96);
 		toggleBtn.setPreserveRatio(true);
 		toggleBtn.setSmooth(true);
 
