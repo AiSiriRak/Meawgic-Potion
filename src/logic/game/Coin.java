@@ -48,14 +48,6 @@ public class Coin {
 		return coin;
 	}
 
-	public boolean isEnoughCoin() {
-		return isEnoughCoin;
-	}
-
-	public void setEnoughCoin(boolean isEnoughCoin) {
-		this.isEnoughCoin = isEnoughCoin;
-	}
-
 	public boolean isWarning() {
 		return isWarning;
 	}

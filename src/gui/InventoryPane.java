@@ -34,6 +34,7 @@ public class InventoryPane extends StackPane {
 		VBox content = createContentBox();
 		GameButton exitButton = new GameButton("Exit");
 		exitButton.setSoundHover("Click_Ingredient");
+		exitButton.setOnMouseClicked(e -> this.setVisible(false));
 
 		AnchorPane container = new AnchorPane();
 		container.setPrefSize(500, 400);
