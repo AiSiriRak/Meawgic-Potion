@@ -6,7 +6,7 @@ public class Coin {
     private boolean isWarning;
 
     public Coin() {
-        this.coins = 100;
+        this.coins = 0;
         this.isWarning = false;
     }
 
