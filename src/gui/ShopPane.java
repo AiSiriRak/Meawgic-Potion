@@ -31,6 +31,12 @@ public class ShopPane extends StackPane {
 		getChildren().addAll(bg, headText, questGrid, exitButton);
 	}
 
+	public void refresh() {
+		for (Node questSquare : this.questGrid.getChildren()) {
+			((QuestSquare) questSquare).update();
+		}
+	}
+
 	private GameButton getExitButton() {
 		GameButton exitButton = new GameButton("Exit");
 		exitButton.setOnMouseClicked(e -> this.setVisible(false));
@@ -62,9 +68,4 @@ public class ShopPane extends StackPane {
 		this.questGrid.add(new QuestSquare(), 1, 1);
 	}
 
-	public void refresh() {
-		for (Node questSquare : this.questGrid.getChildren()) {
-			((QuestSquare) questSquare).update();
-		}
-	}
 }
