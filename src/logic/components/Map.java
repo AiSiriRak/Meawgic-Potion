@@ -12,39 +12,36 @@ import javafx.scene.image.Image;
 import logic.game.Camera;
 import logic.game.GameController;
 import logic.game.KeyboardController;
-import logic.game.SoundController;
 import logic.object.GameObject;
 import logic.object.Interactable;
 import logic.object.Renderable;
 
 public abstract class Map extends Canvas {
 
-	protected int mapWidth;
-	protected int mapHeight;
+	protected double mapWidth;
+	protected double mapHeight;
 
 	protected int playerStartX;
 	protected int playerStartY;
 
-	protected Image bg;
-	private String name;
+	protected Image background;
 	protected Player player;
-	private Camera camera;
+	protected Camera camera;
 
-	Rectangle2D mapEdge;
+	protected Rectangle2D mapEdge;
 
-	ArrayList<GameObject> gameObjectList;
+	protected ArrayList<GameObject> gameObjectList;
 
-	List<Renderable> renderables = new ArrayList<>();
+	protected List<Renderable> renderables = new ArrayList<>();
 
-	private boolean isEHandled = false;
+	protected boolean isEHandled = false;
 
-	public Map(int mapWidth, int mapHeight, String name, Rectangle2D mapEdge, int playerStartX, int playerStartY,
+	public Map(Image background, Rectangle2D mapEdge, int playerStartX, int playerStartY,
 			ArrayList<GameObject> gameObjectList) {
-		super(mapWidth, mapHeight);
-		this.mapWidth = mapWidth;
-		this.mapHeight = mapHeight;
-		this.name = name;
-		this.bg = new Image(ClassLoader.getSystemResource("Images/" + name + ".png").toString());
+		super(background.getWidth(), background.getHeight());
+		this.mapWidth = background.getWidth();
+		this.mapHeight = background.getHeight();
+		this.background = background;
 		this.playerStartX = playerStartX;
 		this.playerStartY = playerStartY;
 		this.player = new Player(playerStartX, playerStartY);
@@ -52,14 +49,14 @@ public abstract class Map extends Canvas {
 		this.gameObjectList = gameObjectList;
 		this.mapEdge = mapEdge;
 
-		updateCanvas(getGraphicsContext2D());
+		updateCanvas();
 
 	}
 
-	public void updateCanvas(GraphicsContext gc) {
-		
+	public void updateCanvas() {
+		GraphicsContext gc = getGraphicsContext2D();
 		gc.setImageSmoothing(false);
-		
+
 		int scWidth = GameController.SCREEN_WIDTH;
 		int scHeight = GameController.SCREEN_HEIGHT;
 		Thread updateCanvas = new Thread(() -> {
@@ -74,7 +71,7 @@ public abstract class Map extends Canvas {
 
 							gc.clearRect(0, 0, GameController.SCREEN_WIDTH, GameController.SCREEN_HEIGHT);
 
-							gc.drawImage(bg, cameraX, cameraY, scWidth, scHeight, 0, 0, scWidth, scHeight);
+							gc.drawImage(background, cameraX, cameraY, scWidth, scHeight, 0, 0, scWidth, scHeight);
 							playerMove();
 
 							for (GameObject obj : gameObjectList) {
@@ -102,7 +99,7 @@ public abstract class Map extends Canvas {
 				}
 
 			}
-		}, "UpdateCanvas : " + name);
+		});
 		updateCanvas.start();
 	}
 
@@ -182,16 +179,12 @@ public abstract class Map extends Canvas {
 		this.interact();
 	}
 
-	public int getMapWidth() {
+	public double getMapWidth() {
 		return this.mapWidth;
 	}
 
-	public int getMapHeight() {
+	public double getMapHeight() {
 		return this.mapHeight;
-	}
-
-	public String getName() {
-		return this.name;
 	}
 
 	public void resetPlayerPos() {

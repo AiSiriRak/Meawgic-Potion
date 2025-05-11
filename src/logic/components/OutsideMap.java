@@ -2,9 +2,9 @@ package logic.components;
 
 import java.util.ArrayList;
 
-import entity.data.*;
 import gui.PlantPane;
 import javafx.geometry.Rectangle2D;
+import javafx.scene.image.Image;
 import logic.object.CropPlot;
 import logic.game.GameController;
 import logic.object.*;
@@ -14,16 +14,17 @@ public class OutsideMap extends Map {
 	private static ArrayList<GameObject> gameObjectList = new ArrayList<>();
 
 	public OutsideMap() {
-		super(1536, 1152, "Outside_Base", new Rectangle2D(0, 0, 1536, 1152), 576, 320, gameObjectList);
+		super(new Image(ClassLoader.getSystemResource("Images/Outside_Base.png").toString()),
+				new Rectangle2D(0, 0, 1536, 1152), 576, 320, gameObjectList);
 		this.player.setDirection("down");
 		this.setObject();
 	}
 
-	public void setObject() {
-		setCrop("Crop - 1", 768, 384);
-		setCrop("Crop - 2", 1088, 384);
-		setCrop("Crop - 3", 768, 704);
-		setCrop("Crop - 4", 1088, 704);
+	private void setObject() {
+		setCropPlot("Crop - 1", 768, 384);
+		setCropPlot("Crop - 2", 1088, 384);
+		setCropPlot("Crop - 3", 768, 704);
+		setCropPlot("Crop - 4", 1088, 704);
 
 		House house = new House("House", 448, 0);
 		gameObjectList.add(house);
@@ -63,7 +64,7 @@ public class OutsideMap extends Map {
 		gameObjectList.addAll(tree);
 	}
 
-	private void setCrop(String name, int x, int y) {
+	private void setCropPlot(String name, int x, int y) {
 		CropPlot crop = new CropPlot(name, x, y);
 		PlantPane plantPane = new PlantPane(crop);
 		gameObjectList.add(crop);

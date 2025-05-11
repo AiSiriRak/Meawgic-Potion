@@ -9,15 +9,15 @@ import logic.object.Renderable;
 
 public class Player implements Collidable, Renderable, DoAnimation {
 	private double x, y;
-	final static double SPEED = 8;
-	final static double SIZE = 64;
+	public static final double SPEED = 8;
+	public static final double SIZE = 64;
 	private Image playerImage;
 
 	private Animation walkDownAnimation;
 	private Animation walkUpAnimation;
 	private Animation walkLeftAnimation;
 	private Animation walkRightAnimation;
-	final private int FPS = 9;
+	private final int FPS = 9;
 	private String direction;
 
 	private Rectangle2D hitbox;
@@ -91,12 +91,26 @@ public class Player implements Collidable, Renderable, DoAnimation {
 
 	}
 
-	public void setImage(Image image) {
-		this.playerImage = image;
+	public double getY() {
+		return y + SIZE;
+	}
+
+	public Rectangle2D getHitbox() {
+		return this.hitbox;
+
+	}
+
+	public Rectangle2D getHitbox(double nextX, double nextY) {
+		return new Rectangle2D(SIZE / 4 + nextX, SIZE / 1.6 + nextY, SIZE / 2, SIZE / 3.2);
+
 	}
 
 	public void setDirection(String direction) {
 		this.direction = direction;
+	}
+
+	public void setImage(Image image) {
+		this.playerImage = image;
 	}
 
 	public void setPosX(double x) {
@@ -114,19 +128,4 @@ public class Player implements Collidable, Renderable, DoAnimation {
 	public double getPosY() {
 		return y;
 	}
-
-	public double getY() {
-		return y + SIZE;
-	}
-
-	public Rectangle2D getHitbox() {
-		return this.hitbox;
-
-	}
-
-	public Rectangle2D getHitbox(double nextX, double nextY) {
-		return new Rectangle2D(SIZE / 4 + nextX, SIZE / 1.6 + nextY, SIZE / 2, SIZE / 3.2);
-
-	}
-	
 }

@@ -28,9 +28,4 @@ public class Animation {
 	public Image getCurrentFrame() {
 		return frames[currentFrame];
 	}
-
-	public void reset() {
-		currentFrame = 0;
-		lastFrameTime = System.currentTimeMillis();
-	}
 }
