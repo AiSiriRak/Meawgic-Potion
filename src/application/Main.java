@@ -14,16 +14,16 @@ public class Main extends Application {
 
 	@Override
 	public void start(Stage primaryStage) {
-		// ===================== run here =======================
 		
 		Main.primaryStage = primaryStage;
 		GameController.setupScene();
+		SoundController.getInstance().playMusic();
 
+		//Set Stage
 		StartPage startPage = new StartPage(primaryStage);
 		Scene startScene = startPage.getScene();
 		primaryStage.setScene(startScene);
 		primaryStage.setTitle("Meowgic Potion");
-		primaryStage.show();
 		primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 			@Override
 			public void handle(WindowEvent e) {
@@ -32,6 +32,7 @@ public class Main extends Application {
 			}
 		});
 		primaryStage.setResizable(false);
+		primaryStage.show();
 	}
 
 	public static Stage getPrimaryStage() {
@@ -41,6 +42,6 @@ public class Main extends Application {
 	public static void main(String[] args) {
 		launch(args);
 	}
+
 }
 
-// =================== end here ========================

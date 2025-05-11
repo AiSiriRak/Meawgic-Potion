@@ -3,9 +3,9 @@ package logic.components;
 import java.util.ArrayList;
 
 import entity.data.*;
-import gui.pane.PlantPane;
+import gui.PlantPane;
 import javafx.geometry.Rectangle2D;
-import logic.object.Crop;
+import logic.object.CropPlot;
 import logic.game.GameController;
 import logic.object.*;
 
@@ -64,7 +64,7 @@ public class OutsideMap extends Map {
 	}
 
 	private void setCrop(String name, int x, int y) {
-		Crop crop = new Crop(name, x, y);
+		CropPlot crop = new CropPlot(name, x, y);
 		PlantPane plantPane = new PlantPane(crop);
 		gameObjectList.add(crop);
 		crop.setPlantPane(plantPane);

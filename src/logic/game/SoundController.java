@@ -52,7 +52,7 @@ public class SoundController {
     public void playMusic() {
         if (musicEnabled && mediaPlayer != null) {
             mediaPlayer.play();
-            mediaPlayer.seek(javafx.util.Duration.seconds(currentMusicTime)); // Resume from previous time
+            mediaPlayer.seek(javafx.util.Duration.seconds(currentMusicTime));
         } else if (musicEnabled && mediaPlayer == null) {
             initializeMusicPlayer();
             if (mediaPlayer != null) {

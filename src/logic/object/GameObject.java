@@ -66,11 +66,6 @@ public abstract class GameObject implements Collidable, Renderable {
 			}
 		}
 
-		// Render Hitbox
-//		gc.setStroke(Color.RED);
-//		gc.setLineWidth(2);
-//		gc.strokeRect(hitbox.getMinX() - camX, hitbox.getMinY() - camY, hitbox.getWidth(), hitbox.getHeight());
-
 	}
 
 	@Override

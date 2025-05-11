@@ -1,4 +1,4 @@
-package gui.pane;
+package gui;
 
 import javafx.scene.image.Image;
 import javafx.scene.layout.Background;
@@ -7,18 +7,18 @@ import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.Border;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 
-public class PotionSquare extends Pane {
+public class InventorySquare extends StackPane {
 	private int xPosition;
 	private int yPosition;
 	private String inventory;
 
-	public PotionSquare(int x, int y) {
+	public InventorySquare(int x, int y, String inventory) {
 		this.setxPosition(x);
 		this.setyPosition(y);
 
-		Image bgImage = new Image(ClassLoader.getSystemResource("Images/" + "Brewing_Frame.png").toString());
+		Image bgImage = new Image(ClassLoader.getSystemResource("Images/" + inventory + "_Frame.png").toString());
 		BackgroundImage backgroundImage = new BackgroundImage(bgImage, BackgroundRepeat.NO_REPEAT,
 				BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER,
 				new BackgroundSize(48, 48, false, false, false, false));

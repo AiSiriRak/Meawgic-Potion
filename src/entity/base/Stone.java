@@ -3,8 +3,8 @@ package entity.base;
 public class Stone extends Ingredient {
 	private int buyPrice;
 
-	public Stone(String name, int capacity) {
-		super(name, capacity);
+	public Stone(String name) {
+		super(name);
 		this.setBuyPrice(5);
 	}
 

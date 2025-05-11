@@ -2,7 +2,7 @@ package logic.components;
 
 import java.util.ArrayList;
 
-import gui.pane.ControlBrewing;
+import gui.ControlBrewing;
 import javafx.geometry.Rectangle2D;
 import logic.game.GameController;
 import logic.object.Door;

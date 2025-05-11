@@ -1,8 +1,8 @@
 package logic.object;
 
-import gui.pane.ControlBrewing;
 import entity.base.Potion;
 import entity.data.PotionData;
+import gui.ControlBrewing;
 import javafx.application.Platform;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.SnapshotParameters;
@@ -30,12 +30,9 @@ public class Pot extends GameObject implements Interactable, DoAnimation, DoTime
 
 	public Pot(String name, double x, double y) {
 		super(name, x, y, new Rectangle2D(x + 21, y + 51, 86, 77));
-		this.setImage(new Image(ClassLoader.getSystemResource("Images/Pot_Empty.png").toString()));
 		this.interactArea = new Rectangle2D(x + 32, y + 132, 64, 64);
-		this.currentStage = 0;
-		this.potion = null;
-		this.isTiming = false;
-		this.currentTime = 0;
+
+		changeStage(0); // This Included Initialize potion, currentStage, currentTime, isTiming
 		setAnimation();
 	}
 
@@ -55,7 +52,6 @@ public class Pot extends GameObject implements Interactable, DoAnimation, DoTime
 		case 2:
 			if (potion != null) {
 				GameController.getInventoryPane().addPotion(potion);
-				this.potion = null;
 				this.changeStage(0);
 			}
 			break;
@@ -118,6 +114,9 @@ public class Pot extends GameObject implements Interactable, DoAnimation, DoTime
 
 		case 0:
 			this.setImage(new Image(ClassLoader.getSystemResource("Images/Pot_Empty.png").toString()));
+			this.potion = null;
+			this.currentTime = 0;
+			this.isTiming = false;
 			break;
 		case 1:
 			updateAnimation();

@@ -6,14 +6,12 @@ import Font.FontRect;
 import Inventory.IngredientCounter;
 import Inventory.PotionCounter;
 import application.Main;
-import gui.button.ExitButtton;
-import gui.button.InventoryButton;
-import gui.button.SettingButton;
-import gui.pane.ControlBrewing;
-import gui.pane.InventoryPane;
-import gui.pane.PlantPane;
-import gui.pane.SettingPane;
-import gui.pane.ShopPane;
+import gui.ControlBrewing;
+import gui.GameButton;
+import gui.InventoryPane;
+import gui.PlantPane;
+import gui.SettingPane;
+import gui.ShopPane;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -49,7 +47,7 @@ public class GameController {
 	private static InventoryPane inventoryPane;
 	private static ControlBrewing controlBrewing;
 	private static PlantPane plantPane;
-	
+
 	private static ArrayList<ControlBrewing> controlBrewings = new ArrayList<>();
 	private static ControlBrewing currentControlBrewing;
 
@@ -65,8 +63,10 @@ public class GameController {
 	public static ShopPane shopPane;
 
 	public static Coin coin;
+
 	private static Text coinText;
-	
+	private static StackPane coinPane;
+
 	public static StackPane warningCoinPane;
 
 	public static void setupScene() {
@@ -84,9 +84,9 @@ public class GameController {
 
 			root.getChildren().add(currentMap);
 
-			InventoryButton inventoryButton = new InventoryButton();
+			GameButton inventoryButton = new GameButton("Inventory", 64);
 			inventoryPane = new InventoryPane(sharedIngredientCounter, sharedPotionCounter);
-			SettingButton settingButton = new SettingButton();
+			GameButton settingButton = new GameButton("setting", 64);
 			SettingPane settingPane = new SettingPane(Main.getPrimaryStage());
 			
 			
@@ -94,11 +94,13 @@ public class GameController {
 	        BackgroundImage bg = new BackgroundImage(PotionGuildeImg, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT,
 	                BackgroundPosition.CENTER,
 	                new BackgroundSize(500, 384.6, false, false, false, false));
-			ImageView potionGuideButton = new ImageView(ClassLoader.getSystemResource("Images/Setting_btn.png" ).toString());
+			ImageView potionGuideButton = new ImageView(ClassLoader.getSystemResource("Images/PotionGuide_btn.png" ).toString());
+			potionGuideButton.setFitWidth(64);
+			potionGuideButton.setPreserveRatio(true);
 	      
 			StackPane PotionGuide = new StackPane();
 			PotionGuide.setBackground(new Background(bg));
-			ExitButtton exitButton = new ExitButtton();
+			GameButton exitButton = new GameButton("Exit",64);
 			exitButton.setOnAction(e -> {
 				PotionGuide.setVisible(false);
 			});
@@ -123,30 +125,18 @@ public class GameController {
 			
 
 			shopPane = new ShopPane();
-			
-			coin = new Coin();
 
-			// Set WaterBar
-			warningWaterPane = new StackPane();
-			Rectangle warningBg = new Rectangle(160, 36);
-			warningBg.setFill(Color.web("#FAF5DF"));
-			Text warning = new Text("No Water!");
-			warning.setFont(FontRect.BOLD.getFont(24));
-			warning.setFill(Color.web("#34022A"));
-			warningWaterPane.getChildren().addAll(warningBg, warning);
+			// Set Water Warning Pane
+			warningWaterPane = getTextPane(160, 36, new Text("No Water!!!"));
 			warningWaterPane.setTranslateX(300);
 			warningWaterPane.setVisible(false);
-			
-			warningCoinPane = new StackPane();
-			Rectangle warningBg2 = new Rectangle(300, 36);
-			warningBg2.setFill(Color.web("#FAF5DF"));
-			Text warning2 = new Text("Not Enough Money!!!");
-			warning2.setFont(FontRect.BOLD.getFont(24));
-			warning2.setFill(Color.web("#34022A"));
-			warningCoinPane.getChildren().addAll(warningBg2, warning2);
+
+			// Set Coin Warning Pane
+			warningCoinPane = getTextPane(300, 36, new Text("Not Enough Money!!!"));
 			warningCoinPane.setTranslateY(150);
 			warningCoinPane.setVisible(false);
 
+			// Set Waterbar
 			waterBar = new WaterBar();
 
 			// Set InventoryPan && SettingPane
@@ -154,6 +144,13 @@ public class GameController {
 			settingPane.setVisible(false);
 
 			shopPane.setVisible(false);
+
+			// Setup Coin
+			coin = new Coin();
+			updateCoinDisplay();
+			coinPane = getTextPane(200, 36, coinText);
+			coinPane.setTranslateX(360);
+			coinPane.setTranslateY(-270);
 
 			// Button container
 			HBox overlay = new HBox(10);
@@ -180,6 +177,7 @@ public class GameController {
 				settingButton.setScaleX(1);
 				settingButton.setScaleY(1);
 			});
+
 			inventoryButton.setOnAction(e -> inventoryPane.setVisible(!inventoryPane.isVisible()));
 			settingButton.setOnAction(e -> settingPane.setVisible(!settingPane.isVisible()));
 
@@ -203,10 +201,25 @@ public class GameController {
             
 			layeredRoot.getChildren().addAll(root, overlay, inventoryPane, settingPane,PotionGuide, shopPane, warningWaterPane, warningCoinPane, waterBar,coinText);
 
+
 			Main.getPrimaryStage().setScene(scene);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	private static StackPane getTextPane(int width, int height, Text coinText2) {
+		Text text = coinText2;
+		text.setFont(FontRect.BOLD.getFont(24));
+		text.setFill(Color.web("#34022A"));
+
+		StackPane textPane = new StackPane();
+		Rectangle textBg = new Rectangle(width, height);
+		textBg.setFill(Color.web("#FAF5DF"));
+
+		textPane.getChildren().addAll(textBg, text);
+
+		return textPane;
 	}
 
 	public static void resetGame() {
@@ -222,7 +235,7 @@ public class GameController {
 	}
 
 	public static void switchCurrentMap() {
-		if (currentMap == outsideMap) {
+		if (currentMap instanceof OutsideMap) {
 			insideMap.resetPlayerPos();
 			currentMap = insideMap;
 		} else {
@@ -232,20 +245,20 @@ public class GameController {
 		root.getChildren().clear();
 		root.getChildren().add(currentMap);
 	}
-	
+
 	public static void updateCoinDisplay() {
-	    if (coinText != null && coin != null) {
-	        coinText.setText("Coins : " + coin.getCoin());
-	    }
+		if (coin != null) {
+			coinText = new Text("Coins : " + coin.getCoin());
+		}
 	}
-	
+
 	public static void addControlBrewing(ControlBrewing controlBrewing) {
-        controlBrewings.add(controlBrewing);
-    }
-	
+		controlBrewings.add(controlBrewing);
+	}
+
 	public static void addPlantPane(PlantPane plantPane) {
-        plantPanes.add(plantPane);
-    }
+		plantPanes.add(plantPane);
+	}
 
 	public static ControlBrewing getControlBrewing() {
 		return controlBrewing;

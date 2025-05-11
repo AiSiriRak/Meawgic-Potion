@@ -1,4 +1,4 @@
-package gui.pane;
+package gui;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -123,7 +123,7 @@ public class BrewingStand extends VBox {
 		ingredientsInSlots.remove(index);
 		slots.get(index).getChildren().clear();
 
-		ingredient.setCapacity(ingredient.getCapacity() + 1);
+		ingredient.setAmount(ingredient.getAmount() + 1);
 
 		shiftIngredients();
 

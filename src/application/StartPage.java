@@ -16,57 +16,56 @@ public class StartPage {
 	private final Scene scene;
 
 	public StartPage(Stage primaryStage) {
+
+		// Set Root
 		VBox root = new VBox(100);
 		root.setAlignment(Pos.CENTER);
 		root.setBackground(new Background(new BackgroundImage(
 				new Image(ClassLoader.getSystemResource("Images/Start_BG.png").toString()), null, null, null, null)));
 
+		// Set Game Logo
+		ImageView gameLogo = new ImageView(ClassLoader.getSystemResource("Images/Game_Logo.png").toString());
+
+		// Set Button HBox
 		HBox btn = new HBox(200);
 		btn.setAlignment(Pos.CENTER);
 
-		ImageView gameLogo = new ImageView(ClassLoader.getSystemResource("Images/Game_Logo.png").toString());
-
-		ImageView startButton = new ImageView(ClassLoader.getSystemResource("Images/StartGame_btn.png").toString());
-		startButton.setFitWidth(200);
-		startButton.setPreserveRatio(true);
-		startButton.setSmooth(true);
-		startButton.setOnMouseEntered(e -> {
-			SoundController.getInstance().playEffectSound("Opening_game");
-			startButton.setScaleX(1.08);
-			startButton.setScaleY(1.08);
-		});
-
-		startButton.setOnMouseExited(e -> {
-			startButton.setScaleX(1);
-			startButton.setScaleY(1);
-		});
+		ImageView startButton = setNewButton("StartGame_btn.png");
 		startButton.setOnMouseClicked(e -> {
 			primaryStage.setScene(GameController.getScene());
 		});
 
-		ImageView exitButton = new ImageView(ClassLoader.getSystemResource("Images/ExitGame_btn.png").toString());
-		exitButton.setFitWidth(200);
-		exitButton.setPreserveRatio(true);
-		exitButton.setSmooth(true);
-		exitButton.setOnMouseEntered(e -> {
-			SoundController.getInstance().playEffectSound("Opening_game");
-			exitButton.setScaleX(1.08);
-			exitButton.setScaleY(1.08);
-		});
-
-		exitButton.setOnMouseExited(e -> {
-			exitButton.setScaleX(1);
-			exitButton.setScaleY(1);
-		});
+		ImageView exitButton = setNewButton("ExitGame_btn.png");
 		exitButton.setOnMouseClicked(e -> primaryStage.close());
-		
+
 		btn.getChildren().addAll(startButton, exitButton);
+
+		// Add All Nodes
 		root.getChildren().addAll(gameLogo, btn);
 
-		scene = new Scene(root, 960, 600);
+		scene = new Scene(root, GameController.SCREEN_WIDTH, GameController.SCREEN_HEIGHT);
 	}
 
 	public Scene getScene() {
 		return scene;
+	}
+
+	// Setup Button (Size, Hover action)
+	private ImageView setNewButton(String filename) {
+		ImageView button = new ImageView(ClassLoader.getSystemResource("Images/" + filename).toString());
+		button.setFitWidth(200);
+		button.setPreserveRatio(true);
+		button.setSmooth(true);
+		button.setOnMouseEntered(e -> {
+			button.setScaleX(1.08);
+			button.setScaleY(1.08);
+		});
+
+		button.setOnMouseExited(e -> {
+			button.setScaleX(1);
+			button.setScaleY(1);
+		});
+		return button;
+
 	}
 }

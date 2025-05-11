@@ -1,6 +1,7 @@
 package entity.data;
 
-import java.util.*;
+import java.util.Optional;
+import java.util.Set;
 
 public enum PotionRecipeData {
 	NIGHT_VISION(Set.of("NetherWart", "Carrot", "RedStone"), PotionData.NIGHT_VISION),
@@ -13,26 +14,26 @@ public enum PotionRecipeData {
 	REGENERATION(Set.of("NetherWart", "GhastTear", "RedStone"), PotionData.REGENERATION),
 	STRENGTH(Set.of("NetherWart", "BlazePowder", "GrowStone"), PotionData.STRENGTH);
 
-	private final Set<String> ingredients;
-	private final PotionData result;
+	private final Set<String> ingredientsList;
+	private final PotionData potion;
 
-	PotionRecipeData(Set<String> ingredients, PotionData result) {
-		this.ingredients = ingredients;
-		this.result = result;
+	PotionRecipeData(Set<String> ingredientsList, PotionData potion) {
+		this.ingredientsList = ingredientsList;
+		this.potion = potion;
 	}
 
 	public Set<String> getIngredients() {
-		return ingredients;
+		return ingredientsList;
 	}
 
-	public PotionData getResult() {
-		return result;
+	public PotionData getPotion() {
+		return potion;
 	}
 
-	public static Optional<PotionData> getPotionByIngredients(Set<String> inputIngredients) {
+	public static Optional<PotionData> getPotionByIngredients(Set<String> inputIngredientsList) {
 		for (PotionRecipeData recipe : values()) {
-			if (recipe.ingredients.equals(inputIngredients)) {
-				return Optional.of(recipe.result);
+			if (recipe.ingredientsList.equals(inputIngredientsList)) {
+				return Optional.of(recipe.potion);
 			}
 		}
 		return Optional.empty();

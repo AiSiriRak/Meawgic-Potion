@@ -1,9 +1,9 @@
 package logic.object;
 
-import entity.base.Basis;
+import entity.base.Crop;
 import entity.data.*;
-import gui.pane.ControlBrewing;
-import gui.pane.PlantPane;
+import gui.ControlBrewing;
+import gui.PlantPane;
 import javafx.application.Platform;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.SnapshotParameters;
@@ -13,10 +13,11 @@ import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
 import logic.game.GameController;
+import logic.game.SoundController;
 
-public class Crop extends GameObject implements Interactable, DoTimer {
+public class CropPlot extends GameObject implements Interactable, DoTimer {
 	protected Rectangle2D interactArea;
-	private Basis item;
+	private Crop item;
 	private int currentStage;
 
 	private boolean isWatered;
@@ -25,7 +26,7 @@ public class Crop extends GameObject implements Interactable, DoTimer {
 
 	private PlantPane plantPane;
 
-	public Crop(String name, double x, double y) {
+	public CropPlot(String name, double x, double y) {
 		super(name, x, y, new Rectangle2D(x + 0, y + 10, 192, 182));
 		this.setImage(new Image(ClassLoader.getSystemResource("Images/Crop_0.png").toString()));
 		this.interactArea = new Rectangle2D(x + 64, y + 192, 64, 64);
@@ -58,7 +59,7 @@ public class Crop extends GameObject implements Interactable, DoTimer {
 		case 1:
 			GameController.waterBar.updateBar(GameController.waterBar.getWaterLevel() - 3);
 			if (GameController.waterBar.isEnoughWater()) {
-
+				SoundController.getInstance().playEffectSound("Water");
 				isWatered = true;
 
 				this.changeStage(2);
@@ -81,11 +82,11 @@ public class Crop extends GameObject implements Interactable, DoTimer {
 
 	}
 
-	public Basis getItem() {
+	public Crop getItem() {
 		return this.item;
 	}
 
-	public void setItem(Basis item) {
+	public void setItem(Crop item) {
 		this.item = item;
 	}
 
@@ -111,6 +112,7 @@ public class Crop extends GameObject implements Interactable, DoTimer {
 				GameController.setCurrentPlantPane(plantPane);
 				if (isWatered) {
 					img = new Image(ClassLoader.getSystemResource("Images/Crop_1.png").toString());
+					SoundController.getInstance().playEffectSound("Water");
 				} else {
 					img = new Image(ClassLoader.getSystemResource("Images/Crop_1_Dry.png").toString());
 				}

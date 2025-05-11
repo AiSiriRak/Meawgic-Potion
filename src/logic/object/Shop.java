@@ -21,6 +21,7 @@ public class Shop extends GameObject implements Interactable {
 	@Override
 	public void interact() {
 		System.out.println("Interact with " + this.name);
+		GameController.shopPane.refresh();
 		GameController.shopPane.setVisible(true);
 
 	}

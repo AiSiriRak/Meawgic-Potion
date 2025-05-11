@@ -1,12 +1,12 @@
 package entity.base;
 
-public class Basis extends Ingredient {
+public class Crop extends Ingredient {
 	private int buyPrice;
 	private int sellPrice;
 	private int duration;
 
-	public Basis(String name, int capacity, int buyPrice, int sellPrice, int duration) {
-		super(name, capacity);
+	public Crop(String name, int buyPrice, int sellPrice, int duration) {
+		super(name);
 		this.setBuyPrice(buyPrice);
 		this.sellPrice = sellPrice;
 		this.setDuration(duration);
