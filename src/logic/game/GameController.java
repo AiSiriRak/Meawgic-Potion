@@ -92,6 +92,7 @@ public class GameController {
 			updateCoinDisplay();
 			coinText.setFill(Color.WHITE);
 
+			// Game Button
 			GameButton inventoryButton = new GameButton("Inventory", 64, "Click_ingredient");
 			inventoryPane = new InventoryPane(sharedIngredientCounter, sharedPotionCounter);
 
@@ -104,6 +105,7 @@ public class GameController {
 					new BackgroundSize(500, 384.6, false, false, false, false));
 			GameButton potionGuideButton = new GameButton("PotionGuide", 64, "Click_ingredient");
 
+			// Potion's Guide Page
 			StackPane potionGuide = new StackPane();
 			potionGuide.setBackground(new Background(bg));
 			GameButton exitButton = new GameButton("Exit", "Click_ingredient");
@@ -121,14 +123,15 @@ public class GameController {
 
 			potionGuide.getChildren().add(exitButton);
 
+			// Shop Pane
 			shopPane = new ShopPane();
+			shopPane.setVisible(false);
 
-			// Set Water Warning Pane
+			// Set Warning Pane
 			warningWaterPane = getTextPane(160, 36, new Text("No Water!!!"));
 			warningWaterPane.setTranslateX(300);
 			warningWaterPane.setVisible(false);
 
-			// Set Coin Warning Pane
 			warningCoinPane = getTextPane(300, 36, new Text("Not Enough Money!!!"));
 			warningCoinPane.setTranslateY(200);
 			warningCoinPane.setVisible(false);
@@ -139,8 +142,6 @@ public class GameController {
 			// Set InventoryPan && SettingPane
 			inventoryPane.setVisible(false);
 			settingPane.setVisible(false);
-
-			shopPane.setVisible(false);
 
 			// Button container
 			HBox overlay = new HBox(10);
