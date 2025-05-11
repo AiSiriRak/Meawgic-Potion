@@ -73,7 +73,6 @@ public class QuestSquare extends StackPane {
 	}
 
 	private void sell() {
-
 		if (item instanceof Potion) {
 			for (Potion p : GameController.getInventoryPane().getPotionCounter().getPotionCounter()) {
 				if (p.getName().equals(item.getName())) {
