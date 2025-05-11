@@ -6,38 +6,26 @@ import logic.game.SoundController;
 
 public class GameButton extends Button {
 
-	public GameButton(String text) {
-		setGameButton(text, 48);
+	public GameButton(String text, String effect) {
+		setGameButton(text, 48, effect);
 	}
 
-	public GameButton(String text, int size) {
-		setGameButton(text, size);
+	public GameButton(String text, int size, String effect) {
+		setGameButton(text, size, effect);
 	}
 
-	private void setGameButton(String text, int size) {
+	private void setGameButton(String text, int size, String effect) {
 		ImageView imageView = new ImageView(ClassLoader.getSystemResource("Images/" + text + "_btn.png").toString());
 		imageView.setFitWidth(size);
 		imageView.setPreserveRatio(true);
 		setGraphic(imageView);
 		setStyle("-fx-background-color: transparent; -fx-padding: 0; -fx-border-color: transparent;");
 
-		setHover();
+		setHover(effect);
 
-	}
-
-	private void setHover() {
-		// Set Bigger When Hover
-		setOnMouseEntered(e -> {
-			setScaleX(1.08);
-			setScaleY(1.08);
-		});
-		setOnMouseExited(e -> {
-			setScaleX(1);
-			setScaleY(1);
-		});
 	}
 	
-	public void setSoundHover(String sound) {
+	public void setHover(String sound) {
 		setOnMouseEntered(e -> {
 			setScaleX(1.08);
 			setScaleY(1.08);

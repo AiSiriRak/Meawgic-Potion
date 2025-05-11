@@ -189,12 +189,6 @@ public class BrewingPane extends VBox {
 		}
 	}
 
-	public void addCraftedPotion(Potion potion) {
-		potionCounter.addPotion(potion);
-		refreshInventory();
-		GameController.getInventoryPane().refreshInventory();
-	}
-
 	public ArrayList<Ingredient> getCraftIngredient() {
 		return craftIngredient;
 	}

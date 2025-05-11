@@ -2,22 +2,22 @@ package logic.game;
 
 public class Coin {
 
-    private int coin;
+    private int coins;
     private boolean isWarning;
 
     public Coin() {
-        this.coin = 100;
+        this.coins = 100;
         this.isWarning = false;
     }
 
     public void increaseCoin(int amount) {
-        coin += amount;
+        coins += amount;
         GameController.updateCoinDisplay();
     }
 
     public boolean decreaseCoin(int price) {
-        if (coin >= price) {
-            coin -= price;
+        if (coins >= price) {
+            coins -= price;
             GameController.updateCoinDisplay();
             return true;
         }
@@ -41,21 +41,8 @@ public class Coin {
         return false;
     }
 
-	public int getCoin() {
-		return coin;
+	public int getCoins() {
+		return coins;
 	}
-
-	public boolean isWarning() {
-		return isWarning;
-	}
-
-	public void setWarning(boolean isWarning) {
-		this.isWarning = isWarning;
-	}
-	
-    @Override
-    public String toString() {
-    	return String.valueOf(coin);
-    }
 
 }

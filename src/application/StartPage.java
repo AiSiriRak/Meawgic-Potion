@@ -31,14 +31,12 @@ public class StartPage {
 		HBox btn = new HBox(200);
 		btn.setAlignment(Pos.CENTER);
 
-		GameButton startButton = new GameButton("StartGame",200);
-		startButton.setSoundHover("Opening_game");
+		GameButton startButton = new GameButton("StartGame",200, "Opening_game");
 		startButton.setOnMouseClicked(e -> {
 			primaryStage.setScene(GameController.getScene());
 		});
 
-		GameButton exitButton = new GameButton("ExitGame", 200);
-		exitButton.setSoundHover("Opening_game");
+		GameButton exitButton = new GameButton("ExitGame", 200, "Opening_game");
 		exitButton.setOnMouseClicked(e -> primaryStage.close());
 
 		btn.getChildren().addAll(startButton, exitButton);

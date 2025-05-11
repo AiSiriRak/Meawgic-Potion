@@ -32,8 +32,7 @@ public class PlantPane extends StackPane {
 	public PlantPane(CropPlot associatedCrop) {
 		this.associatedCrop = associatedCrop;
 		VBox content = createContentBox();
-		GameButton exitButton = new GameButton("Exit");
-		exitButton.setSoundHover("Click_Ingredient");
+		GameButton exitButton = new GameButton("Exit", "Click_ingredient");
 		exitButton.setOnMouseClicked(e -> this.setVisible(false));
 
 		StackPane.setAlignment(content, Pos.CENTER);
@@ -83,7 +82,7 @@ public class PlantPane extends StackPane {
 		grid.setPickOnBounds(true);
 		grid.setMouseTransparent(false);
 
-		ArrayList<Crop> ingredients = new IngredientCounter().getBasisCounter();
+		ArrayList<Crop> ingredients = new IngredientCounter().getCropCounter();
 
 		int index = 0;
 		for (int row = 0; row < 3; row++) {

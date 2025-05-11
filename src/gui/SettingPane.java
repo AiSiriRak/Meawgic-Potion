@@ -21,10 +21,9 @@ public class SettingPane extends StackPane {
 		this.primaryStage = primaryStage;
 
 		VBox contentBox = createContentBox();
-		GameButton exitButton = new GameButton("Exit");
-		exitButton.setSoundHover("Click_Ingredient");
+		GameButton exitButton = new GameButton("Exit", "Click_ingredient");
 		exitButton.setOnMouseClicked(e -> this.setVisible(false));
-		
+
 		AnchorPane container = createContainer(contentBox, exitButton);
 
 		this.setAlignment(Pos.CENTER);
@@ -47,21 +46,17 @@ public class SettingPane extends StackPane {
 		soundBox.setAlignment(Pos.CENTER);
 
 		HBox buttonBox = new HBox(20);
-		GameButton resetGame = new GameButton("ResetGame",96);
-		resetGame.setSoundHover("Click_Ingredient");
+		GameButton resetGame = new GameButton("ResetGame", 96, "Click_ingredient");
 		resetGame.setOnMouseClicked(e -> {
 			GameController.resetGame();
 		});
-		GameButton homeButton = new GameButton("Home",96);
-		homeButton.setSoundHover("Click_Ingredient");
+		GameButton homeButton = new GameButton("Home", 96, "Click_ingredient");
 		homeButton.setOnMouseClicked(e -> {
 			returnToStartPage();
 			this.setVisible(false);
 		});
-		
-		
-		buttonBox.getChildren().addAll(resetGame,homeButton);
-				
+
+		buttonBox.getChildren().addAll(resetGame, homeButton);
 		buttonBox.setAlignment(Pos.CENTER);
 
 		contentBox.getChildren().addAll(title, soundBox, buttonBox);
@@ -87,16 +82,6 @@ public class SettingPane extends StackPane {
 		settingBox.setAlignment(Pos.CENTER);
 		return settingBox;
 	}
-
-//	private ImageView createIconButton(String imageName, Runnable action) {
-//		ImageView button = new ImageView(new Image(getImagePath(imageName)));
-//		button.setFitWidth(96);
-//		button.setPreserveRatio(true);
-//		button.setSmooth(true);
-//		button.setOnMouseClicked(e -> action.run());
-//		return button;
-//	}
-
 
 	private AnchorPane createContainer(VBox contentBox, GameButton exitButton) {
 		AnchorPane container = new AnchorPane();
@@ -125,44 +110,29 @@ public class SettingPane extends StackPane {
 		return ClassLoader.getSystemResource("Images/" + filename).toString();
 	}
 
-    private void toggleSound(ImageView soundBtn) {
-        System.out.println("toggleSound called. Current soundEnabled: " + soundEnabled);
-        soundEnabled = !soundEnabled;
-        System.out.println("toggleSound. New soundEnabled: " + soundEnabled);
-        soundBtn.setImage(new Image(soundEnabled ? ClassLoader.getSystemResource("Images/On_btn.png" ).toString():ClassLoader.getSystemResource("Images/Off_btn.png" ).toString()));
-        System.out.println("toggleSound. Calling SoundController.setMusicEnabled(" + soundEnabled + ")");
-        SoundController.getInstance().setMusicEnabled(soundEnabled);
-    }
+	private void toggleSound(ImageView soundBtn) {
+		System.out.println("toggleSound called. Current soundEnabled: " + soundEnabled);
+		soundEnabled = !soundEnabled;
+		System.out.println("toggleSound. New soundEnabled: " + soundEnabled);
+		soundBtn.setImage(new Image(soundEnabled ? ClassLoader.getSystemResource("Images/On_btn.png").toString()
+				: ClassLoader.getSystemResource("Images/Off_btn.png").toString()));
+		System.out.println("toggleSound. Calling SoundController.setMusicEnabled(" + soundEnabled + ")");
+		SoundController.getInstance().setMusicEnabled(soundEnabled);
+	}
 
-    private void toggleEffect(ImageView effectBtn) {
-        System.out.println("toggleEffect called. Current effectsEnabled: " + effectsEnabled);
-        effectsEnabled = !effectsEnabled;
-        System.out.println("toggleEffect. New effectsEnabled: " + effectsEnabled);
-        effectBtn.setImage(new Image(effectsEnabled ? ClassLoader.getSystemResource("Images/On_btn.png" ).toString():ClassLoader.getSystemResource("Images/Off_btn.png" ).toString()));
-        System.out.println("toggleEffect. Calling SoundController.setEffectsEnabled(" + effectsEnabled + ")");
-        SoundController.getInstance().setEffectsEnabled(effectsEnabled);
-    }
+	private void toggleEffect(ImageView effectBtn) {
+		System.out.println("toggleEffect called. Current effectsEnabled: " + effectsEnabled);
+		effectsEnabled = !effectsEnabled;
+		System.out.println("toggleEffect. New effectsEnabled: " + effectsEnabled);
+		effectBtn.setImage(new Image(effectsEnabled ? ClassLoader.getSystemResource("Images/On_btn.png").toString()
+				: ClassLoader.getSystemResource("Images/Off_btn.png").toString()));
+		System.out.println("toggleEffect. Calling SoundController.setEffectsEnabled(" + effectsEnabled + ")");
+		SoundController.getInstance().setEffectsEnabled(effectsEnabled);
+	}
 
 	private void returnToStartPage() {
 		StartPage startPage = new StartPage(primaryStage);
 		primaryStage.setScene(startPage.getScene());
-	}
-
-	// Getters and setters
-	public boolean isSoundEnabled() {
-		return soundEnabled;
-	}
-
-	public void setSoundEnabled(boolean soundEnabled) {
-		this.soundEnabled = soundEnabled;
-	}
-
-	public boolean isEffectsEnabled() {
-		return effectsEnabled;
-	}
-
-	public void setEffectsEnabled(boolean effectsEnabled) {
-		this.effectsEnabled = effectsEnabled;
 	}
 
 	public Stage getPrimaryStage() {

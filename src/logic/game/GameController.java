@@ -95,24 +95,21 @@ public class GameController {
 	        updateCoinDisplay();
 	        coinText.setFill(Color.WHITE);
 
-	        GameButton inventoryButton = new GameButton("Inventory", 64);
-	        inventoryButton.setSoundHover("Click_ingredient");
+	        GameButton inventoryButton = new GameButton("Inventory", 64, "Click_ingredient");
 	        inventoryPane = new InventoryPane(sharedIngredientCounter, sharedPotionCounter);
 
-	        GameButton settingButton = new GameButton("setting", 64);
-	        settingButton.setSoundHover("Click_ingredient");
+	        GameButton settingButton = new GameButton("setting", 64, "Click_ingredient");
 	        SettingPane settingPane = new SettingPane(Main.getPrimaryStage());
 
 	        Image PotionGuildeImg = new Image(ClassLoader.getSystemResource("Images/PotionGuide.png" ).toString());
 	        BackgroundImage bg = new BackgroundImage(PotionGuildeImg, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT,
 	                BackgroundPosition.CENTER,
 	                new BackgroundSize(500, 384.6, false, false, false, false));
-	        GameButton potionGuideButton = new GameButton("PotionGuide", 64);
-	        potionGuideButton.setSoundHover("Click_ingredient");
+	        GameButton potionGuideButton = new GameButton("PotionGuide", 64, "Click_ingredient");
 
 	        StackPane potionGuide = new StackPane();
 	        potionGuide.setBackground(new Background(bg));
-	        GameButton exitButton = new GameButton("Exit");
+	        GameButton exitButton = new GameButton("Exit", "Click_ingredient");
 	        exitButton.setTranslateX(240);
 	        exitButton.setTranslateY(-180);
 	        exitButton.setOnAction(e -> {
@@ -218,7 +215,7 @@ public class GameController {
 
 	public static void updateCoinDisplay() {
 	    if (coinText != null && coin != null) {
-	        coinText.setText("Coins : " + coin.getCoin());
+	        coinText.setText("Coins : " + coin.getCoins());
 	    }
 	}
 

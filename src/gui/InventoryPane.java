@@ -32,8 +32,7 @@ public class InventoryPane extends StackPane {
 		this.ingredientCounter = ingredientCounter;
 		this.potionCounter = potionCounter;
 		VBox content = createContentBox();
-		GameButton exitButton = new GameButton("Exit");
-		exitButton.setSoundHover("Click_Ingredient");
+		GameButton exitButton = new GameButton("Exit", "Click_ingredient");
 		exitButton.setOnMouseClicked(e -> this.setVisible(false));
 
 		AnchorPane container = new AnchorPane();

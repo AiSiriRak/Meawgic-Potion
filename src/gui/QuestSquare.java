@@ -85,7 +85,7 @@ public class QuestSquare extends StackPane {
 				}
 			}
 		} else {
-			for (Crop b : GameController.getInventoryPane().getIngredientCounter().getBasisCounter()) {
+			for (Crop b : GameController.getInventoryPane().getIngredientCounter().getCropCounter()) {
 				if (b.getName().equals(item.getName())) {
 					b.setAmount(b.getAmount() - quantity);
 					break;

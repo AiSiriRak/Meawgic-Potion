@@ -32,12 +32,10 @@ public class ControlBrewing extends AnchorPane {
 		contentBox.getChildren().addAll(brewingStand, brewingPane);
 		
 		
-		GameButton resetButton = new GameButton("ResetIngredient", 150);
-		resetButton.setSoundHover("Click_Ingredient");
+		GameButton resetButton = new GameButton("ResetIngredient", 150, "Click_ingredient");
 		resetButton.setOnMouseClicked(e -> brewingStand.resetIngredients());
 
-		GameButton craftButton = new GameButton("Craft",150);
-		craftButton.setSoundHover("Click_Ingredient");
+		GameButton craftButton = new GameButton("Craft",150, "Click_ingredient");
 		craftButton.setOnMouseClicked(e -> {
 			if (brewingStand.craftable()) {
 				brewingStand.craftPotion();
@@ -55,8 +53,7 @@ public class ControlBrewing extends AnchorPane {
 		controlBox.setAlignment(Pos.CENTER);
 		contentBox.getChildren().add(controlBox);
 
-		GameButton exitButton = new GameButton("Exit");
-		exitButton.setSoundHover("Click_Ingredient");
+		GameButton exitButton = new GameButton("Exit", "Click_ingredient");
 		exitButton.setOnMouseClicked(e -> this.setVisible(false));
 
 		this.setPrefSize(500, 400);
