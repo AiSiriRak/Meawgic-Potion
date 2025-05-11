@@ -11,7 +11,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import logic.game.GameController;
-import logic.game.SoundController;
 
 public class StartPage {
 	private final Scene scene;
@@ -51,22 +50,4 @@ public class StartPage {
 		return scene;
 	}
 
-	// Setup Button (Size, Hover action)
-	private ImageView setNewButton(String filename) {
-		ImageView button = new ImageView(ClassLoader.getSystemResource("Images/" + filename).toString());
-		button.setFitWidth(200);
-		button.setPreserveRatio(true);
-		button.setSmooth(true);
-		button.setOnMouseEntered(e -> {
-			button.setScaleX(1.08);
-			button.setScaleY(1.08);
-		});
-
-		button.setOnMouseExited(e -> {
-			button.setScaleX(1);
-			button.setScaleY(1);
-		});
-		return button;
-
-	}
 }
