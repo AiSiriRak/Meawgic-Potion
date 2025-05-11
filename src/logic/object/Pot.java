@@ -1,7 +1,6 @@
 package logic.object;
 
 import entity.base.Potion;
-import entity.data.PotionData;
 import gui.ControlBrewing;
 import javafx.application.Platform;
 import javafx.geometry.Rectangle2D;

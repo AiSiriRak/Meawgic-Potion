@@ -3,7 +3,6 @@ package logic.game;
 import javafx.event.EventHandler;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import logic.components.Player;
 
 public class KeyboardController {
 	private boolean upPressed = false;

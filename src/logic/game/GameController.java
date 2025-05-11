@@ -65,7 +65,6 @@ public class GameController {
 	public static Coin coin;
 
 	private static Text coinText;
-	private static StackPane coinPane;
 
 	public static StackPane warningCoinPane;
 

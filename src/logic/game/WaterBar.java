@@ -8,13 +8,10 @@ public class WaterBar extends Pane {
 	private ImageView barView;
 	private String waterLevelTxt;
 	private int waterLevel;
-
 	private boolean isWarning;
-
 	private boolean isEnoughWater;
 
 	public WaterBar() {
-		this.waterLevelTxt = "00";
 		this.barView = new ImageView();
 		this.isWarning = false;
 
@@ -36,7 +33,6 @@ public class WaterBar extends Pane {
 			barView.setImage(image);
 
 		} else {
-			System.out.println("No Water!!");
 			SoundController.getInstance().playEffectSound("Wrong");
 			this.isEnoughWater = false;
 

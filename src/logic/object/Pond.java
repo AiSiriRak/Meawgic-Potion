@@ -9,10 +9,10 @@ import logic.game.SoundController;
 
 public class Pond extends GameObject implements Interactable, DoAnimation {
 
-	protected Rectangle2D interactArea;
+	private Rectangle2D interactArea;
 	private Animation pondAnimation;
 
-	final private int fps = 2;
+	private final int fps = 2;
 
 	public Pond(String name, double x, double y) {
 		super(name, x, y, new Rectangle2D(x + 0, y + 0, 128, 128));

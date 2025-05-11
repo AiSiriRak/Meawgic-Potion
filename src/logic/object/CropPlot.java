@@ -1,8 +1,6 @@
 package logic.object;
 
 import entity.base.Crop;
-import entity.data.*;
-import gui.ControlBrewing;
 import gui.PlantPane;
 import javafx.application.Platform;
 import javafx.geometry.Rectangle2D;
@@ -16,8 +14,8 @@ import logic.game.GameController;
 import logic.game.SoundController;
 
 public class CropPlot extends GameObject implements Interactable, DoTimer {
-	protected Rectangle2D interactArea;
-	private Crop item;
+	private Rectangle2D interactArea;
+	private Crop crop;
 	private int currentStage;
 
 	private boolean isWatered;
@@ -28,13 +26,8 @@ public class CropPlot extends GameObject implements Interactable, DoTimer {
 
 	public CropPlot(String name, double x, double y) {
 		super(name, x, y, new Rectangle2D(x + 0, y + 10, 192, 182));
-		this.setImage(new Image(ClassLoader.getSystemResource("Images/Crop_0.png").toString()));
 		this.interactArea = new Rectangle2D(x + 64, y + 192, 64, 64);
-		this.currentStage = 0;
-		this.item = null;
-		this.isWatered = false;
-		this.isTiming = false;
-		this.currentTime = 0;
+		changeStage(0);
 	}
 
 	@Override
@@ -44,17 +37,16 @@ public class CropPlot extends GameObject implements Interactable, DoTimer {
 
 	@Override
 	public void interact() {
-		System.out.println("Interact with " + this.name);
 
 		switch (this.currentStage) {
 
 		case 0:
-            // Only show plant selection if no item is set
-            if (this.item == null && plantPane != null) {
-                plantPane.show();
-                GameController.setCurrentPlantPane(plantPane);
-            }
-            break;
+			// Only show plant selection if no item is set
+			if (this.crop == null && plantPane != null) {
+				plantPane.show();
+				GameController.setCurrentPlantPane(plantPane);
+			}
+			break;
 
 		case 1:
 			GameController.waterBar.updateBar(GameController.waterBar.getWaterLevel() - 3);
@@ -64,31 +56,22 @@ public class CropPlot extends GameObject implements Interactable, DoTimer {
 
 				this.changeStage(2);
 
-				this.startTiming(this.item.getDuration());
+				this.startTiming(this.crop.getDuration());
 
-//				System.out.println("Watered!!");
 			}
 			break;
 
 		case 3:
 			SoundController.getInstance().playEffectSound("Gain");
-			GameController.getInventoryPane().addIngredient(item);
-			this.item = null;
-			isWatered = false;
+			GameController.getInventoryPane().addIngredient(crop);
 			this.changeStage(0);
-
-			System.out.println("Gain 1 Crop!!");
 			break;
 		}
 
 	}
 
-	public Crop getItem() {
-		return this.item;
-	}
-
-	public void setItem(Crop item) {
-		this.item = item;
+	public void setItem(Crop crop) {
+		this.crop = crop;
 	}
 
 	public void changeStage(int stage) {
@@ -97,15 +80,19 @@ public class CropPlot extends GameObject implements Interactable, DoTimer {
 		Canvas canvas = new Canvas(192, 192);
 		GraphicsContext gc = canvas.getGraphicsContext2D();
 		gc.setImageSmoothing(false);
-		
+
 		if (plantPane != null && stage > 0) {
-	        plantPane.setVisible(false);
-	    }
+			plantPane.setVisible(false);
+		}
 
 		Image img = null;
 		switch (this.currentStage) {
 		case 0:
-       	img = new Image(ClassLoader.getSystemResource("Images/Crop_0.png").toString());
+			img = new Image(ClassLoader.getSystemResource("Images/Crop_0.png").toString());
+			this.crop = null;
+			this.isWatered = false;
+			this.isTiming = false;
+			this.currentTime = 0;
 			break;
 		case 1:
 			if (plantPane != null) {
@@ -128,11 +115,11 @@ public class CropPlot extends GameObject implements Interactable, DoTimer {
 		}
 		gc.drawImage(img, 0, 0);
 		if (this.currentStage != 0) {
-			gc.drawImage(new Image(ClassLoader.getSystemResource("Images/" + this.item.getName() + ".png").toString()),
+			gc.drawImage(new Image(ClassLoader.getSystemResource("Images/" + this.crop.getName() + ".png").toString()),
 					76, 125, 40, 40);
 			if (this.currentStage == 3)
 				gc.drawImage(
-						new Image(ClassLoader.getSystemResource("Images/" + this.item.getName() + ".png").toString()),
+						new Image(ClassLoader.getSystemResource("Images/" + this.crop.getName() + ".png").toString()),
 						72, 27, 48, 48);
 		}
 

@@ -25,6 +25,9 @@ public abstract class GameObject implements Collidable, Renderable {
 	public void render(GraphicsContext gc, double camX, double camY) {
 		gc.setImageSmoothing(false);
 
+		// Render Image
+		gc.drawImage(image, x - camX, y - camY, this.image.getWidth(), this.image.getHeight());
+
 		// Render Interact Area
 		if (this instanceof Interactable) {
 			Rectangle2D interactArea = ((Interactable) this).getInteractArea();
@@ -44,10 +47,6 @@ public abstract class GameObject implements Collidable, Renderable {
 			gc.fillRoundRect(interactArea.getMinX() - camX, interactArea.getMinY() - camY, interactArea.getWidth(),
 					interactArea.getHeight(), 20, 20);
 		}
-
-		// Render Image0
-		gc.drawImage(image, 0, 0, this.image.getWidth(), this.image.getHeight(), x - camX, y - camY,
-				this.image.getWidth(), this.image.getHeight());
 
 		// Render Timer
 		if (this instanceof DoTimer) {

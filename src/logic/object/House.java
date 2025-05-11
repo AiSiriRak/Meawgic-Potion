@@ -7,7 +7,7 @@ import logic.game.GameController;
 import logic.game.SoundController;
 
 public class House extends GameObject implements Interactable {
-	protected Rectangle2D interactArea;
+	private Rectangle2D interactArea;
 
 	public House(String name, double x, double y) {
 		super(name, x, y, new Rectangle2D(x + 62, y + 0, 196, 283));
