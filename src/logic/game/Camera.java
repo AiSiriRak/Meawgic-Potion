@@ -6,7 +6,8 @@ import logic.components.Player;
 public class Camera {
 	private double offsetX, offsetY;
 	private final Player player;
-	private int mapWidth, mapHeight;
+	double mapWidth;
+	private double mapHeight;
 
 	public Camera(Player player, Map map) {
 		this.player = player;

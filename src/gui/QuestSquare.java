@@ -22,8 +22,8 @@ import logic.game.GameController;
 import logic.game.SoundController;
 
 public class QuestSquare extends StackPane {
-	private ImageView frame;
-	private ImageView coin;
+	private final ImageView frame;
+	private final ImageView coin;
 	private boolean isEnoughItem;
 
 	private VBox itemDisplay;
@@ -38,9 +38,16 @@ public class QuestSquare extends StackPane {
 		this.coin.setScaleX(0.625);
 		this.coin.setScaleY(0.625);
 		this.isEnoughItem = true;
-		setupNewGoods();
-		setMouseAction();
+		setupNewGood();
 		update();
+	}
+
+	public void update() {
+		checkIsEnoughItem();
+		setMouseAction();
+		getChildren().clear();
+		getChildren().addAll(this.frame, this.itemDisplay);
+
 	}
 
 	private void setMouseAction() {
@@ -65,17 +72,7 @@ public class QuestSquare extends StackPane {
 
 	}
 
-	public void update() {
-		checkIsEnoughItem();
-		setMouseAction();
-		getChildren().clear();
-		getChildren().addAll(this.frame, this.itemDisplay);
-
-	}
-
 	private void sell() {
-		if (!isEnoughItem)
-			return;
 
 		if (item instanceof Potion) {
 			for (Potion p : GameController.getInventoryPane().getPotionCounter().getPotionCounter()) {
@@ -97,10 +94,10 @@ public class QuestSquare extends StackPane {
 		GameController.updateCoinDisplay();
 		GameController.getInventoryPane().refreshInventory();
 		SoundController.getInstance().playEffectSound("Sell");
-		setupNewGoods();
+		setupNewGood();
 	}
 
-	private void setupNewGoods() {
+	private void setupNewGood() {
 		this.item = getRandomItem();
 		this.sellPrice = (this.item instanceof Potion) ? ((Potion) this.item).getSellPrice()
 				: ((Crop) this.item).getSellPrice();
@@ -143,7 +140,7 @@ public class QuestSquare extends StackPane {
 		update();
 	}
 
-	public static Item getRandomItem() {
+	private Item getRandomItem() {
 		List<Item> allItems = new ArrayList<>();
 
 		for (PotionData p : PotionData.values()) {

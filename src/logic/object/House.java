@@ -10,7 +10,7 @@ public class House extends GameObject implements Interactable {
 	private Rectangle2D interactArea;
 
 	public House(String name, double x, double y) {
-		super(name, x, y, new Rectangle2D(x + 62, y + 0, 196, 283));
+		super(name, x, y, new Rectangle2D(x + 62, y + 80, 196, 203));
 		this.setImage(new Image(ClassLoader.getSystemResource("Images/House.png").toString()));
 		this.interactArea = new Rectangle2D(x + 128, y + 283, 64, 64);
 	}
