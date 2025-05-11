@@ -4,6 +4,7 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.image.WritableImage;
 import logic.components.InsideMap;
 import logic.game.GameController;
+import logic.game.SoundController;
 
 public class Door extends GameObject implements Interactable {
 	protected Rectangle2D interactArea;
@@ -21,6 +22,7 @@ public class Door extends GameObject implements Interactable {
 
 	@Override
 	public void interact() {
+		SoundController.getInstance().playEffectSound("Door");
 		System.out.println("Interact with " + this.name);
 		GameController.switchCurrentMap();
 

@@ -10,6 +10,7 @@ import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import logic.game.GameController;
+import logic.game.SoundController;
 
 public class SettingPane extends StackPane {
 	private Stage primaryStage;
@@ -20,7 +21,9 @@ public class SettingPane extends StackPane {
 		this.primaryStage = primaryStage;
 
 		VBox contentBox = createContentBox();
-		GameButton exitButton = createExitButton();
+		GameButton exitButton = new GameButton("Exit", "Click_ingredient");
+		exitButton.setOnMouseClicked(e -> this.setVisible(false));
+
 		AnchorPane container = createContainer(contentBox, exitButton);
 
 		this.setAlignment(Pos.CENTER);
@@ -28,7 +31,7 @@ public class SettingPane extends StackPane {
 	}
 
 	private VBox createContentBox() {
-		VBox contentBox = new VBox(10);
+		VBox contentBox = new VBox(5);
 		contentBox.setPrefSize(384, 320);
 		contentBox.setMinSize(384, 224);
 		contentBox.setMaxSize(384, 224);
@@ -39,14 +42,21 @@ public class SettingPane extends StackPane {
 		Text title = new Text("Game Options");
 		title.setFont(FontRect.REGULAR.getFont(35));
 
-		VBox soundBox = new VBox(20, createToggleSetting("Sound", true), createToggleSetting("Effect", false));
+		VBox soundBox = new VBox(10, createToggleSetting("Sound", true), createToggleSetting("Effect", false));
 		soundBox.setAlignment(Pos.CENTER);
 
-		HBox buttonBox = new HBox(20, createIconButton("ResetGame_btn.png", GameController::resetGame),
-				createIconButton("Home_btn.png", () -> {
-					returnToStartPage();
-					this.setVisible(false);
-				}));
+		HBox buttonBox = new HBox(20);
+		GameButton resetGame = new GameButton("ResetGame", 96, "Click_ingredient");
+		resetGame.setOnMouseClicked(e -> {
+			GameController.resetGame();
+		});
+		GameButton homeButton = new GameButton("Home", 96, "Click_ingredient");
+		homeButton.setOnMouseClicked(e -> {
+			returnToStartPage();
+			this.setVisible(false);
+		});
+
+		buttonBox.getChildren().addAll(resetGame, homeButton);
 		buttonBox.setAlignment(Pos.CENTER);
 
 		contentBox.getChildren().addAll(title, soundBox, buttonBox);
@@ -55,9 +65,9 @@ public class SettingPane extends StackPane {
 
 	private HBox createToggleSetting(String label, boolean isSound) {
 		Text text = new Text(label);
-		text.setFont(FontRect.REGULAR.getFont(16));
+		text.setFont(FontRect.REGULAR.getFont(20));
 		ImageView toggleBtn = new ImageView(new Image(getImagePath("On_btn.png")));
-		toggleBtn.setFitWidth(64);
+		toggleBtn.setFitWidth(96);
 		toggleBtn.setPreserveRatio(true);
 		toggleBtn.setSmooth(true);
 
@@ -71,31 +81,6 @@ public class SettingPane extends StackPane {
 		HBox settingBox = new HBox(20, text, toggleBtn);
 		settingBox.setAlignment(Pos.CENTER);
 		return settingBox;
-	}
-
-	private ImageView createIconButton(String imageName, Runnable action) {
-		ImageView button = new ImageView(new Image(getImagePath(imageName)));
-		button.setFitWidth(96);
-		button.setPreserveRatio(true);
-		button.setSmooth(true);
-		button.setOnMouseClicked(e -> action.run());
-		return button;
-	}
-
-	private GameButton createExitButton() {
-		GameButton exitButton = new GameButton("Exit");
-
-		exitButton.setOnMouseEntered(e -> {
-			exitButton.setScaleX(1.08);
-			exitButton.setScaleY(1.08);
-		});
-
-		exitButton.setOnMouseExited(e -> {
-			exitButton.setScaleX(1);
-			exitButton.setScaleY(1);
-		});
-		exitButton.setOnMouseClicked(e -> this.setVisible(false));
-		return exitButton;
 	}
 
 	private AnchorPane createContainer(VBox contentBox, GameButton exitButton) {
@@ -126,37 +111,28 @@ public class SettingPane extends StackPane {
 	}
 
 	private void toggleSound(ImageView soundBtn) {
+		System.out.println("toggleSound called. Current soundEnabled: " + soundEnabled);
 		soundEnabled = !soundEnabled;
-		soundBtn.setImage(new Image(getImagePath(soundEnabled ? "On_btn.png" : "Off_btn.png")));
-		System.out.println("Sound " + (soundEnabled ? "enabled" : "disabled"));
+		System.out.println("toggleSound. New soundEnabled: " + soundEnabled);
+		soundBtn.setImage(new Image(soundEnabled ? ClassLoader.getSystemResource("Images/On_btn.png").toString()
+				: ClassLoader.getSystemResource("Images/Off_btn.png").toString()));
+		System.out.println("toggleSound. Calling SoundController.setMusicEnabled(" + soundEnabled + ")");
+		SoundController.getInstance().setMusicEnabled(soundEnabled);
 	}
 
 	private void toggleEffect(ImageView effectBtn) {
+		System.out.println("toggleEffect called. Current effectsEnabled: " + effectsEnabled);
 		effectsEnabled = !effectsEnabled;
-		effectBtn.setImage(new Image(getImagePath(effectsEnabled ? "On_btn.png" : "Off_btn.png")));
-		System.out.println("Effect " + (effectsEnabled ? "enabled" : "disabled"));
+		System.out.println("toggleEffect. New effectsEnabled: " + effectsEnabled);
+		effectBtn.setImage(new Image(effectsEnabled ? ClassLoader.getSystemResource("Images/On_btn.png").toString()
+				: ClassLoader.getSystemResource("Images/Off_btn.png").toString()));
+		System.out.println("toggleEffect. Calling SoundController.setEffectsEnabled(" + effectsEnabled + ")");
+		SoundController.getInstance().setEffectsEnabled(effectsEnabled);
 	}
 
 	private void returnToStartPage() {
 		StartPage startPage = new StartPage(primaryStage);
 		primaryStage.setScene(startPage.getScene());
-	}
-
-	// Getters and setters
-	public boolean isSoundEnabled() {
-		return soundEnabled;
-	}
-
-	public void setSoundEnabled(boolean soundEnabled) {
-		this.soundEnabled = soundEnabled;
-	}
-
-	public boolean isEffectsEnabled() {
-		return effectsEnabled;
-	}
-
-	public void setEffectsEnabled(boolean effectsEnabled) {
-		this.effectsEnabled = effectsEnabled;
 	}
 
 	public Stage getPrimaryStage() {

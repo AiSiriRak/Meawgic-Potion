@@ -19,6 +19,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import logic.game.GameController;
+import logic.game.SoundController;
 
 public class QuestSquare extends StackPane {
 	private ImageView frame;
@@ -84,7 +85,7 @@ public class QuestSquare extends StackPane {
 				}
 			}
 		} else {
-			for (Crop b : GameController.getInventoryPane().getIngredientCounter().getBasisCounter()) {
+			for (Crop b : GameController.getInventoryPane().getIngredientCounter().getCropCounter()) {
 				if (b.getName().equals(item.getName())) {
 					b.setAmount(b.getAmount() - quantity);
 					break;
@@ -95,6 +96,7 @@ public class QuestSquare extends StackPane {
 		GameController.coin.increaseCoin(sellPrice * quantity);
 		GameController.updateCoinDisplay();
 		GameController.getInventoryPane().refreshInventory();
+		SoundController.getInstance().playEffectSound("Sell");
 		setupNewGoods();
 	}
 

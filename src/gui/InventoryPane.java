@@ -19,6 +19,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 import logic.game.GameController;
+import logic.game.SoundController;
 
 public class InventoryPane extends StackPane {
 	private final ArrayList<InventorySquare> poallCells = new ArrayList<>();
@@ -31,7 +32,8 @@ public class InventoryPane extends StackPane {
 		this.ingredientCounter = ingredientCounter;
 		this.potionCounter = potionCounter;
 		VBox content = createContentBox();
-		GameButton exitButton = createExitButton();
+		GameButton exitButton = new GameButton("Exit", "Click_ingredient");
+		exitButton.setOnMouseClicked(e -> this.setVisible(false));
 
 		AnchorPane container = new AnchorPane();
 		container.setPrefSize(500, 400);
@@ -106,8 +108,12 @@ public class InventoryPane extends StackPane {
 
 					square.setOnMouseClicked(e -> {
 						if (ingredient instanceof Stone) {
+							if(GameController.coin.decreaseCoin(5)) {
 							GameController.getInventoryPane().addIngredient((Stone) ingredient);
-							GameController.coin.decreaseCoin(5);
+							SoundController.getInstance().playEffectSound("Buy");
+							}
+							else
+								SoundController.getInstance().playEffectSound("Wrong");
 						}
 					});
 
@@ -151,21 +157,6 @@ public class InventoryPane extends StackPane {
 				BackgroundPosition.CENTER,
 				new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, true, true, false, true));
 		return new Background(bgImage);
-	}
-
-	private GameButton createExitButton() {
-		GameButton exitButton = new GameButton("Exit");
-		exitButton.setOnMouseEntered(e -> {
-			exitButton.setScaleX(1.08);
-			exitButton.setScaleY(1.08);
-		});
-
-		exitButton.setOnMouseExited(e -> {
-			exitButton.setScaleX(1);
-			exitButton.setScaleY(1);
-		});
-		exitButton.setOnMouseClicked(e -> this.setVisible(false));
-		return exitButton;
 	}
 
 	public void addPotion(Potion potion) {

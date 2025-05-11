@@ -38,7 +38,7 @@ public class ShopPane extends StackPane {
 	}
 
 	private GameButton getExitButton() {
-		GameButton exitButton = new GameButton("Exit");
+		GameButton exitButton = new GameButton("Exit", "Click_ingredient");
 		exitButton.setOnMouseClicked(e -> this.setVisible(false));
 		exitButton.setTranslateY(-90);
 		return exitButton;

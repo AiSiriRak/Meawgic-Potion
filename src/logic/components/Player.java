@@ -3,6 +3,7 @@ package logic.components;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import logic.game.SoundController;
 import logic.object.Collidable;
 import logic.object.Renderable;
 
@@ -127,4 +128,5 @@ public class Player implements Collidable, Renderable, DoAnimation {
 		return new Rectangle2D(SIZE / 4 + nextX, SIZE / 1.6 + nextY, SIZE / 2, SIZE / 3.2);
 
 	}
+	
 }

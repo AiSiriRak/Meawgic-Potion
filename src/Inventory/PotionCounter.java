@@ -1,25 +1,15 @@
 package Inventory;
 
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-
 import java.util.ArrayList;
 
-import entity.base.Item;
 import entity.base.Potion;
 
 import entity.data.PotionData;
 
 public class PotionCounter {
 	private ArrayList<Potion> potionCounter;
-	private Item item;
-
-	// Amount tracking
-	private final IntegerProperty currentCount = new SimpleIntegerProperty(0);
-	private final IntegerProperty maxAmount = new SimpleIntegerProperty(12);
 
 	public PotionCounter() {
-
 		this.potionCounter = new ArrayList<>();
 
 		this.potionCounter.add(PotionData.NIGHT_VISION.getItem());
@@ -33,64 +23,7 @@ public class PotionCounter {
 		this.potionCounter.add(PotionData.STRENGTH.getItem());
 	}
 
-	// Accessors for potion list
 	public ArrayList<Potion> getPotionCounter() {
 		return potionCounter;
-	}
-
-	public void setPotionCounter(ArrayList<Potion> potionCounter) {
-		this.potionCounter = potionCounter;
-	}
-
-	// Accessors for item
-	public Item getItem() {
-		return item;
-	}
-
-	public void setItem(Item item) {
-		this.item = item;
-	}
-
-	// Amount logic
-    public void addPotion(Potion potion) {
-        for (Potion p : potionCounter) {
-            if (p.getName().equals(potion.getName())) {
-                p.setAmount(p.getAmount() + 1);
-                return;
-            }
-        }
-    }
-
-	public boolean removePotion() {
-		if (currentCount.get() > 0) {
-			currentCount.set(currentCount.get() - 1);
-			return true;
-		}
-		return false;
-	}
-
-	// Property accessors
-	public IntegerProperty currentCountProperty() {
-		return currentCount;
-	}
-
-	public IntegerProperty maxAmountProperty() {
-		return maxAmount;
-	}
-
-	public int getCurrentCount() {
-		return currentCount.get();
-	}
-
-	public void setCurrentCount(int count) {
-		this.currentCount.set(count);
-	}
-
-	public int getMaxAmount() {
-		return maxAmount.get();
-	}
-
-	public void setMaxAmount(int amount) {
-		this.maxAmount.set(amount);
 	}
 }

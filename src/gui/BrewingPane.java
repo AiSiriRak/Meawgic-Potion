@@ -17,6 +17,7 @@ import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 import logic.game.GameController;
+import logic.game.SoundController;
 
 public class BrewingPane extends VBox {
 
@@ -125,7 +126,9 @@ public class BrewingPane extends VBox {
 	}
 
 	private void setupIngredientClickHandler(InventorySquare square, Ingredient ingredient) {
-		square.setOnMouseClicked(e -> handleIngredientClick(ingredient, square));
+		square.setOnMouseClicked(e -> {
+			handleIngredientClick(ingredient, square);
+		});
 	}
 
 	private void handleIngredientClick(Ingredient ingredient, InventorySquare square) {
@@ -184,12 +187,6 @@ public class BrewingPane extends VBox {
 			InventorySquare square = potionCells.get(index++);
 			setupSquareWithItem(square, potion);
 		}
-	}
-
-	public void addCraftedPotion(Potion potion) {
-		potionCounter.addPotion(potion);
-		refreshInventory();
-		GameController.getInventoryPane().refreshInventory();
 	}
 
 	public ArrayList<Ingredient> getCraftIngredient() {

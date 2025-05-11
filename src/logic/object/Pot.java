@@ -14,6 +14,7 @@ import javafx.scene.paint.Color;
 import logic.components.Animation;
 import logic.components.DoAnimation;
 import logic.game.GameController;
+import logic.game.SoundController;
 
 public class Pot extends GameObject implements Interactable, DoAnimation, DoTimer {
 	protected Rectangle2D interactArea;
@@ -51,6 +52,7 @@ public class Pot extends GameObject implements Interactable, DoAnimation, DoTime
 		// Already Done Pot
 		case 2:
 			if (potion != null) {
+				SoundController.getInstance().playEffectSound("Sell");
 				GameController.getInventoryPane().addPotion(potion);
 				this.changeStage(0);
 			}

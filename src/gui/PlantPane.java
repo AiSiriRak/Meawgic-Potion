@@ -22,6 +22,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import logic.game.GameController;
+import logic.game.SoundController;
 import logic.object.CropPlot;
 
 public class PlantPane extends StackPane {
@@ -31,7 +32,8 @@ public class PlantPane extends StackPane {
 	public PlantPane(CropPlot associatedCrop) {
 		this.associatedCrop = associatedCrop;
 		VBox content = createContentBox();
-		GameButton exitButton = createExitButton();
+		GameButton exitButton = new GameButton("Exit", "Click_ingredient");
+		exitButton.setOnMouseClicked(e -> this.setVisible(false));
 
 		StackPane.setAlignment(content, Pos.CENTER);
 		exitButton.setTranslateX(180);
@@ -80,7 +82,7 @@ public class PlantPane extends StackPane {
 		grid.setPickOnBounds(true);
 		grid.setMouseTransparent(false);
 
-		ArrayList<Crop> ingredients = new IngredientCounter().getBasisCounter();
+		ArrayList<Crop> ingredients = new IngredientCounter().getCropCounter();
 
 		int index = 0;
 		for (int row = 0; row < 3; row++) {
@@ -128,9 +130,10 @@ public class PlantPane extends StackPane {
 							System.out.println("Purchase successful!");
 							associatedCrop.setItem(ingredient);
 							associatedCrop.changeStage(1);
+							SoundController.getInstance().playEffectSound("buy");
 							this.setVisible(false);
 						} else {
-
+							SoundController.getInstance().playEffectSound("Wrong");
 						}
 						e.consume();
 					});
@@ -138,21 +141,6 @@ public class PlantPane extends StackPane {
 			}
 		}
 		return grid;
-	}
-
-	private GameButton createExitButton() {
-		GameButton exitButton = new GameButton("Exit");
-		exitButton.setOnMouseEntered(e -> {
-			exitButton.setScaleX(1.08);
-			exitButton.setScaleY(1.08);
-		});
-
-		exitButton.setOnMouseExited(e -> {
-			exitButton.setScaleX(1);
-			exitButton.setScaleY(1);
-		});
-		exitButton.setOnMouseClicked(e -> this.setVisible(false));
-		return exitButton;
 	}
 
 	public void show() {

@@ -13,6 +13,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
 import logic.game.GameController;
+import logic.game.SoundController;
 
 public class CropPlot extends GameObject implements Interactable, DoTimer {
 	protected Rectangle2D interactArea;
@@ -48,20 +49,20 @@ public class CropPlot extends GameObject implements Interactable, DoTimer {
 		switch (this.currentStage) {
 
 		case 0:
-			// Only show plant selection if no item is set
-			if (this.item == null && plantPane != null) {
-				plantPane.show();
-				GameController.setCurrentPlantPane(plantPane);
-			}
-			break;
+            // Only show plant selection if no item is set
+            if (this.item == null && plantPane != null) {
+                plantPane.show();
+                GameController.setCurrentPlantPane(plantPane);
+            }
+            break;
 
 		case 1:
 			GameController.waterBar.updateBar(GameController.waterBar.getWaterLevel() - 3);
 			if (GameController.waterBar.isEnoughWater()) {
-
+				SoundController.getInstance().playEffectSound("Water");
 				isWatered = true;
 
-				this.changeStage(1);
+				this.changeStage(2);
 
 				this.startTiming(this.item.getDuration());
 
@@ -70,6 +71,7 @@ public class CropPlot extends GameObject implements Interactable, DoTimer {
 			break;
 
 		case 3:
+			SoundController.getInstance().playEffectSound("Gain");
 			GameController.getInventoryPane().addIngredient(item);
 			this.item = null;
 			isWatered = false;
@@ -95,15 +97,15 @@ public class CropPlot extends GameObject implements Interactable, DoTimer {
 		Canvas canvas = new Canvas(192, 192);
 		GraphicsContext gc = canvas.getGraphicsContext2D();
 		gc.setImageSmoothing(false);
-
+		
 		if (plantPane != null && stage > 0) {
-			plantPane.setVisible(false);
-		}
+	        plantPane.setVisible(false);
+	    }
 
 		Image img = null;
 		switch (this.currentStage) {
 		case 0:
-			img = new Image(ClassLoader.getSystemResource("Images/Crop_0.png").toString());
+       	img = new Image(ClassLoader.getSystemResource("Images/Crop_0.png").toString());
 			break;
 		case 1:
 			if (plantPane != null) {
@@ -111,6 +113,7 @@ public class CropPlot extends GameObject implements Interactable, DoTimer {
 				GameController.setCurrentPlantPane(plantPane);
 				if (isWatered) {
 					img = new Image(ClassLoader.getSystemResource("Images/Crop_1.png").toString());
+					SoundController.getInstance().playEffectSound("Water");
 				} else {
 					img = new Image(ClassLoader.getSystemResource("Images/Crop_1_Dry.png").toString());
 				}

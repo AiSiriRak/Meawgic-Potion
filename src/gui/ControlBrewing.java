@@ -5,8 +5,11 @@ import Inventory.PotionCounter;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import logic.game.SoundController;
 import logic.object.Pot;
 
 public class ControlBrewing extends AnchorPane {
@@ -27,25 +30,30 @@ public class ControlBrewing extends AnchorPane {
 		contentBox.setPrefSize(960, 600);
 		contentBox.setAlignment(Pos.CENTER);
 		contentBox.getChildren().addAll(brewingStand, brewingPane);
+		
+		
+		GameButton resetButton = new GameButton("ResetIngredient", 150, "Click_ingredient");
+		resetButton.setOnMouseClicked(e -> brewingStand.resetIngredients());
 
-		Button resetButton = new Button("Reset Ingredients");
-		resetButton.setOnAction(e -> brewingStand.resetIngredients());
-
-		Button craftButton = new Button("Craft Potion");
-		craftButton.setOnAction(e -> {
+		GameButton craftButton = new GameButton("Craft",150, "Click_ingredient");
+		craftButton.setOnMouseClicked(e -> {
 			if (brewingStand.craftable()) {
 				brewingStand.craftPotion();
 				brewingStand.resetIngredients();
 				associatedPot.changeStage(1);
 				this.setVisible(false);
+				SoundController.getInstance().playEffectSound("Sell");
+			}
+			else {
+				SoundController.getInstance().playEffectSound("Wrong");
 			}
 		});
 
-		VBox controlBox = new VBox(10, craftButton, resetButton);
+		HBox controlBox = new HBox(10, craftButton, resetButton);
 		controlBox.setAlignment(Pos.CENTER);
 		contentBox.getChildren().add(controlBox);
 
-		GameButton exitButton = new GameButton("Exit");
+		GameButton exitButton = new GameButton("Exit", "Click_ingredient");
 		exitButton.setOnMouseClicked(e -> this.setVisible(false));
 
 		this.setPrefSize(500, 400);

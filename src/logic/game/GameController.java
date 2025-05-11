@@ -15,6 +15,13 @@ import gui.ShopPane;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -56,100 +63,130 @@ public class GameController {
 	public static ShopPane shopPane;
 
 	public static Coin coin;
-	private static String coinText;
+
+	private static Text coinText;
 	private static StackPane coinPane;
+
 	public static StackPane warningCoinPane;
 
 	public static void setupScene() {
-		try {
-			StackPane layeredRoot = new StackPane();
-			scene = new Scene(layeredRoot, SCREEN_WIDTH, SCREEN_HEIGHT, Color.BLACK);
+	    try {
+	        StackPane layeredRoot = new StackPane();
+	        scene = new Scene(layeredRoot, SCREEN_WIDTH, SCREEN_HEIGHT, Color.BLACK);
 
-			root = new Pane();
+	        root = new Pane();
 
-			keyboardController = new KeyboardController();
+	        keyboardController = new KeyboardController();
 
-			outsideMap = new OutsideMap();
-			insideMap = new InsideMap();
-			currentMap = outsideMap;
+	        outsideMap = new OutsideMap();
+	        insideMap = new InsideMap();
+	        currentMap = outsideMap;
 
-			root.getChildren().add(currentMap);
+	        root.getChildren().add(currentMap);
 
-			GameButton inventoryButton = new GameButton("Inventory", 64);
-			inventoryPane = new InventoryPane(sharedIngredientCounter, sharedPotionCounter);
-			GameButton settingButton = new GameButton("setting", 64);
-			SettingPane settingPane = new SettingPane(Main.getPrimaryStage());
+	        // Initialize Coin FIRST
+	        coinText = new Text();
+	        updateCoinDisplay();
+	        coinText.setFont(FontRect.BOLD.getFont(20));
+	        StackPane.setAlignment(coinText, Pos.TOP_RIGHT);
+	        StackPane.setMargin(coinText, new Insets(10, 20, 0, 0));
+	        
+	        coin = new Coin();
+	        updateCoinDisplay();
+	        coinText.setFill(Color.WHITE);
 
-			shopPane = new ShopPane();
+	        GameButton inventoryButton = new GameButton("Inventory", 64, "Click_ingredient");
+	        inventoryPane = new InventoryPane(sharedIngredientCounter, sharedPotionCounter);
 
-			// Set Water Warning Pane
-			warningWaterPane = getTextPane(160, 36, "No Water!!!");
-			warningWaterPane.setTranslateX(300);
-			warningWaterPane.setVisible(false);
+	        GameButton settingButton = new GameButton("setting", 64, "Click_ingredient");
+	        SettingPane settingPane = new SettingPane(Main.getPrimaryStage());
 
-			// Set Coin Warning Pane
-			warningCoinPane = getTextPane(300, 36, "Not Enough Money!!!");
-			warningCoinPane.setTranslateY(150);
-			warningCoinPane.setVisible(false);
+	        Image PotionGuildeImg = new Image(ClassLoader.getSystemResource("Images/PotionGuide.png" ).toString());
+	        BackgroundImage bg = new BackgroundImage(PotionGuildeImg, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT,
+	                BackgroundPosition.CENTER,
+	                new BackgroundSize(500, 384.6, false, false, false, false));
+	        GameButton potionGuideButton = new GameButton("PotionGuide", 64, "Click_ingredient");
 
-			// Set Waterbar
-			waterBar = new WaterBar();
+	        StackPane potionGuide = new StackPane();
+	        potionGuide.setBackground(new Background(bg));
+	        GameButton exitButton = new GameButton("Exit", "Click_ingredient");
+	        exitButton.setTranslateX(240);
+	        exitButton.setTranslateY(-180);
+	        exitButton.setOnAction(e -> {
+	            potionGuide.setVisible(false);
+	        });
+	        potionGuide.setVisible(false);
 
-			// Set InventoryPan && SettingPane
-			inventoryPane.setVisible(false);
-			settingPane.setVisible(false);
+	        potionGuideButton.setOnMouseClicked(e -> {
+	            potionGuide.setVisible(!potionGuide.isVisible());
+	            exitButton.setVisible(true);
+	        });
 
-			shopPane.setVisible(false);
+	        potionGuide.getChildren().add(exitButton);
 
-			// Setup Coin
-			coin = new Coin();
-			updateCoinDisplay();
-			coinPane = getTextPane(200, 36, coinText);
-			coinPane.setTranslateX(360);
-			coinPane.setTranslateY(-270);
 
-			// Button container
-			HBox overlay = new HBox(10);
-			overlay.setAlignment(Pos.BOTTOM_LEFT);
-			overlay.setPadding(new Insets(10));
-			overlay.getChildren().addAll(settingButton, inventoryButton);
-			StackPane.setAlignment(overlay, Pos.TOP_LEFT);
+	        shopPane = new ShopPane();
 
-			inventoryButton.setOnAction(e -> inventoryPane.setVisible(!inventoryPane.isVisible()));
-			settingButton.setOnAction(e -> settingPane.setVisible(!settingPane.isVisible()));
+	        // Set Water Warning Pane
+	        warningWaterPane = getTextPane(160, 36, new Text("No Water!!!"));
+	        warningWaterPane.setTranslateX(300);
+	        warningWaterPane.setVisible(false);
 
-			for (ControlBrewing cb : controlBrewings) {
-				cb.setVisible(false);
-				layeredRoot.getChildren().add(cb);
-			}
+	        // Set Coin Warning Pane
+	        warningCoinPane = getTextPane(300, 36, new Text("Not Enough Money!!!"));
+	        warningCoinPane.setTranslateY(200);
+	        warningCoinPane.setVisible(false);
 
-			for (PlantPane p : plantPanes) {
-				System.out.println(3);
-				p.setVisible(false);
-				layeredRoot.getChildren().add(p);
-			}
+	        // Set Waterbar
+	        waterBar = new WaterBar();
 
-			layeredRoot.getChildren().addAll(root, warningWaterPane, warningCoinPane, waterBar, coinPane, overlay,
-					inventoryPane, settingPane, shopPane);
+	        // Set InventoryPan && SettingPane
+	        inventoryPane.setVisible(false);
+	        settingPane.setVisible(false);
 
-			Main.getPrimaryStage().setScene(scene);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	        shopPane.setVisible(false);
+
+	        // Button container
+	        HBox overlay = new HBox(10);
+	        overlay.setAlignment(Pos.BOTTOM_LEFT);
+	        overlay.setPadding(new Insets(10));
+	        overlay.getChildren().addAll(settingButton, inventoryButton, potionGuideButton);
+	        StackPane.setAlignment(overlay, Pos.TOP_LEFT);
+
+	        inventoryButton.setOnAction(e -> inventoryPane.setVisible(!inventoryPane.isVisible()));
+	        settingButton.setOnAction(e -> settingPane.setVisible(!settingPane.isVisible()));
+
+	        for (ControlBrewing cb : controlBrewings) {
+	            cb.setVisible(false);
+	            layeredRoot.getChildren().add(cb);
+	        }
+
+	        for (PlantPane p : plantPanes) {
+	            p.setVisible(false);
+	            layeredRoot.getChildren().add(p);
+	        }
+
+	        layeredRoot.getChildren().addAll(root, overlay, inventoryPane, settingPane, potionGuide, shopPane, warningWaterPane, warningCoinPane, waterBar,coinText);
+
+
+	        Main.getPrimaryStage().setScene(scene);
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
 	}
+	
+	private static StackPane getTextPane(int width, int height, Text coinText2) {
+	    Text text = coinText2;
+	    text.setFont(FontRect.BOLD.getFont(24));
+	    text.setFill(Color.web("#34022A"));
 
-	private static StackPane getTextPane(int width, int height, String word) {
-		Text text = new Text(word);
-		text.setFont(FontRect.BOLD.getFont(24));
-		text.setFill(Color.web("#34022A"));
+	    StackPane textPane = new StackPane();
+	    Rectangle textBg = new Rectangle(width, height);
+	    textBg.setFill(Color.web("#FAF5DF"));
 
-		StackPane textPane = new StackPane();
-		Rectangle textBg = new Rectangle(width, height);
-		textBg.setFill(Color.web("#FAF5DF"));
+	    textPane.getChildren().addAll(textBg, text);
 
-		textPane.getChildren().addAll(textBg, text);
-
-		return textPane;
+	    return textPane;
 	}
 
 	public static void resetGame() {
@@ -177,9 +214,9 @@ public class GameController {
 	}
 
 	public static void updateCoinDisplay() {
-		if (coin != null) {
-			coinText = "Coins : " + coin.getCoin();
-		}
+	    if (coinText != null && coin != null) {
+	        coinText.setText("Coins : " + coin.getCoins());
+	    }
 	}
 
 	public static void addControlBrewing(ControlBrewing controlBrewing) {
