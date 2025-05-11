@@ -32,14 +32,12 @@ public class ControlBrewing extends AnchorPane {
 		contentBox.getChildren().addAll(brewingStand, brewingPane);
 		
 		
-		ImageView resetButton = new ImageView(ClassLoader.getSystemResource("Images/ResetIngredient_btn.png").toString());
-		resetButton.setFitWidth(150);
-		resetButton.setPreserveRatio(true);
+		GameButton resetButton = new GameButton("ResetIngredient", 150);
+		resetButton.setSoundHover("Click_Ingredient");
 		resetButton.setOnMouseClicked(e -> brewingStand.resetIngredients());
 
-		ImageView craftButton = new ImageView(ClassLoader.getSystemResource("Images/Craft_btn.png").toString());
-		craftButton.setFitWidth(150);
-		craftButton.setPreserveRatio(true);
+		GameButton craftButton = new GameButton("Craft",150);
+		craftButton.setSoundHover("Click_Ingredient");
 		craftButton.setOnMouseClicked(e -> {
 			if (brewingStand.craftable()) {
 				brewingStand.craftPotion();
@@ -58,6 +56,7 @@ public class ControlBrewing extends AnchorPane {
 		contentBox.getChildren().add(controlBox);
 
 		GameButton exitButton = new GameButton("Exit");
+		exitButton.setSoundHover("Click_Ingredient");
 		exitButton.setOnMouseClicked(e -> this.setVisible(false));
 
 		this.setPrefSize(500, 400);

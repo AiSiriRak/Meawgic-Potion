@@ -21,7 +21,10 @@ public class SettingPane extends StackPane {
 		this.primaryStage = primaryStage;
 
 		VBox contentBox = createContentBox();
-		GameButton exitButton = createExitButton();
+		GameButton exitButton = new GameButton("Exit");
+		exitButton.setSoundHover("Click_Ingredient");
+		exitButton.setOnMouseClicked(e -> this.setVisible(false));
+		
 		AnchorPane container = createContainer(contentBox, exitButton);
 
 		this.setAlignment(Pos.CENTER);
@@ -43,11 +46,22 @@ public class SettingPane extends StackPane {
 		VBox soundBox = new VBox(10, createToggleSetting("Sound", true), createToggleSetting("Effect", false));
 		soundBox.setAlignment(Pos.CENTER);
 
-		HBox buttonBox = new HBox(20, createIconButton("ResetGame_btn.png", GameController::resetGame),
-				createIconButton("Home_btn.png", () -> {
-					returnToStartPage();
-					this.setVisible(false);
-				}));
+		HBox buttonBox = new HBox(20);
+		GameButton resetGame = new GameButton("ResetGame",96);
+		resetGame.setSoundHover("Click_Ingredient");
+		resetGame.setOnMouseClicked(e -> {
+			GameController.resetGame();
+		});
+		GameButton homeButton = new GameButton("Home",96);
+		homeButton.setSoundHover("Click_Ingredient");
+		homeButton.setOnMouseClicked(e -> {
+			returnToStartPage();
+			this.setVisible(false);
+		});
+		
+		
+		buttonBox.getChildren().addAll(resetGame,homeButton);
+				
 		buttonBox.setAlignment(Pos.CENTER);
 
 		contentBox.getChildren().addAll(title, soundBox, buttonBox);
@@ -74,30 +88,15 @@ public class SettingPane extends StackPane {
 		return settingBox;
 	}
 
-	private ImageView createIconButton(String imageName, Runnable action) {
-		ImageView button = new ImageView(new Image(getImagePath(imageName)));
-		button.setFitWidth(96);
-		button.setPreserveRatio(true);
-		button.setSmooth(true);
-		button.setOnMouseClicked(e -> action.run());
-		return button;
-	}
+//	private ImageView createIconButton(String imageName, Runnable action) {
+//		ImageView button = new ImageView(new Image(getImagePath(imageName)));
+//		button.setFitWidth(96);
+//		button.setPreserveRatio(true);
+//		button.setSmooth(true);
+//		button.setOnMouseClicked(e -> action.run());
+//		return button;
+//	}
 
-	private GameButton createExitButton() {
-		GameButton exitButton = new GameButton("Exit");
-
-		exitButton.setOnMouseEntered(e -> {
-			exitButton.setScaleX(1.08);
-			exitButton.setScaleY(1.08);
-		});
-
-		exitButton.setOnMouseExited(e -> {
-			exitButton.setScaleX(1);
-			exitButton.setScaleY(1);
-		});
-		exitButton.setOnMouseClicked(e -> this.setVisible(false));
-		return exitButton;
-	}
 
 	private AnchorPane createContainer(VBox contentBox, GameButton exitButton) {
 		AnchorPane container = new AnchorPane();

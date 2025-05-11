@@ -112,8 +112,8 @@ public class GameController {
 
 	        StackPane potionGuide = new StackPane();
 	        potionGuide.setBackground(new Background(bg));
-	        GameButton exitButton = new GameButton("Exit",64);
-	        exitButton.setTranslateX(230);
+	        GameButton exitButton = new GameButton("Exit");
+	        exitButton.setTranslateX(240);
 	        exitButton.setTranslateY(-180);
 	        exitButton.setOnAction(e -> {
 	            potionGuide.setVisible(false);

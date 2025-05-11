@@ -32,7 +32,8 @@ public class InventoryPane extends StackPane {
 		this.ingredientCounter = ingredientCounter;
 		this.potionCounter = potionCounter;
 		VBox content = createContentBox();
-		GameButton exitButton = createExitButton();
+		GameButton exitButton = new GameButton("Exit");
+		exitButton.setSoundHover("Click_Ingredient");
 
 		AnchorPane container = new AnchorPane();
 		container.setPrefSize(500, 400);
@@ -153,21 +154,6 @@ public class InventoryPane extends StackPane {
 				BackgroundPosition.CENTER,
 				new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, true, true, false, true));
 		return new Background(bgImage);
-	}
-
-	private GameButton createExitButton() {
-		GameButton exitButton = new GameButton("Exit");
-		exitButton.setOnMouseEntered(e -> {
-			exitButton.setScaleX(1.08);
-			exitButton.setScaleY(1.08);
-		});
-
-		exitButton.setOnMouseExited(e -> {
-			exitButton.setScaleX(1);
-			exitButton.setScaleY(1);
-		});
-		exitButton.setOnMouseClicked(e -> this.setVisible(false));
-		return exitButton;
 	}
 
 	public void addPotion(Potion potion) {

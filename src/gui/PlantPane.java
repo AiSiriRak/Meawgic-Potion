@@ -32,7 +32,9 @@ public class PlantPane extends StackPane {
 	public PlantPane(CropPlot associatedCrop) {
 		this.associatedCrop = associatedCrop;
 		VBox content = createContentBox();
-		GameButton exitButton = createExitButton();
+		GameButton exitButton = new GameButton("Exit");
+		exitButton.setSoundHover("Click_Ingredient");
+		exitButton.setOnMouseClicked(e -> this.setVisible(false));
 
 		StackPane.setAlignment(content, Pos.CENTER);
 		exitButton.setTranslateX(180);
@@ -140,21 +142,6 @@ public class PlantPane extends StackPane {
 			}
 		}
 		return grid;
-	}
-
-	private GameButton createExitButton() {
-		GameButton exitButton = new GameButton("Exit");
-		exitButton.setOnMouseEntered(e -> {
-			exitButton.setScaleX(1.08);
-			exitButton.setScaleY(1.08);
-		});
-
-		exitButton.setOnMouseExited(e -> {
-			exitButton.setScaleX(1);
-			exitButton.setScaleY(1);
-		});
-		exitButton.setOnMouseClicked(e -> this.setVisible(false));
-		return exitButton;
 	}
 
 	public void show() {
