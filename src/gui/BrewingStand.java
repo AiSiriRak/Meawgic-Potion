@@ -2,9 +2,6 @@ package gui;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.Set;
 
@@ -27,21 +24,16 @@ import logic.game.GameController;
 import logic.object.Pot;
 
 public class BrewingStand extends VBox {
-	private final ArrayList<InventorySquare> slots;
-	private final ArrayList<Ingredient> ingredientsInSlots;
+	private final ArrayList<InventorySquare> allCells = new ArrayList<>();
+	private final ArrayList<Ingredient> ingredientsInCells = new ArrayList<>();
 	private BrewingPane brewingPane;
-	private InventorySquare outputSlot;
+	private InventorySquare outputCell;
 	private Potion brewedPotion;
 	private Pot associatedPot;
 
 	public BrewingStand(Pot associatedPot) {
-		this.slots = new ArrayList<>();
-		this.ingredientsInSlots = new ArrayList<>();
 		this.associatedPot = associatedPot;
-		initializeUI();
-	}
 
-	private void initializeUI() {
 		Image backgroundImage = new Image(ClassLoader.getSystemResource("Images/Brewing_stand.png").toString());
 		BackgroundImage bgImage = new BackgroundImage(backgroundImage, BackgroundRepeat.NO_REPEAT,
 				BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER,
@@ -55,73 +47,55 @@ public class BrewingStand extends VBox {
 		this.setPadding(new Insets(10));
 		this.setSpacing(21);
 
-		setupSlots();
+		setupCells();
 	}
 
-	private void setupSlots() {
+	private void setupCells() {
 		GridPane ingredientGrid = new GridPane();
 		ingredientGrid.setAlignment(Pos.CENTER);
 		ingredientGrid.setVgap(10);
 		ingredientGrid.setHgap(20);
 
 		for (int col = 0; col < 3; col++) {
-			InventorySquare slot = createSlot(col);
-			slots.add(slot);
-			ingredientGrid.add(slot, col, 0);
+			InventorySquare square = new InventorySquare(col, 0, "Brewing");
+			square.setPrefSize(48, 48);
+			allCells.add(square);
+			ingredientGrid.add(square, col, 0);
 		}
 
-		outputSlot = createSlot(0);
+		outputCell = new InventorySquare(0, 0, "Brewing");
+		outputCell.setPrefSize(48, 48);
 		GridPane potionPane = new GridPane();
 		potionPane.setAlignment(Pos.CENTER);
-		potionPane.add(outputSlot, 0, 0);
+		potionPane.add(outputCell, 0, 0);
 
 		this.getChildren().addAll(ingredientGrid, potionPane);
 	}
 
-	private InventorySquare createSlot(int col) {
-		InventorySquare slot = new InventorySquare(col, 0, "Brewing");
-		slot.setPrefSize(48, 48);
-		return slot;
-	}
-
-	public void setBrewingPane(BrewingPane pane) {
-		this.brewingPane = pane;
-	}
-
-	public boolean hasAvailableSlot() {
-		return ingredientsInSlots.size() < 3;
-	}
-
-	public boolean containsIngredient(Ingredient ingredient) {
-		return ingredientsInSlots.contains(ingredient);
-	}
-
 	public void addIngredient(Ingredient ingredient) {
-		if (!hasAvailableSlot())
+		if (!hasAvailableCell())
 			return;
 
-		int slotIndex = ingredientsInSlots.size();
-		InventorySquare slot = slots.get(slotIndex);
+		int cellIndex = ingredientsInCells.size();
+		InventorySquare cell = allCells.get(cellIndex);
 
 		ImageView view = new ImageView(ingredient.getItemImage().getImage());
 		view.setFitWidth(35);
 		view.setFitHeight(35);
-		slot.getChildren().add(view);
+		cell.getChildren().add(view);
 
-		ingredientsInSlots.add(ingredient);
-		System.out.println("Ingredient added to BrewingStand: " + ingredient.getClass().getSimpleName());
-		rebuildSlotClickHandlers();
+		ingredientsInCells.add(ingredient);
+		System.out.println("Ingredient added to BrewingStand: " + ingredient.getName());
+		rebuildCellClickHandlers();
 
 		displayBrewedPotion();
 	}
 
 	public void removeIngredient(Ingredient ingredient) {
-		int index = ingredientsInSlots.indexOf(ingredient);
-		if (index == -1)
-			return;
+		int index = ingredientsInCells.indexOf(ingredient);
 
-		ingredientsInSlots.remove(index);
-		slots.get(index).getChildren().clear();
+		ingredientsInCells.remove(index);
+		allCells.get(index).getChildren().clear();
 
 		ingredient.setAmount(ingredient.getAmount() + 1);
 
@@ -131,84 +105,81 @@ public class BrewingStand extends VBox {
 			brewingPane.refreshInventory();
 		}
 
-		rebuildSlotClickHandlers();
-		outputSlot.getChildren().clear();
+		rebuildCellClickHandlers();
+		outputCell.getChildren().clear();
 		brewedPotion = null;
 		displayBrewedPotion();
 	}
 
 	private void shiftIngredients() {
-		for (InventorySquare slot : slots) {
-			slot.getChildren().clear();
+		for (InventorySquare cell : allCells) {
+			cell.getChildren().clear();
 		}
 
-		for (int i = 0; i < ingredientsInSlots.size(); i++) {
-			Ingredient ing = ingredientsInSlots.get(i);
-			InventorySquare slot = slots.get(i);
+		for (int i = 0; i < ingredientsInCells.size(); i++) {
+			Ingredient ing = ingredientsInCells.get(i);
+			InventorySquare cell = allCells.get(i);
 
 			ImageView view = new ImageView(ing.getItemImage().getImage());
 			view.setFitWidth(35);
 			view.setFitHeight(35);
-			slot.getChildren().add(view);
+			cell.getChildren().add(view);
 		}
 	}
 
-	private void rebuildSlotClickHandlers() {
-		for (int i = 0; i < ingredientsInSlots.size(); i++) {
-			Ingredient ing = ingredientsInSlots.get(i);
-			InventorySquare slot = slots.get(i);
-			slot.setOnMouseClicked(e -> removeIngredient(ing));
+	private void rebuildCellClickHandlers() {
+		for (int i = 0; i < ingredientsInCells.size(); i++) {
+			Ingredient ing = ingredientsInCells.get(i);
+			InventorySquare cell = allCells.get(i);
+			cell.setOnMouseClicked(e -> removeIngredient(ing));
 		}
 	}
 
 	public boolean brewable() {
-		if (ingredientsInSlots.size() != 3)
+		if (ingredientsInCells.size() != 3)
 			return false;
 
 		Set<String> currentIngredients = new HashSet<>();
-		for (Ingredient ing : ingredientsInSlots) {
+		for (Ingredient ing : ingredientsInCells) {
 			currentIngredients.add(ing.getName());
 		}
 
 		return PotionRecipeData.getPotionByIngredients(currentIngredients).isPresent();
 	}
 
-
 	public void brewPotion() {
 		if (!brewable())
 			return;
 
 		Set<String> currentIngredients = new HashSet<>();
-		for (Ingredient ing : ingredientsInSlots) {
+		for (Ingredient ing : ingredientsInCells) {
 			currentIngredients.add(ing.getName());
 		}
 
 		Optional<PotionData> potionDataOpt = PotionRecipeData.getPotionByIngredients(currentIngredients);
-		if (potionDataOpt.isPresent()) {
-			Potion matchedPotion = potionDataOpt.get().getItem();
-			completeBrewing(matchedPotion);
-			associatedPot.startTiming(matchedPotion.getDuration());
-		}
+		Potion matchedPotion = potionDataOpt.get().getItem();
+		completeBrewing(matchedPotion);
+		associatedPot.startTiming(matchedPotion.getDuration());
+
 	}
 
-
 	private void displayBrewedPotion() {
-		if (brewedPotion != null || outputSlot == null || ingredientsInSlots.size() != 3)
+		if (brewedPotion != null || outputCell == null || ingredientsInCells.size() != 3)
 			return;
 
 		Set<String> currentIngredients = new HashSet<>();
-		for (Ingredient ing : ingredientsInSlots) {
+		for (Ingredient ing : ingredientsInCells) {
 			currentIngredients.add(ing.getName());
 		}
 
 		Optional<PotionData> potionDataOpt = PotionRecipeData.getPotionByIngredients(currentIngredients);
 		if (potionDataOpt.isPresent()) {
 			Potion matchedPotion = potionDataOpt.get().getItem();
-			outputSlot.getChildren().clear();
+			outputCell.getChildren().clear();
 			ImageView potionView = new ImageView(matchedPotion.getItemImage().getImage());
 			potionView.setFitWidth(35);
 			potionView.setFitHeight(35);
-			outputSlot.getChildren().add(potionView);
+			outputCell.getChildren().add(potionView);
 
 			brewedPotion = matchedPotion;
 		}
@@ -217,16 +188,11 @@ public class BrewingStand extends VBox {
 	private void completeBrewing(Potion potion) {
 		associatedPot.setPotion(potion);
 
-		ingredientsInSlots.clear();
-		for (InventorySquare slot : slots) {
-			slot.getChildren().clear();
-			slot.setOnMouseClicked(null);
+		ingredientsInCells.clear();
+		for (InventorySquare cell : allCells) {
+			cell.getChildren().clear();
+			cell.setOnMouseClicked(null);
 		}
-
-		ImageView potionView = new ImageView(potion.getItemImage().getImage());
-		potionView.setFitWidth(35);
-		potionView.setFitHeight(35);
-		outputSlot.getChildren().add(potionView);
 
 		this.brewedPotion = potion;
 
@@ -235,20 +201,31 @@ public class BrewingStand extends VBox {
 	}
 
 	public void resetIngredients() {
-		for (Ingredient ingredient : new ArrayList<>(ingredientsInSlots)) {
+		for (Ingredient ingredient : new ArrayList<>(ingredientsInCells)) {
 			if (brewingPane != null) {
 				brewingPane.returnIngredient(ingredient);
 			}
-			outputSlot.getChildren().clear();
+			outputCell.getChildren().clear();
 			brewedPotion = null;
 		}
 
-		ingredientsInSlots.clear();
-		for (InventorySquare slot : slots) {
-			slot.getChildren().clear();
-			slot.setOnMouseClicked(null);
+		ingredientsInCells.clear();
+		for (InventorySquare cell : allCells) {
+			cell.getChildren().clear();
+			cell.setOnMouseClicked(null);
 		}
-		outputSlot.getChildren().clear();
+		outputCell.getChildren().clear();
 	}
 
+	public boolean hasAvailableCell() {
+		return ingredientsInCells.size() < 3;
+	}
+
+	public boolean containsIngredient(Ingredient ingredient) {
+		return ingredientsInCells.contains(ingredient);
+	}
+
+	public void setBrewingPane(BrewingPane pane) {
+		this.brewingPane = pane;
+	}
 }

@@ -21,28 +21,22 @@ import logic.game.SoundController;
 
 public class BrewingPane extends VBox {
 
-	private final ArrayList<InventorySquare> ingredientCells = new ArrayList<>();
-	private final ArrayList<InventorySquare> potionCells = new ArrayList<>();
+	private final ArrayList<InventorySquare> ingredientAllCells = new ArrayList<>();
+	private final ArrayList<InventorySquare> potionAllCells = new ArrayList<>();
 	private final ArrayList<Ingredient> brewIngredient = new ArrayList<>();
 
 	private final IngredientCounter ingredientCounter;
 	private final PotionCounter potionCounter;
 	private final BrewingStand brewingStand;
-	private ControlBrewing controlBrewing;
+	private final ControlBrewing controlBrewing;
 
-	public BrewingPane(BrewingStand brewingStand, IngredientCounter ingredientCounter, PotionCounter potionCounter,
-			ControlBrewing controlBrewing) {
+	public BrewingPane(BrewingStand brewingStand, IngredientCounter ingredientCounter, PotionCounter potionCounter, ControlBrewing controlBrewing) {
 		this.ingredientCounter = ingredientCounter;
 		this.potionCounter = potionCounter;
 		this.brewingStand = brewingStand;
 		this.controlBrewing = controlBrewing;
 		brewingStand.setBrewingPane(this);
 
-		initializePane();
-		setupContent();
-	}
-
-	private void initializePane() {
 		Image backgroundImage = new Image(ClassLoader.getSystemResource("Images/Brewing_pane.png").toString());
 		BackgroundImage bgImage = new BackgroundImage(backgroundImage, BackgroundRepeat.NO_REPEAT,
 				BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER,
@@ -55,22 +49,16 @@ public class BrewingPane extends VBox {
 		this.setAlignment(Pos.CENTER);
 		this.setPadding(new Insets(10));
 		this.setSpacing(10);
-	}
-
-	private void setupContent() {
-		Text inventoryLabel = createSectionLabel("INVENTORY", 24);
-		GridPane ingredientGrid = createInventoryGrid(ingredientCells, ingredientCounter.getIngredientCounter(), true);
-
-		Text potionLabel = createSectionLabel("POTIONS", 24);
-		GridPane potionGrid = createInventoryGrid(potionCells, potionCounter.getPotionCounter(), false);
+		
+		Text inventoryLabel = new Text("POTIONS");
+		inventoryLabel.setFont(FontRect.REGULAR.getFont(24));
+		GridPane ingredientGrid = createInventoryGrid(ingredientAllCells, ingredientCounter.getIngredientCounter(), true);
+		
+		Text potionLabel = new Text("POTIONS");
+		potionLabel.setFont(FontRect.REGULAR.getFont(24));
+		GridPane potionGrid = createInventoryGrid(potionAllCells, potionCounter.getPotionCounter(), false);
 
 		this.getChildren().addAll(inventoryLabel, ingredientGrid, potionLabel, potionGrid);
-	}
-
-	private Text createSectionLabel(String text, int fontSize) {
-		Text label = new Text(text);
-		label.setFont(FontRect.REGULAR.getFont(fontSize));
-		return label;
 	}
 
 	private GridPane createInventoryGrid(ArrayList<InventorySquare> cells, ArrayList<? extends Item> items,
@@ -93,7 +81,9 @@ public class BrewingPane extends VBox {
 					setupSquareWithItem(square, item);
 
 					if (isIngredient && item instanceof Ingredient ingredient) {
-						setupIngredientClickHandler(square, ingredient);
+						square.setOnMouseClicked(e -> {
+							handleIngredientClick(ingredient, square);
+						});
 					}
 				}
 			}
@@ -113,22 +103,12 @@ public class BrewingPane extends VBox {
 		amountText.setStyle("-fx-fill: white; -fx-font-size: 16;");
 		StackPane.setAlignment(amountText, Pos.BOTTOM_RIGHT);
 		square.getChildren().add(amountText);
-
-		createAndAttachTooltip(square, item.getName());
-	}
-
-	private void createAndAttachTooltip(InventorySquare square, String text) {
-		Tooltip tooltip = new Tooltip(text);
+		
+		Tooltip tooltip = new Tooltip(item.getName());
 		tooltip.setStyle("-fx-background-color: black; -fx-text-fill: white; -fx-font-size: 12;");
 		tooltip.setShowDelay(Duration.millis(300));
 		tooltip.setHideDelay(Duration.millis(100));
 		Tooltip.install(square, tooltip);
-	}
-
-	private void setupIngredientClickHandler(InventorySquare square, Ingredient ingredient) {
-		square.setOnMouseClicked(e -> {
-			handleIngredientClick(ingredient, square);
-		});
 	}
 
 	private void handleIngredientClick(Ingredient ingredient, InventorySquare square) {
@@ -137,13 +117,14 @@ public class BrewingPane extends VBox {
 
 		if (brewingStand.containsIngredient(ingredient)) {
 			brewingStand.removeIngredient(ingredient);
-		} else if (brewingStand.hasAvailableSlot()) {
+		} else if (brewingStand.hasAvailableCell()) {
 			brewingStand.addIngredient(ingredient);
 			ingredient.setAmount(ingredient.getAmount() - 1);
 		}
 		refreshInventory();
 		GameController.getInventoryPane().refreshInventory();
 		updateAmountDisplay(square, ingredient.getAmount());
+		SoundController.getInstance().playEffectSound("Click_Ingredient");
 	}
 
 	private void updateAmountDisplay(InventorySquare square, int amount) {
@@ -158,33 +139,34 @@ public class BrewingPane extends VBox {
 	public void returnIngredient(Ingredient ingredient) {
 		ingredient.setAmount(ingredient.getAmount() + 1);
 		refreshInventory();
+		GameController.getInventoryPane().refreshInventory();
 	}
 
 	public void refreshInventory() {
-		for (InventorySquare square : ingredientCells) {
+		for (InventorySquare square : ingredientAllCells) {
 			square.getChildren().clear();
 		}
-		for (InventorySquare square : potionCells) {
+		for (InventorySquare square : potionAllCells) {
 			square.getChildren().clear();
 		}
 
 		// ingredient
 		int index = 0;
 		for (Ingredient ingredient : ingredientCounter.getIngredientCounter()) {
-			if (index >= ingredientCells.size())
+			if (index >= ingredientAllCells.size())
 				break;
 
-			InventorySquare square = ingredientCells.get(index++);
+			InventorySquare square = ingredientAllCells.get(index++);
 			setupSquareWithItem(square, ingredient);
 		}
 
 		// potion
 		index = 0;
 		for (Potion potion : potionCounter.getPotionCounter()) {
-			if (index >= potionCells.size())
+			if (index >= potionAllCells.size())
 				break;
 
-			InventorySquare square = potionCells.get(index++);
+			InventorySquare square = potionAllCells.get(index++);
 			setupSquareWithItem(square, potion);
 		}
 	}
