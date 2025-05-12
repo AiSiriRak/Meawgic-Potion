@@ -217,6 +217,10 @@ public class BrewingStand extends VBox {
 		outputCell.getChildren().clear();
 		brewedPotion = null;
 	}
+	
+	public boolean hasAvailableCell() {
+		return ingredientsInCells.size() < 3;
+	}
 
 	public boolean containsIngredient(Ingredient ingredient) {
 		return ingredientsInCells.contains(ingredient);
@@ -225,8 +229,5 @@ public class BrewingStand extends VBox {
 	public void setBrewingPane(BrewingPane pane) {
 		this.brewingPane = pane;
 	}
-
-	public boolean hasAvailableCell() {
-		return ingredientsInCells.size() < 3;
-	}
+	
 }
