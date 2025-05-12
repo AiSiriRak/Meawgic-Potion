@@ -26,6 +26,12 @@ public class IngredientCounter {
 		this.ingredientCounter.add(CropData.GHAST_TEAR.getItem());
 		this.ingredientCounter.add(CropData.BLAZE_POWDER.getItem());
 	}
+	
+	public void reset() {
+		for (Ingredient i : ingredientCounter) {
+			i.setAmount(0);
+		}
+	}
 
 	public ArrayList<Crop> getCropCounter() {
 		ArrayList<Crop> crop = new ArrayList<>();
@@ -39,12 +45,6 @@ public class IngredientCounter {
 
 	public ArrayList<Ingredient> getIngredientCounter() {
 		return ingredientCounter;
-	}
-	
-	public void reset() {
-		for (Ingredient i : ingredientCounter) {
-			i.setAmount(0);
-		}
 	}
 
 }

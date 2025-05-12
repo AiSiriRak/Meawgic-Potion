@@ -12,7 +12,6 @@ import javafx.scene.image.Image;
 import logic.game.Camera;
 import logic.game.GameController;
 import logic.game.KeyboardController;
-import logic.object.CropPlot;
 import logic.object.GameObject;
 import logic.object.Interactable;
 import logic.object.Renderable;

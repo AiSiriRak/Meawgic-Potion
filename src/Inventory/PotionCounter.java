@@ -22,14 +22,14 @@ public class PotionCounter {
 		this.potionCounter.add(PotionData.REGENERATION.getItem());
 		this.potionCounter.add(PotionData.STRENGTH.getItem());
 	}
-
-	public ArrayList<Potion> getPotionCounter() {
-		return potionCounter;
-	}
 	
 	public void reset() {
 		for (Potion p : potionCounter) {
 			p.setAmount(0);
 		}
+	}
+
+	public ArrayList<Potion> getPotionCounter() {
+		return potionCounter;
 	}
 }
