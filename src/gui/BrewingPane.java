@@ -112,8 +112,6 @@ public class BrewingPane extends VBox {
 	}
 
 	private void handleIngredientClick(Ingredient ingredient, InventorySquare square) {
-		if (ingredient.getAmount() <= 0)
-			return;
 
 		if (brewingStand.containsIngredient(ingredient)) {
 			brewingStand.removeIngredient(ingredient);

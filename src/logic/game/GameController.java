@@ -194,11 +194,11 @@ public class GameController {
 	}
 
 	public static void resetGame() {
-		setupScene();
-		
 		inventoryPane.refreshInventory();
 		sharedIngredientCounter.reset();
 		sharedPotionCounter.reset();
+		
+		setupScene();
 		
 		for (GameObject obj : GameController.outsideMap.getGameObjects()) {
 			if (obj instanceof CropPlot) {

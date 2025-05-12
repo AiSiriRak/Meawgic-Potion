@@ -93,7 +93,9 @@ public class BrewingStand extends VBox {
 
 	public void removeIngredient(Ingredient ingredient) {
 		int index = ingredientsInCells.indexOf(ingredient);
-
+		if (index == -1) 
+			return;
+		
 		ingredientsInCells.remove(index);
 		allCells.get(index).getChildren().clear();
 
@@ -129,9 +131,9 @@ public class BrewingStand extends VBox {
 
 	private void rebuildCellClickHandlers() {
 		for (int i = 0; i < ingredientsInCells.size(); i++) {
-			Ingredient ing = ingredientsInCells.get(i);
+			Ingredient ingredient = ingredientsInCells.get(i);
 			InventorySquare cell = allCells.get(i);
-			cell.setOnMouseClicked(e -> removeIngredient(ing));
+			cell.setOnMouseClicked(e -> removeIngredient(ingredient));
 		}
 	}
 
@@ -160,7 +162,7 @@ public class BrewingStand extends VBox {
 		Potion matchedPotion = potionDataOpt.get().getItem();
 		completeBrewing(matchedPotion);
 		associatedPot.startTiming(matchedPotion.getDuration());
-
+		displayBrewedPotion();
 	}
 
 	private void displayBrewedPotion() {
