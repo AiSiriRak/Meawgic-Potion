@@ -124,7 +124,7 @@ public class BrewingPane extends VBox {
 		refreshInventory();
 		GameController.getInventoryPane().refreshInventory();
 		updateAmountDisplay(square, ingredient.getAmount());
-		SoundController.getInstance().playEffectSound("Click_Ingredient");
+		SoundController.getInstance().playEffectSound("Click_ingredient");
 	}
 
 	private void updateAmountDisplay(InventorySquare square, int amount) {

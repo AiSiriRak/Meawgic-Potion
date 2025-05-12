@@ -92,7 +92,7 @@ public class PlantPane extends StackPane {
 					priceText.setFont(FontRect.REGULAR.getFont(14));
 					priceText.setFill(Color.WHITE);
 
-					ImageView coinImage = new ImageView(ClassLoader.getSystemResource("Images/coin.png").toString());
+					ImageView coinImage = new ImageView(ClassLoader.getSystemResource("Images/Coin.png").toString());
 					coinImage.setFitWidth(14);
 					coinImage.setPreserveRatio(true);
 					coinImage.setMouseTransparent(true);
@@ -116,7 +116,7 @@ public class PlantPane extends StackPane {
 							System.out.println("Purchase successful!");
 							associatedCrop.setItem(ingredient);
 							associatedCrop.changeStage(1);
-							SoundController.getInstance().playEffectSound("buy");
+							SoundController.getInstance().playEffectSound("Buy");
 							this.setVisible(false);
 						} else {
 							SoundController.getInstance().playEffectSound("Wrong");

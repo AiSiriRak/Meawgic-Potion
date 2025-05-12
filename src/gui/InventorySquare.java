@@ -17,7 +17,7 @@ public class InventorySquare extends StackPane {
 		this.xPosition = x;
 		this.yPosition = y;
 
-		Image bgImage = new Image(ClassLoader.getSystemResource("Images/" + inventory + "_Frame.png").toString());
+		Image bgImage = new Image(ClassLoader.getSystemResource("Images/" + inventory + "_frame.png").toString());
 		BackgroundImage backgroundImage = new BackgroundImage(bgImage, BackgroundRepeat.NO_REPEAT,
 				BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER,
 				new BackgroundSize(48, 48, false, false, false, false));

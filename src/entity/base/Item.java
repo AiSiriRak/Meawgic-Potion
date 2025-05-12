@@ -1,5 +1,8 @@
 package entity.base;
 
+import java.net.URL;
+
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public abstract class Item {
@@ -9,8 +12,8 @@ public abstract class Item {
 
 	protected Item(String name) {
 		this.name = name;
-		this.setAmount(10);
-		this.itemImage = new ImageView(ClassLoader.getSystemResource("Images/" + name + ".png").toString());
+		this.setAmount(0);
+		this.itemImage = new ImageView(ClassLoader.getSystemResource("Images/"+name+".png").toString());
 	}
 
 	public ImageView getItemImage() {

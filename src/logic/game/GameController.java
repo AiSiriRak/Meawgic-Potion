@@ -74,7 +74,9 @@ public class GameController {
 			root = new Pane();
 
 			keyboardController = new KeyboardController();
-
+			
+			// Set Waterbar
+			waterBar = new WaterBar();
 			outsideMap = new OutsideMap();
 			insideMap = new InsideMap();
 			currentMap = outsideMap;
@@ -96,7 +98,7 @@ public class GameController {
 			GameButton inventoryButton = new GameButton("Inventory", 64, "Click_ingredient");
 			inventoryPane = new InventoryPane(sharedIngredientCounter, sharedPotionCounter);
 
-			GameButton settingButton = new GameButton("setting", 64, "Click_ingredient");
+			GameButton settingButton = new GameButton("Setting", 64, "Click_ingredient");
 			SettingPane settingPane = new SettingPane(Main.getPrimaryStage());
 
 			Image PotionGuildeImg = new Image(ClassLoader.getSystemResource("Images/PotionGuide.png").toString());
@@ -135,9 +137,6 @@ public class GameController {
 			warningCoinPane = getTextPane(300, 36, new Text("Not Enough Money!!!"));
 			warningCoinPane.setTranslateY(200);
 			warningCoinPane.setVisible(false);
-
-			// Set Waterbar
-			waterBar = new WaterBar();
 
 			// Set InventoryPan && SettingPane
 			inventoryPane.setVisible(false);
