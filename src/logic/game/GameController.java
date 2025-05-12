@@ -79,8 +79,14 @@ public class GameController {
 			
 			// Set Waterbar
 			waterBar = new WaterBar();
-			outsideMap = new OutsideMap();
-			insideMap = new InsideMap();
+			
+			if (outsideMap == null) {
+			    outsideMap = new OutsideMap();
+			}
+			if (insideMap == null) {
+			    insideMap = new InsideMap();
+			}
+			
 			currentMap = outsideMap;
 
 			root.getChildren().add(currentMap);
@@ -153,7 +159,7 @@ public class GameController {
 
 			inventoryButton.setOnAction(e -> inventoryPane.setVisible(!inventoryPane.isVisible()));
 			settingButton.setOnAction(e -> settingPane.setVisible(!settingPane.isVisible()));
-
+			
 			for (ControlBrewing cb : controlBrewings) {
 				cb.setVisible(false);
 				layeredRoot.getChildren().add(cb);
@@ -189,9 +195,11 @@ public class GameController {
 
 	public static void resetGame() {
 		setupScene();
+		
+		inventoryPane.refreshInventory();
 		sharedIngredientCounter.reset();
 		sharedPotionCounter.reset();
-		inventoryPane.refreshInventory();
+		
 		for (GameObject obj : GameController.outsideMap.getGameObjects()) {
 			if (obj instanceof CropPlot) {
 				((CropPlot) obj).reset();

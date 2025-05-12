@@ -25,6 +25,7 @@ public class OutsideMap extends Map {
 		setCropPlot("Crop - 2", 1088, 384);
 		setCropPlot("Crop - 3", 768, 704);
 		setCropPlot("Crop - 4", 1088, 704);
+		
 
 		House house = new House("House", 448, 0);
 		gameObjectList.add(house);

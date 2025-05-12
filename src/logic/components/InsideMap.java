@@ -28,6 +28,7 @@ public class InsideMap extends Map {
 				GameController.getSharedPotionCounter(), (Pot) pot1);
 		ControlBrewing controlBrewing2 = new ControlBrewing(GameController.getSharedIngredientCounter(),
 				GameController.getSharedPotionCounter(), (Pot) pot2);
+		gameObjectList.clear();
 		gameObjectList.add(pot1);
 		gameObjectList.add(pot2);
 		((Pot) pot1).setControlBrewing(controlBrewing1);
