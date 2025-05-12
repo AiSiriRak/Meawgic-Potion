@@ -1,6 +1,7 @@
 package application;
 
 import gui.GameButton;
+import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -36,7 +37,11 @@ public class StartPage {
 		});
 
 		GameButton exitButton = new GameButton("ExitGame", 200, "Opening_game");
-		exitButton.setOnMouseClicked(e -> primaryStage.close());
+		exitButton.setOnMouseClicked(e -> {
+			primaryStage.close();
+			Platform.exit();
+			System.exit(0);
+			});
 
 		btn.getChildren().addAll(startButton, exitButton);
 
