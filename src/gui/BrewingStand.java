@@ -201,24 +201,21 @@ public class BrewingStand extends VBox {
 	}
 
 	public void resetIngredients() {
-		for (Ingredient ingredient : new ArrayList<>(ingredientsInCells)) {
-			if (brewingPane != null) {
+		if (brewingPane != null) {
+			for (Ingredient ingredient : new ArrayList<>(ingredientsInCells)) {
 				brewingPane.returnIngredient(ingredient);
 			}
-			outputCell.getChildren().clear();
-			brewedPotion = null;
 		}
-
+		
 		ingredientsInCells.clear();
+
 		for (InventorySquare cell : allCells) {
 			cell.getChildren().clear();
 			cell.setOnMouseClicked(null);
 		}
-		outputCell.getChildren().clear();
-	}
 
-	public boolean hasAvailableCell() {
-		return ingredientsInCells.size() < 3;
+		outputCell.getChildren().clear();
+		brewedPotion = null;
 	}
 
 	public boolean containsIngredient(Ingredient ingredient) {
@@ -227,5 +224,9 @@ public class BrewingStand extends VBox {
 
 	public void setBrewingPane(BrewingPane pane) {
 		this.brewingPane = pane;
+	}
+
+	public boolean hasAvailableCell() {
+		return ingredientsInCells.size() < 3;
 	}
 }

@@ -49,7 +49,10 @@ public class ControlBrewing extends StackPane {
 		contentBox.getChildren().add(controlBox);
 
 		GameButton exitButton = new GameButton("Exit", "Click_ingredient");
-		exitButton.setOnMouseClicked(e -> this.setVisible(false));
+		exitButton.setOnMouseClicked(e -> {
+			brewingStand.resetIngredients();
+			this.setVisible(false);          
+		});
 		exitButton.setTranslateX(200);
 		exitButton.setTranslateY(-255);
 		
