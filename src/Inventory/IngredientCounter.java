@@ -40,5 +40,11 @@ public class IngredientCounter {
 	public ArrayList<Ingredient> getIngredientCounter() {
 		return ingredientCounter;
 	}
+	
+	public void reset() {
+		for (Ingredient i : ingredientCounter) {
+			i.setAmount(10);
+		}
+	}
 
 }

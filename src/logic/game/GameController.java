@@ -16,7 +16,6 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundPosition;
@@ -31,6 +30,9 @@ import javafx.scene.text.Text;
 import logic.components.InsideMap;
 import logic.components.Map;
 import logic.components.OutsideMap;
+import logic.object.CropPlot;
+import logic.object.GameObject;
+import logic.object.Pot;
 
 public class GameController {
 	public static final int SCREEN_WIDTH = 960;
@@ -187,6 +189,20 @@ public class GameController {
 
 	public static void resetGame() {
 		setupScene();
+		sharedIngredientCounter.reset();
+		sharedPotionCounter.reset();
+		inventoryPane.refreshInventory();
+		for (GameObject obj : GameController.outsideMap.getGameObjects()) {
+			if (obj instanceof CropPlot) {
+				((CropPlot) obj).reset();
+			}
+		}
+		
+		for (GameObject obj : GameController.insideMap.getGameObjects()) {
+			if (obj instanceof Pot) {
+				((Pot) obj).reset();
+			}
+		}
 	}
 
 	public static void switchCurrentMap() {

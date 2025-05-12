@@ -23,6 +23,7 @@ public class CropPlot extends GameObject implements Interactable, DoTimer {
 	private int currentTime;
 
 	private PlantPane plantPane;
+	private Thread cropTimerThread;
 
 	public CropPlot(String name, double x, double y) {
 		super(name, x, y, new Rectangle2D(x + 0, y + 10, 192, 182));
@@ -143,7 +144,7 @@ public class CropPlot extends GameObject implements Interactable, DoTimer {
 		this.isTiming = true;
 		this.currentTime = second;
 
-		Thread cropTimerThread = new Thread(() -> {
+		cropTimerThread = new Thread(() -> {
 			while (this.isTiming) {
 				try {
 					Thread.sleep(1000);
@@ -169,12 +170,25 @@ public class CropPlot extends GameObject implements Interactable, DoTimer {
 						});
 					}
 				} catch (InterruptedException e) {
-					e.printStackTrace();
+//					e.printStackTrace();
+					System.out.println("Reset Crop!");
 				}
 
 			}
 		}, "Start Timing - " + this.name);
 		cropTimerThread.start();
+	}
+	
+	public void reset() {
+		 if (cropTimerThread != null && cropTimerThread.isAlive()) {
+		        cropTimerThread.interrupt();
+		 }
+		this.isTiming = false;
+		this.crop = null;
+		this.currentStage = 0;
+		this.isWatered = false;
+		this.currentTime = 0;
+		changeStage(0);
 	}
 
 	@Override

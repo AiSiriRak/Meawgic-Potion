@@ -26,4 +26,10 @@ public class PotionCounter {
 	public ArrayList<Potion> getPotionCounter() {
 		return potionCounter;
 	}
+	
+	public void reset() {
+		for (Potion p : potionCounter) {
+			p.setAmount(10);
+		}
+	}
 }

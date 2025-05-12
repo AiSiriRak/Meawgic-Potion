@@ -27,6 +27,7 @@ public class Pot extends GameObject implements Interactable, DoAnimation, DoTime
 	private int currentTime;
 
 	private ControlBrewing controlBrewing;
+	private Thread potTimerThread;
 
 	public Pot(String name, double x, double y) {
 		super(name, x, y, new Rectangle2D(x + 21, y + 51, 86, 77));
@@ -149,7 +150,7 @@ public class Pot extends GameObject implements Interactable, DoAnimation, DoTime
 		this.isTiming = true;
 		this.currentTime = second;
 
-		Thread cropTimerThread = new Thread(() -> {
+		potTimerThread = new Thread(() -> {
 			while (this.isTiming) {
 				try {
 					Thread.sleep(1000);
@@ -168,12 +169,23 @@ public class Pot extends GameObject implements Interactable, DoAnimation, DoTime
 						;
 					}
 				} catch (InterruptedException e) {
-					e.printStackTrace();
+//					e.printStackTrace();
+					System.out.println("Reset Pot!");
 				}
 
 			}
 		}, "Start Timing - " + this.name);
-		cropTimerThread.start();
+		potTimerThread.start();
+	}
+	
+	public void reset() {
+		 if (potTimerThread != null && potTimerThread.isAlive()) {
+		        potTimerThread.interrupt();
+		 }
+		this.isTiming = false;
+		this.currentStage = 0;
+		this.currentTime = 0;
+		changeStage(0);
 	}
 
 	@Override
