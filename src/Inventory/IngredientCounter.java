@@ -43,7 +43,7 @@ public class IngredientCounter {
 	
 	public void reset() {
 		for (Ingredient i : ingredientCounter) {
-			i.setAmount(10);
+			i.setAmount(0);
 		}
 	}
 

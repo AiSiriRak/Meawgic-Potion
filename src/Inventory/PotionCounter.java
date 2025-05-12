@@ -29,7 +29,7 @@ public class PotionCounter {
 	
 	public void reset() {
 		for (Potion p : potionCounter) {
-			p.setAmount(10);
+			p.setAmount(0);
 		}
 	}
 }
