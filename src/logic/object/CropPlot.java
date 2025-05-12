@@ -56,7 +56,7 @@ public class CropPlot extends GameObject implements Interactable, DoTimer {
 
 				isWatered = true;
 
-				this.changeStage(1);
+				this.changeStage(2);
 
 				this.startTiming(this.crop.getDuration());
 
