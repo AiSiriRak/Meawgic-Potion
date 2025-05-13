@@ -3,8 +3,8 @@ package gui;
 import java.util.ArrayList;
 
 import Font.FontRect;
-import Inventory.IngredientCounter;
 import entity.base.Crop;
+import inventory.IngredientCounter;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Tooltip;

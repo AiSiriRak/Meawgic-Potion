@@ -3,12 +3,12 @@ package gui;
 import java.util.ArrayList;
 
 import Font.FontRect;
-import Inventory.IngredientCounter;
-import Inventory.PotionCounter;
 import entity.base.Ingredient;
 import entity.base.Item;
 import entity.base.Potion;
 import entity.base.Stone;
+import inventory.IngredientCounter;
+import inventory.PotionCounter;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Tooltip;
