@@ -35,8 +35,8 @@ import logic.object.GameObject;
 import logic.object.Pot;
 
 public class GameController {
-	public static final int SCREEN_WIDTH = 960;
-	public static final int SCREEN_HEIGHT = 600;
+	private static final int SCREEN_WIDTH = 960;
+	private static final int SCREEN_HEIGHT = 600;
 
 	private static Scene scene;
 	private static Pane root;
@@ -44,7 +44,7 @@ public class GameController {
 
 	private static Map outsideMap;
 	private static Map insideMap;
-	public static Map currentMap;
+	private static Map currentMap;
 
 	private static InventoryPane inventoryPane;
 	private static ControlBrewing controlBrewing;
@@ -56,17 +56,17 @@ public class GameController {
 	private static ArrayList<PlantPane> plantPanes = new ArrayList<>();
 	private static PlantPane currentPlantPane;
 
-	public static StackPane warningWaterPane;
-	public static WaterBar waterBar;
+	private static StackPane warningWaterPane;
+	private static WaterBar waterBar;
 
 	private static IngredientCounter sharedIngredientCounter = new IngredientCounter();
 	private static PotionCounter sharedPotionCounter = new PotionCounter();
 
-	public static ShopPane shopPane;
+	private static ShopPane shopPane;
 
-	public static Coin coin;
+	private static Coin coin;
 	private static Text coinText;
-	public static StackPane warningCoinPane;
+	private static StackPane warningCoinPane;
 
 	public static void setupScene() {
 		try {
@@ -239,6 +239,10 @@ public class GameController {
 		plantPanes.add(plantPane);
 	}
 
+	public static Map getCurrentMap() {
+		return currentMap;
+	}
+
 	public static ControlBrewing getControlBrewing() {
 		return controlBrewing;
 	}
@@ -294,4 +298,33 @@ public class GameController {
 	public static KeyboardController getKeyboardController() {
 		return keyboardController;
 	}
+
+	public static int getScreenWidth() {
+		return SCREEN_WIDTH;
+	}
+
+	public static int getScreenHeight() {
+		return SCREEN_HEIGHT;
+	}
+
+	public static Coin getCoin() {
+		return coin;
+	}
+
+	public static StackPane getWarningCoinPane() {
+		return warningCoinPane;
+	}
+
+	public static StackPane getWarningWaterPane() {
+		return warningWaterPane;
+	}
+
+	public static WaterBar getWaterBar() {
+		return waterBar;
+	}
+
+	public static ShopPane getShopPane() {
+		return shopPane;
+	}
+	
 }

@@ -41,11 +41,11 @@ public class InventoryPane extends StackPane {
 		contentBox.setAlignment(Pos.CENTER);
 		contentBox.setPadding(new Insets(10));
 		contentBox.setBackground(new Background(bgImage));
-		
+
 		Text inventoryLabel = new Text("INVENTORY");
 		inventoryLabel.setFont(FontRect.BOLD.getFont(24));
 		GridPane ingredientGrid = createInventoryGrid(ingredientAllCells, ingredientCounter.getIngredientCounter());
-		
+
 		Text potionLabel = new Text("POTIONS");
 		potionLabel.setFont(FontRect.BOLD.getFont(16));
 		GridPane potionGrid = createInventoryGrid(potionAllCells, potionCounter.getPotionCounter());
@@ -82,7 +82,7 @@ public class InventoryPane extends StackPane {
 
 					if (item instanceof Stone && cellList == ingredientAllCells) {
 						square.setOnMouseClicked(e -> {
-							if (GameController.coin.decreaseCoin(5)) {
+							if (GameController.getCoin().decreaseCoin(5)) {
 								GameController.getInventoryPane().addIngredient((Stone) item);
 								SoundController.getInstance().playEffectSound("Buy");
 							} else {
@@ -150,7 +150,7 @@ public class InventoryPane extends StackPane {
 		amountText.setStyle("-fx-fill: white; -fx-font-size: 16;");
 		StackPane.setAlignment(amountText, Pos.BOTTOM_RIGHT);
 		square.getChildren().add(amountText);
-		
+
 		Tooltip tooltip = new Tooltip(item.getName());
 		tooltip.setStyle("-fx-background-color: black; -fx-text-fill: white; -fx-font-size: 12;");
 		tooltip.setShowDelay(Duration.millis(300));

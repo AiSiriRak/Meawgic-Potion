@@ -19,8 +19,8 @@ public class WaterBar extends Pane {
 
 		updateBar(0);
 
-		this.setTranslateX(GameController.SCREEN_WIDTH - 100);
-		this.setTranslateY(GameController.SCREEN_HEIGHT / 2 - 160);
+		this.setTranslateX(GameController.getScreenWidth() - 100);
+		this.setTranslateY(GameController.getScreenHeight() / 2 - 160);
 	}
 
 	public void updateBar(int waterLevel) {
@@ -40,9 +40,9 @@ public class WaterBar extends Pane {
 			Thread warningCountdown = new Thread(() -> {
 				while (this.isWarning) {
 					try {
-						GameController.warningWaterPane.setVisible(true);
+						GameController.getWarningWaterPane().setVisible(true);
 						Thread.sleep(1000);
-						GameController.warningWaterPane.setVisible(false);
+						GameController.getWarningWaterPane().setVisible(false);
 						this.isWarning = false;
 					} catch (InterruptedException e) {
 						e.printStackTrace();

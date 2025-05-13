@@ -112,7 +112,7 @@ public class PlantPane extends StackPane {
 
 					square.setOnMouseClicked(e -> {
 						System.out.println("Attempting to purchase: " + ingredient.getName());
-						if (GameController.coin.decreaseCoin(ingredient.getBuyPrice())) {
+						if (GameController.getCoin().decreaseCoin(ingredient.getBuyPrice())) {
 							System.out.println("Purchase successful!");
 							associatedCrop.setItem(ingredient);
 							associatedCrop.changeStage(1);

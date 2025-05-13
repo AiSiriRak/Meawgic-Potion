@@ -28,8 +28,7 @@ public class Pond extends GameObject implements Interactable, DoAnimation {
 	@Override
 	public void interact() {
 		SoundController.getInstance().playEffectSound("Water");
-		System.out.println("Interact with " + this.name);
-		GameController.waterBar.updateBar(10);
+		GameController.getWaterBar().updateBar(10);
 
 	}
 
@@ -47,7 +46,7 @@ public class Pond extends GameObject implements Interactable, DoAnimation {
 
 	@Override
 	public boolean getCanInteract() {
-		if (GameController.waterBar.getWaterLevel() == 10)
+		if (GameController.getWaterBar().getWaterLevel() == 10)
 			return false;
 		return true;
 	}

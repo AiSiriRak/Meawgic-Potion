@@ -27,9 +27,9 @@ public class Coin {
 			Thread warningCountdown = new Thread(() -> {
 				while (this.isWarning) {
 					try {
-						GameController.warningCoinPane.setVisible(true);
+						GameController.getWarningCoinPane().setVisible(true);
 						Thread.sleep(1000);
-						GameController.warningCoinPane.setVisible(false);
+						GameController.getWarningCoinPane().setVisible(false);
 						this.isWarning = false;
 					} catch (InterruptedException e) {
 						e.printStackTrace();

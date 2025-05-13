@@ -48,7 +48,7 @@ public class StartPage {
 		// Add All Nodes
 		root.getChildren().addAll(gameLogo, btn);
 
-		scene = new Scene(root, GameController.SCREEN_WIDTH, GameController.SCREEN_HEIGHT);
+		scene = new Scene(root, GameController.getScreenWidth(), GameController.getScreenHeight());
 	}
 
 	public Scene getScene() {

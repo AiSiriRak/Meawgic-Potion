@@ -57,8 +57,8 @@ public abstract class Map extends Canvas {
 		GraphicsContext gc = getGraphicsContext2D();
 		gc.setImageSmoothing(false);
 
-		int scWidth = GameController.SCREEN_WIDTH;
-		int scHeight = GameController.SCREEN_HEIGHT;
+		int scWidth = GameController.getScreenWidth();
+		int scHeight = GameController.getScreenHeight();
 		Thread updateCanvas = new Thread(() -> {
 			while (true) {
 				try {
@@ -69,7 +69,7 @@ public abstract class Map extends Canvas {
 						@Override
 						public void run() {
 
-							gc.clearRect(0, 0, GameController.SCREEN_WIDTH, GameController.SCREEN_HEIGHT);
+							gc.clearRect(0, 0, GameController.getScreenWidth(), GameController.getScreenHeight());
 
 							gc.drawImage(background, cameraX, cameraY, scWidth, scHeight, 0, 0, scWidth, scHeight);
 							playerMove();

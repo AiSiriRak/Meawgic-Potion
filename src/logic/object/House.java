@@ -23,14 +23,13 @@ public class House extends GameObject implements Interactable {
 	@Override
 	public void interact() {
 		SoundController.getInstance().playEffectSound("Door");
-		System.out.println("Interact with " + this.name);
 		GameController.switchCurrentMap();
 
 	}
 
 	@Override
 	public boolean getCanInteract() {
-		if (GameController.currentMap instanceof OutsideMap)
+		if (GameController.getCurrentMap() instanceof OutsideMap)
 			return true;
 		else
 			return false;

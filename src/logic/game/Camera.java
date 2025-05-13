@@ -6,7 +6,7 @@ import logic.components.Player;
 public class Camera {
 	private double offsetX, offsetY;
 	private final Player player;
-	double mapWidth;
+	private double mapWidth;
 	private double mapHeight;
 
 	public Camera(Player player, Map map) {
@@ -16,10 +16,10 @@ public class Camera {
 	}
 
 	public void update() {
-		offsetX = Math.max(0, Math.min(this.player.getPosX() - GameController.SCREEN_WIDTH / 2,
-				this.mapWidth - GameController.SCREEN_WIDTH));
-		offsetY = Math.max(0, Math.min(this.player.getPosY() - GameController.SCREEN_HEIGHT / 2,
-				this.mapHeight - GameController.SCREEN_HEIGHT));
+		offsetX = Math.max(0, Math.min(this.player.getPosX() - GameController.getScreenWidth() / 2,
+				this.mapWidth - GameController.getScreenWidth()));
+		offsetY = Math.max(0, Math.min(this.player.getPosY() - GameController.getScreenHeight() / 2,
+				this.mapHeight - GameController.getScreenHeight()));
 	}
 
 	public double getOffsetX() {

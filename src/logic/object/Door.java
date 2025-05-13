@@ -30,7 +30,7 @@ public class Door extends GameObject implements Interactable {
 
 	@Override
 	public boolean getCanInteract() {
-		if (GameController.currentMap instanceof InsideMap)
+		if (GameController.getCurrentMap() instanceof InsideMap)
 			return true;
 		else
 			return false;
