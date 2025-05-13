@@ -52,17 +52,16 @@ public class BrewingPane extends VBox {
 		
 		Text inventoryLabel = new Text("POTIONS");
 		inventoryLabel.setFont(FontRect.REGULAR.getFont(24));
-		GridPane ingredientGrid = createInventoryGrid(ingredientAllCells, ingredientCounter.getIngredientCounter(), true);
+		GridPane ingredientGrid = createInventoryGrid(ingredientAllCells, ingredientCounter.getIngredientCounter());
 		
 		Text potionLabel = new Text("POTIONS");
 		potionLabel.setFont(FontRect.REGULAR.getFont(24));
-		GridPane potionGrid = createInventoryGrid(potionAllCells, potionCounter.getPotionCounter(), false);
+		GridPane potionGrid = createInventoryGrid(potionAllCells, potionCounter.getPotionCounter());
 
 		this.getChildren().addAll(inventoryLabel, ingredientGrid, potionLabel, potionGrid);
 	}
 
-	private GridPane createInventoryGrid(ArrayList<InventorySquare> cells, ArrayList<? extends Item> items,
-			boolean isIngredient) {
+	private GridPane createInventoryGrid(ArrayList<InventorySquare> cells, ArrayList<? extends Item> items) {
 		GridPane grid = new GridPane();
 		grid.setAlignment(Pos.CENTER);
 		grid.setVgap(5);
@@ -79,8 +78,7 @@ public class BrewingPane extends VBox {
 				if (index < items.size()) {
 					Item item = items.get(index++);
 					setupSquareWithItem(square, item);
-
-					if (isIngredient && item instanceof Ingredient ingredient) {
+					if (item instanceof Ingredient ingredient) {
 						square.setOnMouseClicked(e -> {
 							handleIngredientClick(ingredient, square);
 						});
