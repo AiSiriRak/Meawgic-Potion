@@ -28,7 +28,7 @@ public class SoundController {
 				if (resource != null) {
 					mediaPlayer = new MediaPlayer(new Media(resource.toString()));
 					mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
-					mediaPlayer.setVolume(0.5);
+					mediaPlayer.setVolume(0.1);
 					mediaPlayer.play();
 				}
 			} catch (Exception e) {
@@ -49,7 +49,7 @@ public class SoundController {
 			URL resource = getClass().getClassLoader().getResource("Sound/" + effectFileName + ".mp3");
 			Media media = new Media(resource.toString());
 			MediaPlayer effectPlayer = new MediaPlayer(media);
-			effectPlayer.setVolume(0.9);
+			effectPlayer.setVolume(0.2);
 			effectPlayer.setOnReady(() -> effectPlayer.play());
 			effectPlayer.setOnEndOfMedia(() -> activeEffects.remove(effectPlayer));
 			activeEffects.add(effectPlayer);

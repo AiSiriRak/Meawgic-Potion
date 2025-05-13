@@ -21,6 +21,7 @@ public class OutsideMap extends Map {
 	}
 
 	private void setObject() {
+		gameObjectList.clear();
 		setCropPlot("Crop - 1", 768, 384);
 		setCropPlot("Crop - 2", 1088, 384);
 		setCropPlot("Crop - 3", 768, 704);

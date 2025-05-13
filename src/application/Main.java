@@ -22,7 +22,7 @@ public class Main extends Application {
 		StartPage startPage = new StartPage(primaryStage);
 		Scene startScene = startPage.getScene();
 		primaryStage.setScene(startScene);
-		primaryStage.setTitle("Meowgic Potion");
+		primaryStage.setTitle("Meawgic Potion");
 		primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
 			@Override
 			public void handle(WindowEvent e) {
