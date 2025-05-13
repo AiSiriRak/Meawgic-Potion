@@ -228,8 +228,8 @@ public class BrewingStand extends VBox {
 		return ingredientsInCells.contains(ingredient);
 	}
 
-	public void setBrewingPane(BrewingPane pane) {
-		this.brewingPane = pane;
+	public void setBrewingPane(BrewingPane brewingPane) {
+		this.brewingPane = brewingPane;
 	}
 	
 }

@@ -1,7 +1,7 @@
 package gui;
 
-import Inventory.IngredientCounter;
-import Inventory.PotionCounter;
+import inventory.IngredientCounter;
+import inventory.PotionCounter;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.layout.HBox;

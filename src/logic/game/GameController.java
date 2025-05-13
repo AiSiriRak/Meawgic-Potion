@@ -3,8 +3,6 @@ package logic.game;
 import java.util.ArrayList;
 
 import Font.FontRect;
-import Inventory.IngredientCounter;
-import Inventory.PotionCounter;
 import application.Main;
 import gui.ControlBrewing;
 import gui.GameButton;
@@ -12,6 +10,8 @@ import gui.InventoryPane;
 import gui.PlantPane;
 import gui.SettingPane;
 import gui.ShopPane;
+import inventory.IngredientCounter;
+import inventory.PotionCounter;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
