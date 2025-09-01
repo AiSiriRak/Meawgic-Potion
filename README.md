@@ -3,4 +3,4 @@
 
 **🎮 You can run this game by downloading "MeawgicPotion.jar" file (noted : You also need to download JavaFX 23.0.2 too) and run this following command in cmd.**
 
-<pre> ```java -jar --module-path {Your_Folder_Path}\openjfx-24_windows-x64_bin-sdk\javafx-sdk-24\lib --add-modules javafx.controls,javafx.graphics,javafx.media,javafx.fxml MeawgicPotion.jar ``` </pre>
+<pre> java -jar --module-path {Your_Folder_Path}\openjfx-24_windows-x64_bin-sdk\javafx-sdk-24\lib --add-modules javafx.controls,javafx.graphics,javafx.media,javafx.fxml MeawgicPotion.jar </pre>
